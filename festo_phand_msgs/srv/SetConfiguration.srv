@@ -1,0 +1,4 @@
+HandConfiguration configuration
+---
+bool success
+diagnostic_msgs/KeyValue state

@@ -1,0 +1,4 @@
+float32[] offsets
+---
+bool success
+diagnostic_msgs/KeyValue state
