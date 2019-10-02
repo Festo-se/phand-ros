@@ -36,4 +36,6 @@ Each connected "external" sensor is published on its own topic:
 festo/phand/connected_sensors/%sensor_name%
 ```
 To set the valves publish the corresponding `ValveSetPoints` message to the topic.
+```
 festo/phand/set_valve_setpoints
+```
