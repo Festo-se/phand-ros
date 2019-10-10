@@ -1,6 +1,4 @@
 <?xml version="1.0"?>
 <launch>
-
       <node pkg="festo_phand_driver" type="festo_phand_udp_driver.py" name="phand_hardware_interface" output="screen" />
-
 </launch>
