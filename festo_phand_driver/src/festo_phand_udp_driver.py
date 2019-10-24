@@ -81,12 +81,12 @@ class ROSPhandUdpDriver():
         This is called when new data is available from the hand.
         """ 
 
-        press_diff = self.phand.messages["BionicAD7998Message"].last_msg_received_time - self.current_time 
+        press_diff = self.phand.messages["BionicValveMessage"].last_msg_received_time - self.current_time 
         imu_diff = self.phand.messages["InternalIMUDMessage"].last_msg_received_time - self.current_time
         bend_diff = self.phand.messages["BionicSpectreMessage"].last_msg_received_time - self.current_time
 
         if press_diff >= 0:
-            self.valve_terminal_generate(self.phand.messages["BionicAD7998Message"])
+            self.valve_terminal_generate(self.phand.messages["BionicValveMessage"])
         
         if imu_diff >= 0:            
             self.internal_imu_generate(self.phand.messages["InternalIMUDMessage"])
@@ -104,6 +104,7 @@ class ROSPhandUdpDriver():
         """
 
         self.hand_state.status_codes = []
+        self.hand_state.hand_id = str(self.phand.hand_id)
         
         self.hand_state.state = self.phand.com_state
         self.hand_state.connected_sensor_ids = self.phand.connected_sensor_ids
@@ -190,16 +191,17 @@ class ROSPhandUdpDriver():
 
     def set_valves_topic_cb(self, msg):
 
-        self.send_data(BionicValveMsg(msg.supply_valve_setpoints, msg.exhaust_valve_setpoints).data)
+        self.send_data(BionicValveActionMessage(msg.supply_valve_setpoints, msg.exhaust_valve_setpoints).data)
     
     def valve_terminal_generate(self, msg):
         """
-        Callback for the BionicAD7998Message
-        :param msg: Message from the udp connection of type BionicAD7998Message
+        Callback for the BionicValveMessage
+        :param msg: Message from the udp connection of type BionicValveMessage
         :return: none, updates internal state
         """
 
-        self.hand_state.internal_sensors.pressure.values = msg.pressures
+        self.hand_state.internal_sensors.actual_pressures.values = msg.actual_pressures
+        self.hand_state.internal_sensors.set_pressures.values = msg.set_pressures
         self.hand_state.internal_sensors.valves.supply_valve_setpoints = msg.valve_setpoints[0:11]
         self.hand_state.internal_sensors.valves.exhaust_valve_setpoints = msg.valve_setpoints[12:24]
     
