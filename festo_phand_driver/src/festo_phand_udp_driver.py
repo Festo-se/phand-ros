@@ -26,7 +26,7 @@ class ROSPhandUdpDriver():
     """
 
     required_msgs_ids = [BIONIC_MSG_IDS.VALVE_MODULE,
-                         #BIONIC_MSG_IDS.SPECTRA_SENSOR,
+                         BIONIC_MSG_IDS.SPECTRA_SENSOR,
                          BIONIC_MSG_IDS.IMU_MAINBOARD
                          ]
 
@@ -50,12 +50,9 @@ class ROSPhandUdpDriver():
         self.bendsensor_pub = rospy.Publisher("festo/phand/connected_sensors/bend_sensors", GenericSensor, queue_size=1)
 
         # Subscribe to topics
-        rospy.Subscriber("festo/phand/set_valve_setpoints", ValveSetPoints, callback=self.set_valves_topic_cb,
-                         queue_size=1)
-        # rospy.Subscriber("festo/phand/set_pressures", SimpleFluidPressures, callback=self.set_pressures_topic_cb,
-        #                  queue_size=1)
-        # rospy.Subscriber("festo/phand/set_positions", Positions, callback=self.set_positions_topic_cb,
-        #                  queue_size=1)
+        rospy.Subscriber("festo/phand/set_valve_setpoints", ValveSetPoints, callback=self.set_valves_topic_cb, queue_size=1)
+        rospy.Subscriber("festo/phand/set_pressures", SimpleFluidPressures, callback=self.set_pressures_topic_cb, queue_size=1)
+        rospy.Subscriber("festo/phand/set_positions", Positions, callback=self.set_positions_topic_cb, queue_size=1)
 
         # Offer services
         rospy.Service("festo/phand/close", SimpleClose, self.simple_close_cb)
@@ -173,23 +170,36 @@ class ROSPhandUdpDriver():
             return resp
 
     # Topic Callbacks
-
     def set_positions_topic_cb(self, msg):
+        """
+        If the position control is activated, set the positions of the finger.
+        """
+
+        rospy.loginfo("Not implemented yet.")
+        return
+
         msg = BionicActionMessage(sensor_id=BIONIC_MSG_IDS.VALVE_MODULE,
                                   action_id=VALVE_ACTION_IDS.POSITION,
-                                  action_values=msg.pressures
+                                  action_values=msg.values
                                   )
         self.send_data(msg)
 
     def set_pressures_topic_cb(self, msg):
-
-        msg = BionicActionMessage(sensor_id=BIONIC_MSG_IDS.VALVE_MODULE,
+        """
+        Set the pressure for the valves
+        Range: 100000.0 - 400000.0 psi
+        """
+        
+        bionic_msg = BionicActionMessage(sensor_id=BIONIC_MSG_IDS.VALVE_MODULE,
                                   action_id=VALVE_ACTION_IDS.PRESSURE,
-                                  action_values=msg.pressures
-                                  )
-        self.send_data(msg)
+                                  action_values=values)
+
+        self.phand.send_data(bionic_msg.data)
 
     def set_valves_topic_cb(self, msg):
+        """
+        Set the valves directly
+        """
 
         self.send_data(BionicValveActionMessage(msg.supply_valve_setpoints, msg.exhaust_valve_setpoints).data)
     
