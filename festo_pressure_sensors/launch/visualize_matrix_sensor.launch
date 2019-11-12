@@ -1,0 +1,8 @@
+<launch>
+
+    <node name="rosserial_python" pkg="rosserial_python" type="serial_node.py" args="/dev/serial/by-id/usb-Arduino__www.arduino.cc__0043_55736313737351C0E132-if00" />
+
+    <node name="visualisation" pkg="festo_pressure_sensors" type="matrix_plotter.py"  />
+    <node name="plotjuggler" pkg="plotjuggler" type="PlotJuggler"  />
+
+</launch>
