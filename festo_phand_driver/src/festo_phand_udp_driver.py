@@ -10,18 +10,17 @@ __status__ = "Experimental"
 
 # System imports
 import importlib
-import functools
 # Ros imports
 import rospy
 from diagnostic_msgs.msg import KeyValue
 # Festo imports
-from phand_core_lib.phand_driver import *
+from phand_core_lib.phand import PHand
 from festo_phand_msgs.msg import *
 from festo_phand_msgs.srv import *
 from bionic_messages.bionic_messages import *
 
 
-class ROSPhandUdpDriver(PhandUdpDriver):
+class ROSPhandUdpDriver():
     """
     Wrapper class for the phand_core_lib to provide a ros interface for the phand
     """
@@ -30,22 +29,18 @@ class ROSPhandUdpDriver(PhandUdpDriver):
                          BIONIC_MSG_IDS.SPECTRA_SENSOR,
                          BIONIC_MSG_IDS.IMU_MAINBOARD
                          ]
-    hand_states = ["OFFLINE", "ONLINE", "ERROR"]
 
     def __init__(self):
 
-        PhandUdpDriver.__init__(self)
-
+        self.phand = PHand()        
+        self.phand.register_new_data_available_cb(self.new_data_available_cb)
+        self.phand.set_required_msg_ids(self.required_msgs_ids)
+        
         # Setup internal status
         self.hand_state = HandState()
         self.hand_state.state = -1
 
-        # Registercallback internal sensors
-        self.messages["BionicAD7998Message"].register_cb(self.valve_terminal_cb)
-        self.messages["InternalIMUDMessage"].register_cb(self.internal_imu_cb)
-
-        # Registercall back external sensors
-        self.messages["BionicSpectreMessage"].register_cb(self.hand_bendsensor_cb)
+        self.current_time = 0
 
         # Init ros
         rospy.init_node("festo_phand_driver")
@@ -55,12 +50,9 @@ class ROSPhandUdpDriver(PhandUdpDriver):
         self.bendsensor_pub = rospy.Publisher("festo/phand/connected_sensors/bend_sensors", GenericSensor, queue_size=1)
 
         # Subscribe to topics
-        rospy.Subscriber("festo/phand/set_valve_setpoints", ValveSetPoints, callback=self.set_valves_topic_cb,
-                         queue_size=1)
-        # rospy.Subscriber("festo/phand/set_pressures", SimpleFluidPressures, callback=self.set_pressures_topic_cb,
-        #                  queue_size=1)
-        # rospy.Subscriber("festo/phand/set_positions", Positions, callback=self.set_positions_topic_cb,
-        #                  queue_size=1)
+        rospy.Subscriber("festo/phand/set_valve_setpoints", ValveSetPoints, callback=self.set_valves_topic_cb, queue_size=1)
+        rospy.Subscriber("festo/phand/set_pressures", SimpleFluidPressures, callback=self.set_pressures_topic_cb, queue_size=1)
+        rospy.Subscriber("festo/phand/set_positions", Positions, callback=self.set_positions_topic_cb, queue_size=1)
 
         # Offer services
         rospy.Service("festo/phand/close", SimpleClose, self.simple_close_cb)
@@ -68,8 +60,7 @@ class ROSPhandUdpDriver(PhandUdpDriver):
         rospy.Service("festo/phand/set_configuration", SetConfiguration, self.set_configuration_cb)
 
         # start the udp event loop
-        importlib.reload(logging)
-        self.run_in_thread()
+        importlib.reload(logging)        
 
         rate = rospy.Rate(100)
         rospy.loginfo("Starting ros event loop")
@@ -82,6 +73,26 @@ class ROSPhandUdpDriver(PhandUdpDriver):
 
         self.shutdown()
 
+    def new_data_available_cb(self):
+        """
+        This is called when new data is available from the hand.
+        """ 
+
+        press_diff = self.phand.messages["BionicValveMessage"].last_msg_received_time - self.current_time 
+        imu_diff = self.phand.messages["InternalIMUDMessage"].last_msg_received_time - self.current_time
+        bend_diff = self.phand.messages["BionicSpectreMessage"].last_msg_received_time - self.current_time
+
+        if press_diff >= 0:
+            self.valve_terminal_generate(self.phand.messages["BionicValveMessage"])
+        
+        if imu_diff >= 0:            
+            self.internal_imu_generate(self.phand.messages["InternalIMUDMessage"])
+
+        if bend_diff >= 0:
+            self.hand_bendsensor_generate(self.phand.messages["BionicSpectreMessage"])
+
+        self.current_time = int(round(time.time() * 1000))
+
     def generate_hand_state(self):
         """
         Generate the state of the hand based on the communication state and the number of sensors connected
@@ -90,41 +101,17 @@ class ROSPhandUdpDriver(PhandUdpDriver):
         """
 
         self.hand_state.status_codes = []
+        self.hand_state.hand_id = str(self.phand.hand_id)
+        
+        self.hand_state.state = self.phand.com_state
+        self.hand_state.connected_sensor_ids = self.phand.connected_sensor_ids
+        self.hand_state.connected_sensor_names = self.phand.connected_sensor_names
 
-        old_hand_state = self.hand_state.state
-
-        if self.state in ['ERROR']:
-            self.hand_state.state = HandState.ERROR
+        for key_value in self.phand.status_codes:            
             state = KeyValue()
-            state.key = "1"
-            state.value = "No connection with the hand possible. Do you have a ip in the same subnet as the hand?"
+            state.key = key_value[0]
+            state.value = key_value[1]            
             self.hand_state.status_codes.append(state)
-            return
-
-        if self.state not in ['CONNECTED']:
-            self.hand_state.state = HandState.OFFLINE
-            state = KeyValue()
-            state.key = "2"
-            state.value = "Internal state: " + self.state
-            self.hand_state.status_codes.append(state)
-            return
-
-        if self.state in ['CONNECTED']:
-            self.hand_state.state = HandState.ONLINE
-            state = KeyValue()
-            state.key = "3"
-            state.value = "Internal state: " + self.state
-            self.hand_state.status_codes.append(state)
-
-        if not all(elem in self.hand_state.connected_sensor_ids for elem in self.required_msgs_ids):
-            self.hand_state.state = HandState.ERROR
-            state = KeyValue()
-            state.key = "4"
-            state.value = "Not all required sensors are available"
-            self.hand_state.status_codes.append(state)
-
-        if self.hand_state.state != old_hand_state:
-            rospy.loginfo("Hand state switched to: " + self.hand_states[self.hand_state.state])
 
     # Service callbacks
 
@@ -134,11 +121,23 @@ class ROSPhandUdpDriver(PhandUdpDriver):
         :param msg: SetConfigurationRequest
         :return: SetConfigurationReply
         """
+
         resp = SetConfigurationResponse()
-        resp.success = False
-        resp.state.key = "1"
-        resp.state.value = "Not yet implemented"
+
+        if self.phand.set_grip_config(msg):
+            
+            resp.success = True
+            resp.state.key = "0"
+            resp.state.value = "Configuration set"
+
+        else:
+
+            resp.success = False
+            resp.state.key = "1"
+            resp.state.value = "Not yet implemented"
+        
         return resp
+
 
     def simple_open_cb(self, msg: SimpleOpenRequest):
         """
@@ -147,17 +146,12 @@ class ROSPhandUdpDriver(PhandUdpDriver):
         :return: SimpleOpenResult
         """
 
-        # Set all finger pressures to 0
-        setpoints = BionicValveMsg(self.hand_state.internal_sensors.valves.supply_valve_setpoints,
-                                   self.hand_state.internal_sensors.valves.exhaust_valve_setpoints)
-        setpoints.supply_valve_setpoints[0:10] = [0] * 10
-        setpoints.exhaust_valve_setpoints[0:10] = [1.0] * 10
-        self.send_data(setpoints.data)
-        # Wait for all pressures to drop to 0
-        # Return result
-        resp = SimpleOpenResponse()
-        resp.success = True
-        return resp
+        if self.phand.open_all_fingers():
+
+            # Return result
+            resp = SimpleOpenResponse()
+            resp.success = True            
+            return resp
 
     def simple_close_cb(self, msg: SimpleCloseRequest):
         """
@@ -166,80 +160,62 @@ class ROSPhandUdpDriver(PhandUdpDriver):
         :return: SimpleCloseResult
         """
 
-        opening = min( max( 0.3 + msg.speed*0.7 , 0.0), 1.0)
+        if self.phand.close_all_fingers():
 
-        setpoints = BionicValveMsg(self.hand_state.internal_sensors.valves.supply_valve_setpoints,
-                                   self.hand_state.internal_sensors.valves.exhaust_valve_setpoints)
-        setpoints.supply_valve_setpoints[0:10] = [opening] * 10
-        setpoints.exhaust_valve_setpoints[0:10] = [0.0] * 10
-        self.send_data(setpoints.data)
-        # Set hand to required configuration
-        # Set all pressures to the max pressure
-        # Check if pressure is reached
-
-        resp = SimpleCloseResponse()
-        resp.success = True
-        resp.state.key = "1"
-        resp.state.value = "Dummy implementation until pressure control is available"
-        return resp
+            # Return result
+            resp = SimpleCloseResponse()
+            resp.success = True
+            resp.state.key = "1"
+            resp.state.value = "Dummy implementation until pressure control is available"
+            return resp
 
     # Topic Callbacks
-
     def set_positions_topic_cb(self, msg):
+        """
+        If the position control is activated, set the positions of the finger.
+        """
+
+        rospy.loginfo("Not implemented yet.")
+        return
+
         msg = BionicActionMessage(sensor_id=BIONIC_MSG_IDS.VALVE_MODULE,
                                   action_id=VALVE_ACTION_IDS.POSITION,
-                                  action_values=msg.pressures
+                                  action_values=msg.values
                                   )
         self.send_data(msg)
 
     def set_pressures_topic_cb(self, msg):
-
-        msg = BionicActionMessage(sensor_id=BIONIC_MSG_IDS.VALVE_MODULE,
+        """
+        Set the pressure for the valves
+        Range: 100000.0 - 400000.0 psi
+        """
+        
+        bionic_msg = BionicActionMessage(sensor_id=BIONIC_MSG_IDS.VALVE_MODULE,
                                   action_id=VALVE_ACTION_IDS.PRESSURE,
-                                  action_values=msg.pressures
-                                  )
-        self.send_data(msg)
+                                  action_values=values)
+
+        self.phand.send_data(bionic_msg.data)
 
     def set_valves_topic_cb(self, msg):
-
-        self.send_data(BionicValveMsg(msg.supply_valve_setpoints, msg.exhaust_valve_setpoints).data)
-
-    # Udp message callbacks
-    def add_msg_id_to_state(func):
         """
-        Decorator function to add message id from message
-        :return:
+        Set the valves directly
         """
 
-        @functools.wraps(func)
-        def wrap(self, *args, **kwargs):
-            msg = args[0]
-
-            if not issubclass(type(msg), BionicMessageBase):
-                return
-
-            if msg.get_id() not in self.hand_state.connected_sensor_ids:
-                self.hand_state.connected_sensor_ids.append(msg.get_id())
-                self.hand_state.connected_sensor_names.append(msg.get_unique_name())
-
-            return func(self, *args, **kwargs)
-
-        return wrap
-
-    @add_msg_id_to_state
-    def valve_terminal_cb(self, msg):
+        self.send_data(BionicValveActionMessage(msg.supply_valve_setpoints, msg.exhaust_valve_setpoints).data)
+    
+    def valve_terminal_generate(self, msg):
         """
-        Callback for the BionicAD7998Message
-        :param msg: Message from the udp connection of type BionicAD7998Message
+        Callback for the BionicValveMessage
+        :param msg: Message from the udp connection of type BionicValveMessage
         :return: none, updates internal state
         """
 
-        self.hand_state.internal_sensors.pressure.values = msg.pressures
+        self.hand_state.internal_sensors.actual_pressures.values = msg.actual_pressures
+        self.hand_state.internal_sensors.set_pressures.values = msg.set_pressures
         self.hand_state.internal_sensors.valves.supply_valve_setpoints = msg.valve_setpoints[0:11]
         self.hand_state.internal_sensors.valves.exhaust_valve_setpoints = msg.valve_setpoints[12:24]
-
-    @add_msg_id_to_state
-    def hand_bendsensor_cb(self, msg):
+    
+    def hand_bendsensor_generate(self, msg):
 
         bend_sensors = GenericSensor()
         bend_sensors.name = msg.get_unique_name()
@@ -250,8 +226,7 @@ class ROSPhandUdpDriver(PhandUdpDriver):
 
         self.bendsensor_pub.publish(bend_sensors)
 
-    @add_msg_id_to_state
-    def internal_imu_cb(self, msg):
+    def internal_imu_generate(self, msg):
 
         self.hand_state.internal_sensors.imu.linear_acceleration.x = msg.acc_x
         self.hand_state.internal_sensors.imu.linear_acceleration.y = msg.acc_y
