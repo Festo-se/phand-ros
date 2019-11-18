@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>563</width>
-    <height>490</height>
+    <width>802</width>
+    <height>497</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,6 +17,12 @@
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="2">
      <widget class="QPushButton" name="pushButton">
+      <property name="maximumSize">
+       <size>
+        <width>200</width>
+        <height>16777215</height>
+       </size>
+      </property>
       <property name="text">
        <string>No User</string>
       </property>
@@ -24,6 +30,12 @@
     </item>
     <item row="1" column="2">
      <widget class="QPushButton" name="pushButton_2">
+      <property name="maximumSize">
+       <size>
+        <width>200</width>
+        <height>16777215</height>
+       </size>
+      </property>
       <property name="text">
        <string>Human User</string>
       </property>
@@ -31,6 +43,12 @@
     </item>
     <item row="2" column="2">
      <widget class="QPushButton" name="pushButton_3">
+      <property name="maximumSize">
+       <size>
+        <width>200</width>
+        <height>16777215</height>
+       </size>
+      </property>
       <property name="text">
        <string>Robot User</string>
       </property>
@@ -41,6 +59,12 @@
     </item>
     <item row="4" column="2">
      <widget class="QSlider" name="hs_delay2">
+      <property name="maximumSize">
+       <size>
+        <width>200</width>
+        <height>16777215</height>
+       </size>
+      </property>
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
@@ -48,6 +72,12 @@
     </item>
     <item row="0" column="0" rowspan="6">
      <widget class="QGroupBox" name="groupBox">
+      <property name="minimumSize">
+       <size>
+        <width>400</width>
+        <height>0</height>
+       </size>
+      </property>
       <property name="title">
        <string>Matrix</string>
       </property>
@@ -60,6 +90,12 @@
     </item>
     <item row="3" column="2">
      <widget class="QSlider" name="hs_delay1">
+      <property name="maximumSize">
+       <size>
+        <width>200</width>
+        <height>16777215</height>
+       </size>
+      </property>
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
@@ -67,6 +103,12 @@
     </item>
     <item row="5" column="2">
      <widget class="QSlider" name="sl_pwm_value">
+      <property name="maximumSize">
+       <size>
+        <width>200</width>
+        <height>16777215</height>
+       </size>
+      </property>
       <property name="maximum">
        <number>255</number>
       </property>
@@ -142,7 +184,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>563</width>
+     <width>802</width>
      <height>25</height>
     </rect>
    </property>

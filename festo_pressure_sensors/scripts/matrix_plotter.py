@@ -9,7 +9,6 @@ os.system("python -m PyQt5.uic.pyuic pressure_sensors.ui -o pressure_sensor_gui.
 from pressure_sensor_gui import Ui_MainWindow
 from std_msgs.msg import Float32MultiArray, UInt16MultiArray
 from festo_pressure_sensors.msg import SensorValuesArduino
-#from _Adc import Adc
 
 import rospy
 
@@ -48,7 +47,7 @@ class PressureSensorGui(Ui_MainWindow, QtCore.QObject ):
         self.hs_delay1.setValue(self.settings_msg.data[0])
         self.hs_delay2.setValue(self.settings_msg.data[1])
         self.sl_pwm_value.setValue(self.settings_msg.data[2])
-        
+
         self.hs_delay1.valueChanged.connect(self.update_settings_cb)
         self.hs_delay2.valueChanged.connect(self.update_settings_cb)
         self.sl_pwm_value.valueChanged.connect(self.update_settings_cb)
@@ -68,7 +67,8 @@ class PressureSensorGui(Ui_MainWindow, QtCore.QObject ):
         for row in range(self.x_dim):
 
             for col in range(self.y_dim):
-                self.lbls.append(QtWidgets.QLabel(""))
+                lbl = QtWidgets.QLabel("")
+                self.lbls.append(lbl)
                 idx = self.y_dim * row + col
                 self.gl_pmatrix.addWidget(self.lbls[idx], row, col, 1, 1)
 
@@ -79,7 +79,6 @@ class PressureSensorGui(Ui_MainWindow, QtCore.QObject ):
         """
         Returns a colour depending on the pressure
         """
-
         colour = QtGui.QColor()
         max_pressure = 1023.0
         default_colour = 0.0
