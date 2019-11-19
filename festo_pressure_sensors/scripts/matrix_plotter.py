@@ -11,6 +11,7 @@ from std_msgs.msg import Float32MultiArray, UInt16MultiArray
 from festo_pressure_sensors.msg import SensorValuesArduino
 
 import rospy
+import numpy
 
 
 class PressureSensorGui(Ui_MainWindow, QtCore.QObject ):
@@ -35,6 +36,7 @@ class PressureSensorGui(Ui_MainWindow, QtCore.QObject ):
 
         mw.show()
         self.lbls = []
+        self.meas = []
         self.x_dim = 0
         self.y_dim = 0
 
@@ -55,22 +57,32 @@ class PressureSensorGui(Ui_MainWindow, QtCore.QObject ):
 
 
     def update_settings_cb(self, event):
-
         self.settings_msg.data[0] = self.hs_delay1.value()
         self.settings_msg.data[1] = self.hs_delay2.value()
         self.settings_msg.data[2] = self.sl_pwm_value.value()
         self.settings_pub.publish(self.settings_msg)
 
 
-    def setup_gui_matix(self):
+    def setup_gui_matrix(self):
         self.lbls = []
         for row in range(self.x_dim):
-
             for col in range(self.y_dim):
                 lbl = QtWidgets.QLabel("")
                 self.lbls.append(lbl)
                 idx = self.y_dim * row + col
                 self.gl_pmatrix.addWidget(self.lbls[idx], row, col, 1, 1)
+
+    def setup_gui_matrix_interp(self):
+        self.lbls = []
+        x_dim_interp = (self.x_dim + self.y_dim - 1)
+        for row in range(x_dim_interp):
+            for col in range(self.y_dim+self.y_dim-1):
+                lbl = QtWidgets.QLabel("")
+                self.meas.append(0)
+                self.lbls.append(lbl)
+                idx = x_dim_interp * row + col
+                self.gl_pmatrix.addWidget(self.lbls[idx], row, col, 1, 1)
+
 
     def hello(self):
         rospy.logerr("Hello")
@@ -82,7 +94,7 @@ class PressureSensorGui(Ui_MainWindow, QtCore.QObject ):
         colour = QtGui.QColor()
         max_pressure = 1023.0
         default_colour = 0.0
-        colour.a = (1 - ((max_pressure- pressure) / max_pressure))
+        colour.a = max(0.0, min(1023.0, (1 - ((max_pressure- pressure) / max_pressure) )) )
         colour.r = default_colour
         colour.g = default_colour
         colour.b = default_colour
@@ -102,9 +114,22 @@ class PressureSensorGui(Ui_MainWindow, QtCore.QObject ):
         lbl.setStyleSheet( "background-color:" + color_str + ";border:1px solid " + color_str + ";border-radius:10px;")
         lbl.setNum(value)
 
-    def filtered_data(self, idx):
 
-        return self.msg.data[idx]
+    def filtered_data(self, row_i, col_i):
+        filtered_val = 0
+        x_dim_interp = (self.x_dim+self.y_dim-1)
+        idx = x_dim_interp*row_i + col_i
+
+        #Values between horizontal sensors:
+        if (row_i%2 != 1) and (col_i%2 == 1):
+            filtered_val = int((self.meas[idx-1] + self.meas[idx+1])/2)
+
+        # Values between vertical sensors:
+        if (row_i%2 == 1) and (col_i%2 != 1):
+            filtered_val = int((self.meas[idx-x_dim_interp] + self.meas[idx+x_dim_interp])/2)
+
+        #return self.msg.data[idx]
+        return int(filtered_val)
 
     def update_gui_cb(self):
 
@@ -115,12 +140,38 @@ class PressureSensorGui(Ui_MainWindow, QtCore.QObject ):
         if self.y_dim is not self.msg.y_dim or self.x_dim is not self.msg.x_dim:
             self.x_dim = self.msg.x_dim
             self.y_dim = self.msg.y_dim
-            self.setup_gui_matix()
+            #self.setup_gui_matrix()
+            self.setup_gui_matrix_interp()
 
+        # for row in range(self.x_dim+self.x_dim-1):
+        #     for col in range(self.y_dim+self.y_dim-1):
+        #         idx =(self.y_dim+self.y_dim-1)*row + col
+        #         self.update_label(self.lbls[idx], idx)
+
+        #Reset matrix
+        x_dim_interp = (self.x_dim + self.y_dim)
+        for row in range(x_dim_interp+1):
+            for col in range(x_dim_interp):
+                idx = self.y_dim * row + col
+                self.meas[idx] = 0
+                self.update_label(self.lbls[idx], self.meas[idx])
+
+        #Measured values
         for row in range(self.x_dim):
             for col in range(self.y_dim):
+                idx = self.y_dim * row + col
+                idx_interp = (self.x_dim + self.y_dim - 1)*row* 2 + col*2
+                self.meas[idx_interp] = self.msg.data[idx]
+                self.update_label(self.lbls[idx_interp], self.meas[idx_interp])
+
+        #Interpolated values
+        x_dim_interp = (self.x_dim + self.y_dim - 1)
+        for row in range(x_dim_interp):
+            for col in range(x_dim_interp):
                 idx =self.y_dim*row + col
-                self.update_label(self.lbls[idx], self.filtered_data(idx) )
+                if(self.meas[idx] == 0):
+                    self.meas[idx] = self.filtered_data(row,col)
+                    #self.update_label(self.lbls[idx], self.meas[idx] )
 
 
 if __name__ == '__main__':

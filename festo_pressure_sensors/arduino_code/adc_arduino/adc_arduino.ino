@@ -64,9 +64,9 @@ void setup()
   adc_msg.data_length = DATA_LENGTH;
   
   //Set-up digital outputs for matrix serial reading
-  pinMode(2, OUTPUT);
-  pinMode(3, OUTPUT);
-  pinMode(4, OUTPUT);
+  for (uint8_t i=0; i<Y_DIM; i++){
+    pinMode(col_pins[i], OUTPUT);
+  }
   
   nh.initNode();
   nh.advertise(p);
@@ -78,21 +78,21 @@ void loop()
 {
   
   for (uint8_t col=0; col<Y_DIM; col++){
+    
     //Pull line high with given analog value and delay
     pinMode(col_pins[col], OUTPUT);    
     analogWrite(col_pins[col], pwmValue); 
     delay(delay1);
 
     for (uint8_t row=0; row<X_DIM; row++){
-      uint8_t i = row*Y_DIM+(col);
+      uint8_t i = row*Y_DIM + col;
       adc_msg.data[i] = analogRead(fsrPins[row]);
-      //adc_msg.data[i] = row;
+      delay(delay2);
     }
     
     analogWrite(col_pins[col], 0);
-    pinMode(col_pins[col], INPUT); //set line in high impedance mode
-    
-    delay(delay2);
+
+    //delay(delay2);
   }
       
   p.publish(&adc_msg);
