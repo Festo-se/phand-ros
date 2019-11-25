@@ -36,7 +36,13 @@ class PressureSensorGui(Ui_MainWindow, QtCore.QObject ):
 
         mw.show()
         self.lbls = []
+        self.lbls_min = []
+        self.lbls_max = []
+
         self.meas = []
+        self.min = []
+        self.max = []
+
         self.x_dim = 0
         self.y_dim = 0
 
@@ -61,6 +67,7 @@ class PressureSensorGui(Ui_MainWindow, QtCore.QObject ):
         self.settings_msg.data[1] = self.hs_delay2.value()
         self.settings_msg.data[2] = self.sl_pwm_value.value()
         self.settings_pub.publish(self.settings_msg)
+        self.reset_minmax_matrix()
 
 
     def setup_gui_matrix(self):
@@ -71,6 +78,36 @@ class PressureSensorGui(Ui_MainWindow, QtCore.QObject ):
                 self.lbls.append(lbl)
                 idx = self.y_dim * row + col
                 self.gl_pmatrix.addWidget(self.lbls[idx], row, col, 1, 1)
+
+    def setup_minmax_matrix(self):
+        self.lbls_min = []
+        self.lbls_max = []
+        self.gl_minmax.setSpacing(1)
+
+        for row in range(self.x_dim):
+            for col in range(self.y_dim):
+
+                lbl = QtWidgets.QLabel("")
+                idx = self.y_dim * row + col
+
+                self.lbls_min.append(lbl)
+                self.min.append(1023)
+                self.gl_minmax.addWidget(self.lbls_min[idx], row*2, col, 1, 1)
+
+                lbl = QtWidgets.QLabel("")
+                self.lbls_max.append(lbl)
+                self.max.append(0)
+                self.gl_minmax.addWidget(self.lbls_max[idx], row*2+1, col, 1.5, 1)
+
+    def reset_minmax_matrix(self):
+        for row in range(self.x_dim):
+            for col in range(self.y_dim):
+                idx = self.y_dim * row + col
+                self.min[idx] = 1023
+                self.max[idx] = 0
+                self.update_label(self.lbls_min[idx], self.min[idx])
+                self.update_label(self.lbls_max[idx], self.max[idx])
+
 
     def setup_gui_matrix_interp(self):
         self.lbls = []
@@ -142,6 +179,7 @@ class PressureSensorGui(Ui_MainWindow, QtCore.QObject ):
             self.y_dim = self.msg.y_dim
             #self.setup_gui_matrix()
             self.setup_gui_matrix_interp()
+            self.setup_minmax_matrix()
 
         # for row in range(self.x_dim+self.x_dim-1):
         #     for col in range(self.y_dim+self.y_dim-1):
@@ -163,6 +201,14 @@ class PressureSensorGui(Ui_MainWindow, QtCore.QObject ):
                 idx_interp = (self.x_dim + self.y_dim - 1)*row* 2 + col*2
                 self.meas[idx_interp] = self.msg.data[idx]
                 self.update_label(self.lbls[idx_interp], self.meas[idx_interp])
+
+                if self.msg.data[idx] > self.max[idx]:
+                    self.max[idx] = self.msg.data[idx]
+                    self.update_label(self.lbls_max[idx], self.max[idx])
+
+                if self.msg.data[idx] < self.min[idx]:
+                    self.min[idx] = self.msg.data[idx]
+                    self.update_label(self.lbls_min[idx], self.min[idx])
 
         #Interpolated values
         x_dim_interp = (self.x_dim + self.y_dim - 1)
