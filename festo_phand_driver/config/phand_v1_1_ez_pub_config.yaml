@@ -1,0 +1,50 @@
+publish_interval: 100
+settings:
+  /festo/phand/set_valve_setpoints/supply_valve_setpoints[0]: {is_repeat: false, max: 1.0, min: 0.0}
+  /festo/phand/set_valve_setpoints/supply_valve_setpoints[10]: {is_repeat: false, max: 1.0, min: 0.0}
+  /festo/phand/set_valve_setpoints/supply_valve_setpoints[11]: {is_repeat: false, max: 1.0, min: 0.0}
+  /festo/phand/set_valve_setpoints/supply_valve_setpoints[1]: {is_repeat: false, max: 1.0, min: 0.0}
+  /festo/phand/set_valve_setpoints/supply_valve_setpoints[2]: {is_repeat: false, max: 1.0, min: 0.0}
+  /festo/phand/set_valve_setpoints/supply_valve_setpoints[3]: {is_repeat: false, max: 1.0, min: 0.0}
+  /festo/phand/set_valve_setpoints/supply_valve_setpoints[4]: {is_repeat: false, max: 1.0, min: 0.0}
+  /festo/phand/set_valve_setpoints/supply_valve_setpoints[5]: {is_repeat: false, max: 1.0, min: 0.0}
+  /festo/phand/set_valve_setpoints/supply_valve_setpoints[6]: {is_repeat: false, max: 1.0, min: 0.0}
+  /festo/phand/set_valve_setpoints/supply_valve_setpoints[7]: {is_repeat: false, max: 1.0, min: 0.0}
+  /festo/phand/set_valve_setpoints/supply_valve_setpoints[8]: {is_repeat: false, max: 1.0, min: 0.0}
+  /festo/phand/set_valve_setpoints/supply_valve_setpoints[9]: {is_repeat: false, max: 1.0, min: 0.0}
+  /festo/phand/set_valve_setpoints/exhaust_valve_setpoints[0]: {is_repeat: false, max: 1.0, min: 0.0}
+  /festo/phand/set_valve_setpoints/exhaust_valve_setpoints[10]: {is_repeat: false, max: 1.0, min: 0.0}
+  /festo/phand/set_valve_setpoints/exhaust_valve_setpoints[11]: {is_repeat: false, max: 1.0, min: 0.0}
+  /festo/phand/set_valve_setpoints/exhaust_valve_setpoints[1]: {is_repeat: false, max: 1.0, min: 0.0}
+  /festo/phand/set_valve_setpoints/exhaust_valve_setpoints[2]: {is_repeat: false, max: 1.0, min: 0.0}
+  /festo/phand/set_valve_setpoints/exhaust_valve_setpoints[3]: {is_repeat: false, max: 1.0, min: 0.0}
+  /festo/phand/set_valve_setpoints/exhaust_valve_setpoints[4]: {is_repeat: false, max: 1.0, min: 0.0}
+  /festo/phand/set_valve_setpoints/exhaust_valve_setpoints[5]: {is_repeat: false, max: 1.0, min: 0.0}
+  /festo/phand/set_valve_setpoints/exhaust_valve_setpoints[6]: {is_repeat: false, max: 1.0, min: 0.0}
+  /festo/phand/set_valve_setpoints/exhaust_valve_setpoints[7]: {is_repeat: false, max: 1.0, min: 0.0}
+  /festo/phand/set_valve_setpoints/exhaust_valve_setpoints[8]: {is_repeat: false, max: 1.0, min: 0.0}
+  /festo/phand/set_valve_setpoints/exhaust_valve_setpoints[9]: {is_repeat: false, max: 1.0, min: 0.0}
+texts: ['/festo/phand/set_valve_setpoints/supply_valve_setpoints[0]',
+        '/festo/phand/set_valve_setpoints/supply_valve_setpoints[1]', 
+        '/festo/phand/set_valve_setpoints/supply_valve_setpoints[2]',
+        '/festo/phand/set_valve_setpoints/supply_valve_setpoints[3]', 
+        '/festo/phand/set_valve_setpoints/supply_valve_setpoints[4]', 
+        '/festo/phand/set_valve_setpoints/supply_valve_setpoints[5]',
+        '/festo/phand/set_valve_setpoints/supply_valve_setpoints[6]',
+        '/festo/phand/set_valve_setpoints/supply_valve_setpoints[7]',
+        '/festo/phand/set_valve_setpoints/supply_valve_setpoints[8]',
+        '/festo/phand/set_valve_setpoints/supply_valve_setpoints[9]', 
+        '/festo/phand/set_valve_setpoints/supply_valve_setpoints[10]', 
+        '/festo/phand/set_valve_setpoints/supply_valve_setpoints[11]',
+        '/festo/phand/set_valve_setpoints/exhaust_valve_setpoints[0]',
+        '/festo/phand/set_valve_setpoints/exhaust_valve_setpoints[1]', 
+        '/festo/phand/set_valve_setpoints/exhaust_valve_setpoints[2]',
+        '/festo/phand/set_valve_setpoints/exhaust_valve_setpoints[3]', 
+        '/festo/phand/set_valve_setpoints/exhaust_valve_setpoints[4]', 
+        '/festo/phand/set_valve_setpoints/exhaust_valve_setpoints[5]',
+        '/festo/phand/set_valve_setpoints/exhaust_valve_setpoints[6]',
+        '/festo/phand/set_valve_setpoints/exhaust_valve_setpoints[7]',
+        '/festo/phand/set_valve_setpoints/exhaust_valve_setpoints[8]',
+        '/festo/phand/set_valve_setpoints/exhaust_valve_setpoints[9]', 
+        '/festo/phand/set_valve_setpoints/exhaust_valve_setpoints[10]', 
+        '/festo/phand/set_valve_setpoints/exhaust_valve_setpoints[11]']

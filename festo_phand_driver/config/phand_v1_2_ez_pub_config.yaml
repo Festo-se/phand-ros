@@ -1,0 +1,27 @@
+publish_interval: 100
+settings:
+  /festo/phand/set_pressures/values[0]: {is_repeat: false, max: 3.0, min: 0.0}
+  /festo/phand/set_pressures/values[10]: {is_repeat: false, max: 3.0, min: 0.0}
+  /festo/phand/set_pressures/values[11]: {is_repeat: false, max: 3.0, min: 0.0}
+  /festo/phand/set_pressures/values[1]: {is_repeat: false, max: 3.0, min: 0.0}
+  /festo/phand/set_pressures/values[2]: {is_repeat: false, max: 3.0, min: 0.0}
+  /festo/phand/set_pressures/values[3]: {is_repeat: false, max: 3.0, min: 0.0}
+  /festo/phand/set_pressures/values[4]: {is_repeat: false, max: 3.0, min: 0.0}
+  /festo/phand/set_pressures/values[5]: {is_repeat: false, max: 3.0, min: 0.0}
+  /festo/phand/set_pressures/values[6]: {is_repeat: false, max: 3.0, min: 0.0}
+  /festo/phand/set_pressures/values[7]: {is_repeat: false, max: 3.0, min: 0.0}
+  /festo/phand/set_pressures/values[8]: {is_repeat: false, max: 3.0, min: 0.0}
+  /festo/phand/set_pressures/values[9]: {is_repeat: false, max: 3.0, min: 0.0}
+texts: ['/festo/phand/set_pressures/values[0]',
+        '/festo/phand/set_pressures/values[1]', 
+        '/festo/phand/set_pressures/values[2]',
+        '/festo/phand/set_pressures/values[3]', 
+        '/festo/phand/set_pressures/values[4]', 
+        '/festo/phand/set_pressures/values[5]',
+        '/festo/phand/set_pressures/values[6]',
+        '/festo/phand/set_pressures/values[7]',
+        '/festo/phand/set_pressures/values[8]',
+        '/festo/phand/set_pressures/values[9]', 
+        '/festo/phand/set_pressures/values[10]', 
+        '/festo/phand/set_pressures/values[11]'
+       ]
