@@ -192,7 +192,7 @@ class ROSPhandUdpDriver():
         
         bionic_msg = BionicActionMessage(sensor_id=BIONIC_MSG_IDS.VALVE_MODULE,
                                   action_id=VALVE_ACTION_IDS.PRESSURE,
-                                  action_values=values)
+                                  action_values=msg.values)
 
         self.phand.send_data(bionic_msg.data)
 

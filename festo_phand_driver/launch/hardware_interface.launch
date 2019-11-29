@@ -1,11 +1,16 @@
 <?xml version="1.0"?>
 <launch>
+
+      <arg name="sim" value="False" />
+      <arg name="model" />
+      <arg name="gui" default="True" />
+
+      <rosparam ns="festo"  param="robots">BionicSoftHand</rosparam>
+      <rosparam ns="festo" param="robot_types">BionicSoftHand</rosparam>
+
       <node pkg="festo_phand_driver" type="festo_phand_udp_driver.py" name="phand_hardware_interface" output="screen" />
+      <node pkg="festo_phand_linear_axis_testsetup" type="hardware_driver.py" name="ai_setup_node" output="screen" />
+
+      <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" />
 
 </launch>
-
-
-
-<!--
-      <node name="hand_gui" pkg="rqt_ez_publisher" type="rqt_ez_publisher" args="--slider-file $(find festo_phand_driver )/config/phand_v1_1_ez_pub_config.yaml" />            
-      -->
