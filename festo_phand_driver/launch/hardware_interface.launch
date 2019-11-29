@@ -1,11 +1,7 @@
 <?xml version="1.0"?>
 <launch>
       <node pkg="festo_phand_driver" type="festo_phand_udp_driver.py" name="phand_hardware_interface" output="screen" />
+      <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" /> 
 
+      <node name="phand_debug_ui" pkg="festo_phand_driver" type="start.sh" />
 </launch>
-
-
-
-<!--
-      <node name="hand_gui" pkg="rqt_ez_publisher" type="rqt_ez_publisher" args="--slider-file $(find festo_phand_driver )/config/phand_v1_1_ez_pub_config.yaml" />            
-      -->

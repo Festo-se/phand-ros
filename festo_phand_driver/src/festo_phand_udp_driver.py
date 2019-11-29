@@ -14,7 +14,7 @@ import importlib
 import rospy
 from diagnostic_msgs.msg import KeyValue
 # Festo imports
-from phand_core_lib.phand import PHand
+from phand_core_lib.phand import PHand, PHandState
 from festo_phand_msgs.msg import *
 from festo_phand_msgs.srv import *
 from bionic_messages.bionic_messages import *
@@ -160,6 +160,14 @@ class ROSPhandUdpDriver():
         :return: SimpleCloseResult
         """
 
+        rospy.loginfo("CLOSE")
+        # Return result
+        resp = SimpleCloseResponse()
+        resp.success = True
+        resp.state.key = "1"
+        resp.state.value = "Dummy implementation until pressure control is available"
+        return resp
+
         if self.phand.close_all_fingers():
 
             # Return result
@@ -189,6 +197,17 @@ class ROSPhandUdpDriver():
         Set the pressure for the valves
         Range: 100000.0 - 400000.0 psi
         """
+
+        if len(msg.values) < 12:
+            return
+
+        if self.phand.com_state != PHandState.ONLINE:
+            rospy.sleep(2)
+            return
+
+        values = [0] * 12
+        for x in range(12):
+            values[x] = msg.values[x] * 100000.0 + 100000.0
         
         bionic_msg = BionicActionMessage(sensor_id=BIONIC_MSG_IDS.VALVE_MODULE,
                                   action_id=VALVE_ACTION_IDS.PRESSURE,
