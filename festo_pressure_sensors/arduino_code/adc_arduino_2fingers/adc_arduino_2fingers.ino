@@ -24,7 +24,7 @@ Tested on an Arduino Uno
 #include <std_msgs/UInt16MultiArray.h>
 
 static const uint8_t X_DIM = 3;
-static const uint8_t Y_DIM = 3;
+static const uint8_t Y_DIM = 6;
 static const uint8_t DATA_LENGTH = X_DIM*Y_DIM ;
 
 ros::NodeHandle nh;
@@ -38,7 +38,7 @@ uint16_t setting_msg_data[3] = {0} ;
 
 // the FSRs and resistors are connected to a0-2
 uint8_t row_pins[X_DIM] = {0,1,2};
-uint8_t col_pins[Y_DIM] = {3,5,6}; 
+uint8_t col_pins[Y_DIM] = {3,5,6,9,10,11}; 
 
 uint16_t delay1 = 5;
 uint16_t delay2 = 5; 

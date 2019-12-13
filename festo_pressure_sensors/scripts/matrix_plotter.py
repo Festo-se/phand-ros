@@ -7,9 +7,6 @@ from numpy import interp
 import numpy as np
 import scipy.ndimage as ndimage
 
-
-
-
 os.system("python -m PyQt5.uic.pyuic pressure_sensors.ui -o pressure_sensor_gui.py -x")
 from pressure_sensor_gui import Ui_MainWindow
 from std_msgs.msg import Float32MultiArray, UInt16MultiArray
@@ -41,8 +38,9 @@ class PressureSensorGui(Ui_MainWindow, QtCore.QObject ):
         self.pushButton.clicked.connect(self.hello)
         self.pushButton_5.clicked.connect(self.reset_minmax_matrix)
 
-        self.rb_interp.clicked.connect(self.setup_gui_matrix_interp)
+        self.rb_interp.clicked.connect(self.setup_gui_matrix)
         self.rb_sensval.clicked.connect(self.setup_gui_matrix)
+        self.cb_showVals.stateChanged.connect(self.setup_gui_matrix)
 
         mw.show()
         self.lbls = []
@@ -68,14 +66,16 @@ class PressureSensorGui(Ui_MainWindow, QtCore.QObject ):
         self.settings_pub.publish(self.settings_msg)
 
         self.hs_delay1.setValue(self.settings_msg.data[0])
+        self.lbl_delay1.setNum(self.settings_msg.data[0])
         self.hs_delay2.setValue(self.settings_msg.data[1])
+        self.lbl_delay2.setNum(self.settings_msg.data[1])
         self.sl_pwm_value.setValue(self.settings_msg.data[2])
+        self.lbl_pwm.setNum(self.settings_msg.data[2])
 
         self.hs_delay1.valueChanged.connect(self.update_settings_cb)
         self.hs_delay2.valueChanged.connect(self.update_settings_cb)
         self.sl_pwm_value.valueChanged.connect(self.update_settings_cb)
-
-        self.sl_zoom.valueChanged.connect(self.setup_gui_matrix_interp)
+        self.sl_zoom.valueChanged.connect(self.setup_gui_matrix)
 
     def update_settings_cb(self, event):
         self.settings_msg.data[0] = self.hs_delay1.value()
@@ -101,31 +101,28 @@ class PressureSensorGui(Ui_MainWindow, QtCore.QObject ):
         for row in range(self.x_dim_interp):
             for col in range(self.y_dim_interp):
                 self.meas_interp.append(0)
-        rospy.logerr("interpolated values array setup")
+        rospy.logerr("interpolated values array setup, array size: %d", len(self.meas_interp))
 
     def setup_gui_matrix(self):
         self.delete_gui_matrix()
         self.lbls = []
-        for row in range(self.x_dim):
-            for col in range(self.y_dim):
+
+        if self.rb_interp.isChecked():
+            self.setup_array_interp()
+            x_range = self.x_dim_interp
+            y_range = self.y_dim_interp
+            rospy.logerr("GUI interpolation matrix setup")
+        else:
+            x_range = self.x_dim
+            y_range = self.y_dim
+            rospy.logerr("GUI std matrix setup")
+
+        for row in range(x_range):
+            for col in range(y_range):
                 lbl = QtWidgets.QLabel("")
                 self.lbls.append(lbl)
-                idx = self.y_dim * row + col
+                idx = y_range * row + col
                 self.gl_pmatrix.addWidget(self.lbls[idx], row, col, 1, 1)
-        rospy.logerr("GUI std matrix setup")
-
-    def setup_gui_matrix_interp(self):
-        self.delete_gui_matrix()
-        self.setup_array_interp()
-
-        self.lbls = []
-        for row in range(self.x_dim_interp):
-            for col in range(self.y_dim_interp):
-                lbl = QtWidgets.QLabel("")
-                self.lbls.append(lbl)
-                idx = self.y_dim_interp * row + col
-                self.gl_pmatrix.addWidget(self.lbls[idx], row, col, 1, 1)
-        rospy.logerr("GUI interpolation matrix setup")
 
     def delete_gui_matrix(self):
         for row in range(self.gl_pmatrix.rowCount()):
@@ -158,14 +155,16 @@ class PressureSensorGui(Ui_MainWindow, QtCore.QObject ):
                 self.max.append(0)
                 self.gl_minmax.addWidget(self.lbls_max[idx], row*2+1, col, 1.5, 1)
 
+        self.reset_minmax_matrix()
+
     def reset_minmax_matrix(self):
         for row in range(self.x_dim):
             for col in range(self.y_dim):
                 idx = self.y_dim * row + col
                 self.min[idx] = 1023
                 self.max[idx] = 0
-                self.update_label(self.lbls_min[idx], self.min[idx])
-                self.update_label(self.lbls_max[idx], self.max[idx])
+                self.update_label(self.lbls_min[idx], self.min[idx], showVal=True)
+                self.update_label(self.lbls_max[idx], self.max[idx], showVal=True)
 
     def hello(self):
         rospy.logerr("Hello")
@@ -183,7 +182,6 @@ class PressureSensorGui(Ui_MainWindow, QtCore.QObject ):
         colour.r = press_colour-0.05
         colour.g = default_colour
         colour.b = 1-press_colour
-        colour
 
         return colour
 
@@ -194,20 +192,25 @@ class PressureSensorGui(Ui_MainWindow, QtCore.QObject ):
         self.msg2.data = self.msg.data
         self.pub.publish(self.msg2)
 
-    def update_label(self, lbl, value):
+    def update_label(self, lbl, value, showVal=1):
         color = self.pressure_color_mapping(value)
         color_str = "rgba(%i,%i,%i,%i)" % (color.r * 255, color.g * 255, color.b * 255, color.a * 255)
-        lbl.setStyleSheet( "background-color:" + color_str + ";border:1px solid " + color_str + ";border-radius:10px;")
-        if self.rb_raw.isChecked():
+        lbl.setStyleSheet("background-color:" + color_str + ";border:1px solid " + color_str + ";border-radius:10px;")
+        if showVal:
             lbl.setNum(value)
 
     # Remaps measured values from [min, max] to [0, 1023]
     def remapped_val(self, idx):
-        return int(interp(self.msg.data[idx], [self.min[idx],self.max[idx]], [0, 1023]))
+        if self.min[idx] == 1023 or self.max[idx] == 0:
+            return 0
+        else:
+            val = int(interp(self.msg.data[idx], [self.min[idx], self.max[idx]], [0, 1023]))
+            val = np.maximum(0, val)
+            return val
 
     def remap_array(self):
         for idx in range(len(self.meas_raw)):
-            self.meas_remap[idx] = int(interp(self.meas_raw[idx], [self.min[idx], self.max[idx]], [0, 1023]))
+            self.meas_remap[idx] = self.remapped_val(idx)
 
     def update_gui_cb(self):
 
@@ -227,25 +230,26 @@ class PressureSensorGui(Ui_MainWindow, QtCore.QObject ):
             self.setup_gui_matrix()
             self.setup_minmax_matrix()
 
+
         # Measured values
         for row in range(self.x_dim):
             for col in range(self.y_dim):
                 idx = self.y_dim * row + col
                 self.meas_raw[idx] = self.msg.data[idx]
                 if self.rb_remap.isChecked():
-                    self.update_label(self.lbls[idx], self.remapped_val(idx))
+                    self.update_label(self.lbls[idx], self.remapped_val(idx), self.cb_showVals.isChecked())
                 elif self.rb_sensval.isChecked():
-                    self.update_label(self.lbls[idx], self.meas_raw[idx])
+                    self.update_label(self.lbls[idx], self.meas_raw[idx], self.cb_showVals.isChecked())
 
                 # Adjust Max value
                 if self.msg.data[idx] > self.max[idx]:
                     self.max[idx] = self.msg.data[idx]
-                    self.update_label(self.lbls_max[idx], self.max[idx])
+                    self.update_label(self.lbls_max[idx], self.max[idx], showVal=True)
 
                 # Adjust Min value
                 if self.msg.data[idx] < self.min[idx]:
                     self.min[idx] = self.msg.data[idx]
-                    self.update_label(self.lbls_min[idx], self.min[idx])
+                    self.update_label(self.lbls_min[idx], self.min[idx], showVal=True)
 
         # SciPy Zoom interpolation
         if self.rb_interp.isChecked():
@@ -261,7 +265,7 @@ class PressureSensorGui(Ui_MainWindow, QtCore.QObject ):
             for row in range(self.x_dim_interp):
                 for col in range(self.y_dim_interp):
                     idx = self.y_dim_interp * row + col
-                    self.update_label(self.lbls[idx], self.meas_interp[row][col])
+                    self.update_label(self.lbls[idx], np.maximum(self.meas_interp[row][col], 0), self.cb_showVals.isChecked() )
 
 if __name__ == '__main__':
     rospy.init_node("matrix_plotter_node")
