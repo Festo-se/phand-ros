@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+    <include file="$(find urdf_tutorial)/launch/display.launch">
+        <arg name="model" value="$(find festo_phand_description)/urdf/big_finger.xacro" />
+    </include>
+</launch>

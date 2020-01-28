@@ -220,7 +220,7 @@ class ROSPhandUdpDriver():
         Set the valves directly
         """
 
-        self.send_data(BionicValveActionMessage(msg.supply_valve_setpoints, msg.exhaust_valve_setpoints).data)
+        self.phand.send_data(BionicValveActionMessage(msg.supply_valve_setpoints, msg.exhaust_valve_setpoints).data)
     
     def valve_terminal_generate(self, msg):
         """

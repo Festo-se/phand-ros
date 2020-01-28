@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<robot name="big_finger" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find festo_phand_description)/urdf/big_finger_macro.xacro" />
+
+  <xacro:bigfinger  prefix="" version="small" />
+
+
+</robot>
+
+
