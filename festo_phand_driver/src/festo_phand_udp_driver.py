@@ -25,9 +25,11 @@ class ROSPhandUdpDriver():
     Wrapper class for the phand_core_lib to provide a ros interface for the phand
     """
 
-    required_msgs_ids = [BIONIC_MSG_IDS.VALVE_MODULE,
-                         BIONIC_MSG_IDS.SPECTRA_SENSOR,
-                         BIONIC_MSG_IDS.IMU_MAINBOARD
+    required_msgs_ids = [BIONIC_MSG_IDS.VALVE_MODULE,                         
+                         BIONIC_MSG_IDS.IMU_MAINBOARD,
+                         BIONIC_MSG_IDS.LOOMIA_BOARD,
+                         BIONIC_MSG_IDS.FLEX_BOARD,
+                         BIONIC_MSG_IDS.CYLINDER_SENSOR
                          ]
 
     def __init__(self):
@@ -45,9 +47,10 @@ class ROSPhandUdpDriver():
         # Init ros
         rospy.init_node("festo_phand_driver")
         state_pub = rospy.Publisher("festo/phand/state", HandState, queue_size=1)
-
-        bend_sensors = GenericSensor()
-        self.bendsensor_pub = rospy.Publisher("festo/phand/connected_sensors/bend_sensors", GenericSensor, queue_size=1)
+        
+        self.flex_pub = rospy.Publisher("festo/phand/connected_sensors/flex_sensors", GenericSensor, queue_size=1)
+        self.loomia_pub = rospy.Publisher("festo/phand/connected_sensors/loomia_sensors", GenericSensor, queue_size=1)
+        self.cylinder_pub = rospy.Publisher("festo/phand/connected_sensors/cylinder_sensors", GenericSensor, queue_size=1)
 
         # Subscribe to topics
         rospy.Subscriber("festo/phand/set_valve_setpoints", ValveSetPoints, callback=self.set_valves_topic_cb, queue_size=1)
@@ -71,7 +74,7 @@ class ROSPhandUdpDriver():
 
         rospy.loginfo("Shutting down udp client")
 
-        self.shutdown()
+        self.phand.shutdown()
 
     def new_data_available_cb(self):
         """
@@ -79,17 +82,25 @@ class ROSPhandUdpDriver():
         """ 
 
         press_diff = self.phand.messages["BionicValveMessage"].last_msg_received_time - self.current_time 
-        imu_diff = self.phand.messages["InternalIMUDMessage"].last_msg_received_time - self.current_time
-        bend_diff = self.phand.messages["BionicSpectreMessage"].last_msg_received_time - self.current_time
+        imu_diff = self.phand.messages["BionicIMUDataMessage"].last_msg_received_time - self.current_time        
+        loomia_diff = self.phand.messages["BionicLoomiaMessage"].last_msg_received_time - self.current_time
+        flex_diff = self.phand.messages["BionicFlexMessage"].last_msg_received_time - self.current_time
+        cylinder_diff = self.phand.messages["BionicCylinderSensorMessage"].last_msg_received_time - self.current_time
 
         if press_diff >= 0:
             self.valve_terminal_generate(self.phand.messages["BionicValveMessage"])
         
         if imu_diff >= 0:            
-            self.internal_imu_generate(self.phand.messages["InternalIMUDMessage"])
+            self.internal_imu_generate(self.phand.messages["BionicIMUDataMessage"])
 
-        if bend_diff >= 0:
-            self.hand_bendsensor_generate(self.phand.messages["BionicSpectreMessage"])
+        if loomia_diff >= 0:
+            self.hand_loomia_generate(self.phand.messages["BionicLoomiaMessage"])
+
+        if flex_diff >= 0:
+            self.hand_flex_generate(self.phand.messages["BionicFlexMessage"])
+
+        if cylinder_diff >= 0:
+            self.hand_cylinder_generate(self.phand.messages["BionicCylinderSensorMessage"])
 
         self.current_time = int(round(time.time() * 1000))
 
@@ -137,7 +148,6 @@ class ROSPhandUdpDriver():
             resp.state.value = "Not yet implemented"
         
         return resp
-
 
     def simple_open_cb(self, msg: SimpleOpenRequest):
         """
@@ -219,8 +229,9 @@ class ROSPhandUdpDriver():
         """
         Set the valves directly
         """
-
-        self.send_data(BionicValveActionMessage(msg.supply_valve_setpoints, msg.exhaust_valve_setpoints).data)
+        
+        bionic_action_msg = BionicValveActionMessage(msg.supply_valve_setpoints, msg.exhaust_valve_setpoints).data
+        self.phand.send_data(bionic_action_msg)
     
     def valve_terminal_generate(self, msg):
         """
@@ -243,7 +254,7 @@ class ROSPhandUdpDriver():
         bend_sensors.calibrated_values = msg.angles
         bend_sensors.raw_values = msg.raw_angles
 
-        self.bendsensor_pub.publish(bend_sensors)
+        self.flex_pub.publish(bend_sensors)
 
     def internal_imu_generate(self, msg):
 
@@ -261,6 +272,47 @@ class ROSPhandUdpDriver():
         self.hand_state.internal_sensors.mag.magnetic_field.y = msg.mag_y
         self.hand_state.internal_sensors.mag.magnetic_field.z = msg.mag_z
 
+    def hand_loomia_generate(self, msg):
+
+        loomia_sensor = GenericSensor()
+        loomia_sensor.name = msg.get_unique_name()
+        loomia_sensor.id = msg.get_id()
+        loomia_sensor.raw_values = msg.pressures
+
+        self.loomia_pub.publish(loomia_sensor) 
+
+    def hand_cylinder_generate(self, msg):
+        
+        cylinder_sensor = GenericSensor()
+        cylinder_sensor.name = msg.get_unique_name()
+        cylinder_sensor.id = msg.get_id()
+        cylinder_sensor.raw_values = msg.values
+
+        self.cylinder_pub.publish(cylinder_sensor)             
+
+    def hand_flex_generate(self, msg):
+
+        flex_sensor = GenericSensor()
+        flex_sensor.name = msg.get_unique_name()
+        flex_sensor.id = msg.get_id()
+        
+        flex_sensor.raw_values = [0] * 11
+
+        flex_sensor.raw_values[0] = msg.top_sensors[0]
+        flex_sensor.raw_values[1] = msg.top_sensors[1]
+        flex_sensor.raw_values[2] = msg.top_sensors[2]
+        flex_sensor.raw_values[3] = msg.top_sensors[3]
+        flex_sensor.raw_values[4] = msg.top_sensors[4]
+
+        flex_sensor.raw_values[5] = msg.bot_sensors[0]
+        flex_sensor.raw_values[6] = msg.bot_sensors[1]
+        flex_sensor.raw_values[7] = msg.bot_sensors[2]
+        flex_sensor.raw_values[8] = msg.bot_sensors[3]
+        flex_sensor.raw_values[9] = msg.bot_sensors[4]
+
+        flex_sensor.raw_values[10] = msg.drvs_potti
+
+        self.flex_pub.publish(flex_sensor)
 
 if __name__ == '__main__':
     ROSPhandUdpDriver()
