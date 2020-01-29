@@ -1,0 +1,785 @@
+<?xml version="1.0"?>
+
+<robot name="bigfinger" xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <xacro:macro name="bigfinger" params="prefix version">
+        <link
+                name="${prefix}base_link">
+            <inertial>
+                <origin
+                        xyz="-2.3335792438484E-08 3.33194994930708E-20 0.0157536532010397"
+                        rpy="0 0 0"/>
+                <mass
+                        value="0.00689738061173518"/>
+                <inertia
+                        ixx="0"
+                        ixy="0"
+                        ixz="0"
+                        iyy="0"
+                        iyz="0"
+                        izz="0"/>
+            </inertial>
+            <visual>
+                <origin
+                        xyz="0 0 0"
+                        rpy="0 0 0"/>
+                <geometry>
+                    <mesh
+                            filename="package://festo_phand_description/meshes/finger/base_link.STL"/>
+                </geometry>
+                <material
+                        name="${prefix}">
+                    <color
+                            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+                </material>
+            </visual>
+            <collision>
+                <origin
+                        xyz="0 0 0"
+                        rpy="0 0 0"/>
+                <geometry>
+                    <mesh
+                            filename="package://festo_phand_description/meshes/finger/base_link.STL"/>
+                </geometry>
+            </collision>
+        </link>
+        <link
+                name="${prefix}fake_intermediate_1">
+
+            <visual>
+                <origin
+                        xyz="0 0 0"
+                        rpy="0 0 0"/>
+                <geometry>
+                    <mesh
+                            filename="package://festo_phand_description/meshes/finger/fake_intermediate.STL"/>
+                </geometry>
+                <material
+                        name="${prefix}">
+                    <color
+                            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+                </material>
+            </visual>
+            <collision>
+                <origin
+                        xyz="0 0 0"
+                        rpy="0 0 0"/>
+                <geometry>
+                    <mesh
+                            filename="package://festo_phand_description/meshes/finger/fake_intermediate.STL"/>
+                </geometry>
+            </collision>
+        </link>
+        <joint
+                name="${prefix}joint_1"
+                type="revolute">
+            <origin
+                    xyz="0 0 0"
+                    rpy="1.5708 0 0"/>
+            <parent
+                    link="base_link"/>
+            <child
+                    link="fake_intermediate_1"/>
+            <axis
+                    xyz="0 1 0"/>
+            <limit
+                    lower="0"
+                    upper="0.25"
+                    effort="0"
+                    velocity="0"/>
+        </joint>
+        <link
+                name="${prefix}fake_intermediate_2">
+
+            <visual>
+                <origin
+                        xyz="0 0 0"
+                        rpy="0 0 0"/>
+                <geometry>
+                    <mesh
+                            filename="package://festo_phand_description/meshes/finger/fake_intermediate.STL"/>
+                </geometry>
+                <material
+                        name="${prefix}">
+                    <color
+                            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+                </material>
+            </visual>
+            <collision>
+                <origin
+                        xyz="0 0 0"
+                        rpy="0 0 0"/>
+                <geometry>
+                    <mesh
+                            filename="package://festo_phand_description/meshes/finger/fake_intermediate.STL"/>
+                </geometry>
+            </collision>
+        </link>
+        <joint
+                name="${prefix}joint_2"
+                type="revolute">
+            <origin
+                    xyz="0 0 -0.004"
+                    rpy="0 0 0"/>
+            <parent
+                    link="fake_intermediate_1"/>
+            <child
+                    link="fake_intermediate_2"/>
+            <axis
+                    xyz="0 1 0"/>
+            <limit
+                    lower="0"
+                    upper="0.25"
+                    effort="0"
+                    velocity="0"/>
+            <mimic joint="joint_1"/>
+        </joint>
+        <link
+                name="${prefix}fake_intermediate_3">
+            <inertial>
+                <origin
+                        xyz="-5.7851168582782E-07 -2.22592902295158E-16 -0.00100000000000001"
+                        rpy="0 0 0"/>
+                <mass
+                        value="0.000518002329108149"/>
+                <inertia
+                        ixx="0"
+                        ixy="0"
+                        ixz="0"
+                        iyy="0"
+                        iyz="0"
+                        izz="0"/>
+            </inertial>
+            <visual>
+                <origin
+                        xyz="0 0 0"
+                        rpy="0 0 0"/>
+                <geometry>
+                    <mesh
+                            filename="package://festo_phand_description/meshes/finger/fake_intermediate.STL"/>
+                </geometry>
+                <material
+                        name="${prefix}">
+                    <color
+                            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+                </material>
+            </visual>
+            <collision>
+                <origin
+                        xyz="0 0 0"
+                        rpy="0 0 0"/>
+                <geometry>
+                    <mesh
+                            filename="package://festo_phand_description/meshes/finger/fake_intermediate.STL"/>
+                </geometry>
+            </collision>
+        </link>
+        <joint
+                name="${prefix}joint_3"
+                type="revolute">
+            <origin
+                    xyz="0 0 -0.004"
+                    rpy="0 0 0"/>
+            <parent
+                    link="fake_intermediate_2"/>
+            <child
+                    link="fake_intermediate_3"/>
+            <axis
+                    xyz="0 1 0"/>
+            <limit
+                    lower="0"
+                    upper="0.25"
+                    effort="0"
+                    velocity="0"/>
+            <mimic joint="joint_1"/>
+        </joint>
+        <link
+                name="${prefix}fake_intermediate_4">
+            <inertial>
+                <origin
+                        xyz="-5.78511685827814E-07 -2.11214247654118E-19 -0.002"
+                        rpy="0 0 0"/>
+                <mass
+                        value="0.000518002329108149"/>
+                <inertia
+                        ixx="0"
+                        ixy="0"
+                        ixz="0"
+                        iyy="0"
+                        iyz="0"
+                        izz="0"/>
+            </inertial>
+            <visual>
+                <origin
+                        xyz="0 0 0"
+                        rpy="0 0 0"/>
+                <geometry>
+                    <mesh
+                            filename="package://festo_phand_description/meshes/finger/fake_intermediate.STL"/>
+                </geometry>
+                <material
+                        name="${prefix}">
+                    <color
+                            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+                </material>
+            </visual>
+            <collision>
+                <origin
+                        xyz="0 0 0"
+                        rpy="0 0 0"/>
+                <geometry>
+                    <mesh
+                            filename="package://festo_phand_description/meshes/finger/fake_intermediate.STL"/>
+                </geometry>
+            </collision>
+        </link>
+        <joint
+                name="${prefix}joint_4"
+                type="revolute">
+            <origin
+                    xyz="0 0 -0.004"
+                    rpy="0 0 0"/>
+            <parent
+                    link="fake_intermediate_3"/>
+            <child
+                    link="fake_intermediate_4"/>
+            <axis
+                    xyz="0 1 0"/>
+            <limit
+                    lower="0"
+                    upper="0.25"
+                    effort="0"
+                    velocity="0"/>
+            <mimic joint="joint_1"/>
+        </joint>
+        <link
+                name="${prefix}Phallanx_1">
+            <visual>
+                <origin
+                        xyz="0 0 -0.001"
+                        rpy="0 0 0"/>
+                <geometry>
+                    <xacro:if value="${version=='big'}">
+                        <mesh filename="package://festo_phand_description/meshes/finger/phallanx_big.STL"/>
+                    </xacro:if>
+                    <xacro:if value="${version=='small'}">
+                        <mesh filename="package://festo_phand_description/meshes/finger/phallanx_small.STL"/>
+                    </xacro:if>
+
+                </geometry>
+                <material
+                        name="${prefix}">
+                    <color
+                            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+                </material>
+            </visual>
+            <collision>
+                <origin
+                        xyz="0 0 -0.001"
+                        rpy="0 0 0"/>
+                <geometry>
+                    <mesh
+                            filename="package://festo_phand_description/meshes/finger/phallanx_big.STL"/>
+                </geometry>
+            </collision>
+        </link>
+        <joint
+                name="${prefix}joint_5"
+                type="revolute">
+            <origin
+                    xyz="0 0 -0.004"
+                    rpy="0 0 0"/>
+            <parent
+                    link="fake_intermediate_4"/>
+            <child
+                    link="Phallanx_1"/>
+            <axis
+                    xyz="0 1 0"/>
+            <limit
+                    lower="0"
+                    upper="0.25"
+                    effort="0"
+                    velocity="0"/>
+            <mimic joint="joint_1"/>
+        </joint>
+        <link
+                name="${prefix}fake_intermediate_5">
+
+            <visual>
+                <origin
+                        xyz="0 0 0"
+                        rpy="0 0 0"/>
+                <geometry>
+                    <mesh
+                            filename="package://festo_phand_description/meshes/finger/fake_intermediate.STL"/>
+                </geometry>
+                <material
+                        name="${prefix}">
+                    <color
+                            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+                </material>
+            </visual>
+            <collision>
+                <origin
+                        xyz="0 0 0"
+                        rpy="0 0 0"/>
+                <geometry>
+                    <mesh
+                            filename="package://festo_phand_description/meshes/finger/fake_intermediate.STL"/>
+                </geometry>
+            </collision>
+        </link>
+        <joint
+                name="${prefix}joint_6"
+                type="revolute">
+
+            <xacro:if value="${version=='big'}">
+                <origin
+                        xyz="0 0 ${-0.022+0.000}"
+                        rpy="0 0 0"/>
+            </xacro:if>
+            <xacro:if value="${version=='small'}">
+                <origin
+                        xyz="0 0 ${-0.022+0.007}"
+                        rpy="0 0 0"/>
+            </xacro:if>
+
+            <parent
+                    link="Phallanx_1"/>
+            <child
+                    link="fake_intermediate_5"/>
+            <axis
+                    xyz="0 1 0"/>
+            <limit
+                    lower="0"
+                    upper="0.25"
+                    effort="0"
+                    velocity="0"/>
+        </joint>
+        <link
+                name="${prefix}fake_intermediate_6">
+            <inertial>
+                <origin
+                        xyz="-5.7851168583208E-07 -6.40480211519618E-16 -0.002"
+                        rpy="0 0 0"/>
+                <mass
+                        value="0.00051800232910815"/>
+                <inertia
+                        ixx="0"
+                        ixy="0"
+                        ixz="0"
+                        iyy="0"
+                        iyz="0"
+                        izz="0"/>
+            </inertial>
+            <visual>
+                <origin
+                        xyz="0 0 0"
+                        rpy="0 0 0"/>
+                <geometry>
+                    <mesh
+                            filename="package://festo_phand_description/meshes/finger/fake_intermediate.STL"/>
+                </geometry>
+                <material
+                        name="${prefix}">
+                    <color
+                            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+                </material>
+            </visual>
+            <collision>
+                <origin
+                        xyz="0 0 0"
+                        rpy="0 0 0"/>
+                <geometry>
+                    <mesh
+                            filename="package://festo_phand_description/meshes/finger/fake_intermediate.STL"/>
+                </geometry>
+            </collision>
+        </link>
+        <joint
+                name="${prefix}joint_7"
+                type="revolute">
+            <origin
+                    xyz="0 0 -0.004"
+                    rpy="0 0 0"/>
+            <parent
+                    link="fake_intermediate_5"/>
+            <child
+                    link="fake_intermediate_6"/>
+            <axis
+                    xyz="0 1 0"/>
+            <limit
+                    lower="0"
+                    upper="0.25"
+                    effort="0"
+                    velocity="0"/>
+            <mimic joint="joint_6"/>
+        </joint>
+        <link
+                name="${prefix}fake_intermediate_7">
+            <inertial>
+                <origin
+                        xyz="-5.78511685832051E-07 -3.53513721198499E-16 -0.00200000000000002"
+                        rpy="0 0 0"/>
+                <mass
+                        value="0.00051800232910815"/>
+                <inertia
+                        ixx="0"
+                        ixy="0"
+                        ixz="0"
+                        iyy="0"
+                        iyz="0"
+                        izz="0"/>
+            </inertial>
+            <visual>
+                <origin
+                        xyz="0 0 0"
+                        rpy="0 0 0"/>
+                <geometry>
+                    <mesh
+                            filename="package://festo_phand_description/meshes/finger/fake_intermediate.STL"/>
+                </geometry>
+                <material
+                        name="${prefix}">
+                    <color
+                            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+                </material>
+            </visual>
+            <collision>
+                <origin
+                        xyz="0 0 0"
+                        rpy="0 0 0"/>
+                <geometry>
+                    <mesh
+                            filename="package://festo_phand_description/meshes/finger/fake_intermediate.STL"/>
+                </geometry>
+            </collision>
+        </link>
+        <joint
+                name="${prefix}joint_8"
+                type="revolute">
+            <origin
+                    xyz="0 0 -0.004"
+                    rpy="0 0 0"/>
+            <parent
+                    link="fake_intermediate_6"/>
+            <child
+                    link="fake_intermediate_7"/>
+            <axis
+                    xyz="0 1 0"/>
+            <limit
+                    lower="0"
+                    upper="0.25"
+                    effort="0"
+                    velocity="0"/>
+            <mimic joint="joint_6"/>
+        </joint>
+        <link
+                name="${prefix}Phallanx_2">
+            <inertial>
+                <origin
+                        xyz="-7.20761310735801E-08 -3.06084598579574E-16 -0.011"
+                        rpy="0 0 0"/>
+                <mass
+                        value="0.00446627450054064"/>
+                <inertia
+                        ixx="0"
+                        ixy="0"
+                        ixz="0"
+                        iyy="0"
+                        iyz="0"
+                        izz="0"/>
+            </inertial>
+            <visual>
+                <origin
+                        xyz="0 0 -0.001"
+                        rpy="0 0 0"/>
+                <geometry>
+                    <xacro:if value="${version=='big'}">
+                        <mesh filename="package://festo_phand_description/meshes/finger/phallanx_big.STL"/>
+                    </xacro:if>
+                    <xacro:if value="${version=='small'}">
+                        <mesh filename="package://festo_phand_description/meshes/finger/phallanx_small.STL"/>
+                    </xacro:if>
+                </geometry>
+                <material
+                        name="${prefix}">
+                    <color
+                            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+                </material>
+            </visual>
+            <collision>
+                <origin
+                        xyz="0 0 -0.001"
+                        rpy="0 0 0"/>
+                <geometry>
+                    <mesh
+                            filename="package://festo_phand_description/meshes/finger/phallanx_small.STL"/>
+                </geometry>
+            </collision>
+        </link>
+        <joint
+                name="${prefix}joint_9"
+                type="revolute">
+            <origin
+                    xyz="0 0 -0.004"
+                    rpy="0 0 0"/>
+            <parent
+                    link="fake_intermediate_7"/>
+            <child
+                    link="Phallanx_2"/>
+            <axis
+                    xyz="0 1 0"/>
+            <limit
+                    lower="0"
+                    upper="0.25"
+                    effort="0"
+                    velocity="0"/>
+            <mimic joint="joint_6"/>
+        </joint>
+        <link
+                name="${prefix}fake_intermediate_8">
+            <inertial>
+                <origin
+                        xyz="-5.785116858251E-07 -1.73477036436792E-16 -0.002"
+                        rpy="0 0 0"/>
+                <mass
+                        value="0.00051800232910815"/>
+                <inertia
+                        ixx="0"
+                        ixy="0"
+                        ixz="0"
+                        iyy="0"
+                        iyz="0"
+                        izz="0"/>
+            </inertial>
+            <visual>
+                <origin
+                        xyz="0 0 0"
+                        rpy="0 0 0"/>
+                <geometry>
+                    <mesh
+                            filename="package://festo_phand_description/meshes/finger/fake_intermediate.STL"/>
+                </geometry>
+                <material
+                        name="${prefix}">
+                    <color
+                            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+                </material>
+            </visual>
+            <collision>
+                <origin
+                        xyz="0 0 0"
+                        rpy="0 0 0"/>
+                <geometry>
+                    <mesh
+                            filename="package://festo_phand_description/meshes/finger/fake_intermediate.STL"/>
+                </geometry>
+            </collision>
+        </link>
+        <joint
+                name="${prefix}joint_10"
+                type="revolute">
+             <xacro:if value="${version=='big'}">
+                <origin
+                        xyz="0 0 ${-0.022+0.000}"
+                        rpy="0 0 0"/>
+            </xacro:if>
+            <xacro:if value="${version=='small'}">
+                <origin
+                        xyz="0 0 ${-0.022+0.007}"
+                        rpy="0 0 0"/>
+            </xacro:if>
+            <parent
+                    link="Phallanx_2"/>
+            <child
+                    link="fake_intermediate_8"/>
+            <axis
+                    xyz="0 1 0"/>
+            <limit
+                    lower="0"
+                    upper="0.25"
+                    effort="0"
+                    velocity="0"/>
+            <mimic joint="joint_6"/>
+        </joint>
+        <link
+                name="${prefix}fake_intermediate_9">
+            <inertial>
+                <origin
+                        xyz="-5.78511685818171E-07 -1.21868851986074E-16 -0.002"
+                        rpy="0 0 0"/>
+                <mass
+                        value="0.00051800232910815"/>
+                <inertia
+                        ixx="0"
+                        ixy="0"
+                        ixz="0"
+                        iyy="0"
+                        iyz="0"
+                        izz="0"/>
+            </inertial>
+            <visual>
+                <origin
+                        xyz="0 0 0"
+                        rpy="0 0 0"/>
+                <geometry>
+                    <mesh
+                            filename="package://festo_phand_description/meshes/finger/fake_intermediate.STL"/>
+                </geometry>
+                <material
+                        name="${prefix}">
+                    <color
+                            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+                </material>
+            </visual>
+            <collision>
+                <origin
+                        xyz="0 0 0"
+                        rpy="0 0 0"/>
+                <geometry>
+                    <mesh
+                            filename="package://festo_phand_description/meshes/finger/fake_intermediate.STL"/>
+                </geometry>
+            </collision>
+        </link>
+        <joint
+                name="${prefix}joint_11"
+                type="revolute">
+            <origin
+                    xyz="0 0 -0.004"
+                    rpy="0 0 0"/>
+            <parent
+                    link="fake_intermediate_8"/>
+            <child
+                    link="fake_intermediate_9"/>
+            <axis
+                    xyz="0 1 0"/>
+            <limit
+                    lower="0"
+                    upper="0.25"
+                    effort="0"
+                    velocity="0"/>
+            <mimic joint="joint_6"/>
+        </joint>
+        <link
+                name="${prefix}fake_intermediate_10">
+            <inertial>
+                <origin
+                        xyz="-5.78511685821642E-07 -7.82621647426238E-17 -0.002"
+                        rpy="0 0 0"/>
+                <mass
+                        value="0.00051800232910815"/>
+                <inertia
+                        ixx="0"
+                        ixy="0"
+                        ixz="0"
+                        iyy="0"
+                        iyz="0"
+                        izz="0"/>
+            </inertial>
+            <visual>
+                <origin
+                        xyz="0 0 0"
+                        rpy="0 0 0"/>
+                <geometry>
+                    <mesh
+                            filename="package://festo_phand_description/meshes/finger/fake_intermediate.STL"/>
+                </geometry>
+                <material
+                        name="${prefix}">
+                    <color
+                            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+                </material>
+            </visual>
+            <collision>
+                <origin
+                        xyz="0 0 0"
+                        rpy="0 0 0"/>
+                <geometry>
+                    <mesh
+                            filename="package://festo_phand_description/meshes/finger/fake_intermediate.STL"/>
+                </geometry>
+            </collision>
+        </link>
+        <joint
+                name="${prefix}joint_12"
+                type="revolute">
+            <origin
+                    xyz="0 0 -0.004"
+                    rpy="0 0 0"/>
+            <parent
+                    link="fake_intermediate_9"/>
+            <child
+                    link="fake_intermediate_10"/>
+            <axis
+                    xyz="0 1 0"/>
+            <limit
+                    lower="0"
+                    upper="0.25"
+                    effort="0"
+                    velocity="0"/>
+            <mimic joint="joint_6"/>
+        </joint>
+        <link
+                name="${prefix}tip_link">
+            <inertial>
+                <origin
+                        xyz="3.33639485153286E-05 -5.51075813934281E-10 0.00883156591133957"
+                        rpy="0 0 0"/>
+                <mass
+                        value="0.00344368359342327"/>
+                <inertia
+                        ixx="0"
+                        ixy="0"
+                        ixz="0"
+                        iyy="0"
+                        iyz="0"
+                        izz="0"/>
+            </inertial>
+            <visual>
+                <origin
+                        xyz="0 0 0.001"
+                        rpy="0 0 0"/>
+                <geometry>
+                    <mesh
+                            filename="package://festo_phand_description/meshes/finger/tip_link.STL"/>
+                </geometry>
+                <material
+                        name="${prefix}">
+                    <color
+                            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+                </material>
+            </visual>
+            <collision>
+                <origin
+                        xyz="0 0 0.001"
+                        rpy="0 0 0"/>
+                <geometry>
+                    <mesh
+                            filename="package://festo_phand_description/meshes/finger/tip_link.STL"/>
+                </geometry>
+            </collision>
+        </link>
+        <joint
+                name="${prefix}joint_13"
+                type="revolute">
+            <origin
+                    xyz="0 0 -0.004"
+                    rpy="3.1416 0 3.1416"/>
+            <parent
+                    link="fake_intermediate_10"/>
+            <child
+                    link="tip_link"/>
+            <axis
+                    xyz="0 1 0"/>
+            <limit
+                    lower="0"
+                    upper="0.25"
+                    effort="0"
+                    velocity="0"/>
+            <mimic joint="joint_6"/>
+        </joint>
+
+    </xacro:macro>
+</robot>
