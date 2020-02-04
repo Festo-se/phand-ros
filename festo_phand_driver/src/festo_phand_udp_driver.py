@@ -60,7 +60,7 @@ class ROSPhandUdpDriver():
         # Offer services
         rospy.Service("festo/phand/close", SimpleClose, self.simple_close_cb)
         rospy.Service("festo/phand/open", SimpleOpen, self.simple_open_cb)
-        rospy.Service("festo/phand/set_configuration", SetConfiguration, self.set_configuration_cb)
+        rospy.Service("festo/phand/set_configuration", SetConfiguration, self.set_configuration_cb)        
 
         # start the udp event loop
         importlib.reload(logging)        
@@ -135,33 +135,58 @@ class ROSPhandUdpDriver():
 
         resp = SetConfigurationResponse()
 
-        if self.phand.set_grip_config(msg):
-            
+        grip_config = self.phand.set_grip_config(msg.grip_configuration)
+        ctrl_config = self.phand.set_ctrl_mode(msg.control_configuration)
+
+        if grip_config and ctrl_config:
+
             resp.success = True
             resp.state.key = "0"
             resp.state.value = "Configuration set"
 
+        elif grip_config and not ctrl_config:
+            
+            resp.success = True
+            resp.state.key = "1"
+            resp.state.value = "Grip configuration set"
+        
+        elif ctrl_config and not grip_config:
+
+            resp.success = True
+            resp.state.key = "2"
+            resp.state.value = "Control configuration set"
+
         else:
 
             resp.success = False
-            resp.state.key = "1"
-            resp.state.value = "Not yet implemented"
+            resp.state.key = "3"
+            resp.state.value = "Problem with setting the configuration"
         
         return resp
 
     def simple_open_cb(self, msg: SimpleOpenRequest):
         """
-        Callback function for the simple open function
+        Callback function for the simple open function.        
         :param msg: SimpleOpenRequest
         :return: SimpleOpenResult
         """
 
-        if self.phand.open_all_fingers():
+        resp = SimpleOpenResponse()
 
-            # Return result
-            resp = SimpleOpenResponse()
-            resp.success = True            
-            return resp
+        if self.phand.simple_open():
+            
+            resp.success = True      
+            resp.state.key = "0"
+            resp.state.value = "Executes a simple open"
+
+        else:
+
+            resp.success = False      
+            resp.state.key = "1"
+            resp.state.value = "Could not execute a simple open"
+            
+        # Return result                  
+        return resp
 
     def simple_close_cb(self, msg: SimpleCloseRequest):
         """
@@ -170,22 +195,22 @@ class ROSPhandUdpDriver():
         :return: SimpleCloseResult
         """
 
-        rospy.loginfo("CLOSE")
-        # Return result
-        resp = SimpleCloseResponse()
-        resp.success = True
-        resp.state.key = "1"
-        resp.state.value = "Dummy implementation until pressure control is available"
-        return resp
+        resp = SimpleCloseResponse()        
 
-        if self.phand.close_all_fingers():
-
-            # Return result
-            resp = SimpleCloseResponse()
+        if self.phand.simple_close():
+            
             resp.success = True
+            resp.state.key = "0"
+            resp.state.value = "Execute a simple close"
+
+        else:
+
+            resp.success = False      
             resp.state.key = "1"
-            resp.state.value = "Dummy implementation until pressure control is available"
-            return resp
+            resp.state.value = "Could not execute a simple close"
+            
+        # Return result                  
+        return resp       
 
     # Topic Callbacks
     def set_positions_topic_cb(self, msg):
@@ -193,14 +218,7 @@ class ROSPhandUdpDriver():
         If the position control is activated, set the positions of the finger.
         """
 
-        rospy.loginfo("Not implemented yet.")
-        return
-
-        msg = BionicActionMessage(sensor_id=BIONIC_MSG_IDS.VALVE_MODULE,
-                                  action_id=VALVE_ACTION_IDS.POSITION,
-                                  action_values=msg.values
-                                  )
-        self.send_data(msg)
+        self.phand.set_position_data(msg.positions)
 
     def set_pressures_topic_cb(self, msg):
         """
@@ -208,30 +226,18 @@ class ROSPhandUdpDriver():
         Range: 100000.0 - 400000.0 psi
         """
 
-        if len(msg.values) < 12:
-            return
-
-        if self.phand.com_state != PHandState.ONLINE:
-            rospy.sleep(2)
-            return
-
         values = [0] * 12
         for x in range(12):
-            values[x] = msg.values[x] * 100000.0 + 100000.0
-        
-        bionic_msg = BionicActionMessage(sensor_id=BIONIC_MSG_IDS.VALVE_MODULE,
-                                  action_id=VALVE_ACTION_IDS.PRESSURE,
-                                  action_values=msg.values)
+            values[x] = msg.values[x] * 100000.0 + 100000.0        
 
-        self.phand.send_data(bionic_msg.data)
+        self.phand.set_pressure_data(values)
 
     def set_valves_topic_cb(self, msg):
         """
         Set the valves directly
         """
         
-        bionic_action_msg = BionicValveActionMessage(msg.supply_valve_setpoints, msg.exhaust_valve_setpoints).data
-        self.phand.send_data(bionic_action_msg)
+        self.phand.set_valve_opening_data(msg.supply_valve_setpoints, msg.exhaust_valve_setpoints)        
     
     def valve_terminal_generate(self, msg):
         """
