@@ -1,8 +1,8 @@
-byte OK=0
-byte ERROR=1
+uint8 OK=0
+uint8 ERROR=1
 
 string name
-byte id
-byte state
+uint8 id
+uint8 state
 float32[] calibrated_values
 float32[] raw_values

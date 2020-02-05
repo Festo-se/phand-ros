@@ -3,5 +3,5 @@
       <node pkg="festo_phand_driver" type="festo_phand_udp_driver.py" name="phand_hardware_interface" output="screen" />
       <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" /> 
 
-      <node name="phand_debug_ui" pkg="festo_phand_driver" type="start.sh" />
+      <!-- <node name="phand_debug_ui" pkg="festo_phand_driver" type="start.sh" /> -->
 </launch>
