@@ -115,6 +115,7 @@ class ROSPhandUdpDriver():
         self.hand_state.hand_id = str(self.phand.hand_id)
         
         self.hand_state.state = self.phand.com_state
+       
         self.hand_state.connected_sensor_ids = self.phand.connected_sensor_ids
         self.hand_state.connected_sensor_names = self.phand.connected_sensor_names
 
@@ -135,11 +136,11 @@ class ROSPhandUdpDriver():
 
         resp = SetConfigurationResponse()
 
-        grip_config = self.phand.set_grip_config(msg.grip_configuration)
-        ctrl_config = self.phand.set_ctrl_mode(msg.control_configuration)
+        grip_config = self.phand.set_grip_config(msg.configuration.grip_configuration)
+        ctrl_config = self.phand.set_ctrl_mode(msg.configuration.control_configuration)
 
         if grip_config and ctrl_config:
-
+            
             resp.success = True
             resp.state.key = "0"
             resp.state.value = "Configuration set"
@@ -174,13 +175,15 @@ class ROSPhandUdpDriver():
         resp = SimpleOpenResponse()
 
         if self.phand.simple_open():
-            
+
+            rospy.loginfo("Opening the hand.")
             resp.success = True      
             resp.state.key = "0"
             resp.state.value = "Executes a simple open"
 
         else:
 
+            rospy.loginfo("Could not open the hand.")
             resp.success = False      
             resp.state.key = "1"
             resp.state.value = "Could not execute a simple open"
@@ -199,12 +202,14 @@ class ROSPhandUdpDriver():
 
         if self.phand.simple_close():
             
+            rospy.loginfo("Closing the hand in the %s grip mode.", (self.phand.grip_mode))
             resp.success = True
             resp.state.key = "0"
             resp.state.value = "Execute a simple close"
 
         else:
-
+            
+            rospy.loginfo("Could not close the hand.")
             resp.success = False      
             resp.state.key = "1"
             resp.state.value = "Could not execute a simple close"
@@ -227,8 +232,8 @@ class ROSPhandUdpDriver():
         """
 
         values = [0] * 12
-        for x in range(12):
-            values[x] = msg.values[x] * 100000.0 + 100000.0        
+        for x in range(len(msg.values)):
+            values[x] = msg.values[x] * 100000.0 + 100000.0  
 
         self.phand.set_pressure_data(values)
 
@@ -246,6 +251,7 @@ class ROSPhandUdpDriver():
         :return: none, updates internal state
         """
 
+        self.hand_state.mode.mode = self.phand.ctrl_mode
         self.hand_state.internal_sensors.actual_pressures.values = msg.actual_pressures
         self.hand_state.internal_sensors.set_pressures.values = msg.set_pressures
         self.hand_state.internal_sensors.valves.supply_valve_setpoints = msg.valve_setpoints[0:11]
