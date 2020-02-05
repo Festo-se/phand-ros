@@ -1,15 +1,14 @@
+#!/usr/bin/env python3
+
 import http.server
 import socketserver
 import os
 from urllib.parse import urlparse
 
-print (os.getcwd())
+path = os.path.abspath(__file__).replace('scripts/start_webserver.py', 'debug_ui')
+os.chdir(path)
 
-os.chdir(os.getcwd() + '/dist/hand-test-app')
-print(os.getcwd())
-
-
-PORT = 8000
+PORT = 7954
 INDEXFILE = 'index.html'
 
 class MyHandler(http.server.SimpleHTTPRequestHandler):
@@ -34,4 +33,4 @@ Handler = MyHandler
 with socketserver.TCPServer(("", PORT), Handler) as httpd:
     print("serving at port", PORT)
     httpd.serve_forever()
-
+        
