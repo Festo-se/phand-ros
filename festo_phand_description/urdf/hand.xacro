@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<robot name="hand" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find festo_phand_description)/urdf/hand_macro.xacro" />
+
+
+    <xacro:hand  prefix="" version="" />
+
+</robot>
+
+
