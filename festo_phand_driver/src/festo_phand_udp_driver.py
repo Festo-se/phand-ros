@@ -136,7 +136,7 @@ class ROSPhandUdpDriver():
 
         resp = SetConfigurationResponse()
 
-        grip_config = self.phand.set_grip_config(msg.configuration.grip_configuration)
+        grip_config = self.phand.set_grip_config_pressure(msg.configuration.grip_configuration)
         ctrl_config = self.phand.set_ctrl_mode(msg.configuration.control_configuration)
 
         if grip_config and ctrl_config:
@@ -174,7 +174,7 @@ class ROSPhandUdpDriver():
 
         resp = SimpleOpenResponse()
 
-        if self.phand.simple_open():
+        if self.phand.simple_open_pressure():
 
             rospy.loginfo("Opening the hand.")
             resp.success = True      
