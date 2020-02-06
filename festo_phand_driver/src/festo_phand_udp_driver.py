@@ -202,7 +202,7 @@ class ROSPhandUdpDriver():
 
         if self.phand.simple_close():
             
-            rospy.loginfo("Closing the hand in the %s grip mode.", (self.phand.grip_mode))
+            rospy.loginfo("Closing the hand in the grip mode: %s", (self.phand.grip_mode))
             resp.success = True
             resp.state.key = "0"
             resp.state.value = "Execute a simple close"
