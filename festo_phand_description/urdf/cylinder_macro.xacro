@@ -113,9 +113,7 @@
         <joint
                 name="${prefix}cylinder_rod"
                 type="prismatic">
-            <origin
-                    xyz="0 0 0"
-                    rpy="0 0 0"/>
+
 
             <parent link="${prefix}cylinder_base"/>
 
@@ -125,17 +123,23 @@
                     xyz="0 0 1"/>
 
             <xacro:if value="${version=='wrist'}">
+                <origin
+                    xyz="0 0 0.052"
+                    rpy="0 0 0"/>
                 <limit
-                    lower="0.037"
-                    upper="0.085"
+                    lower="-0.00"
+                    upper="0.037"
                     effort="0"
                     velocity="4"/>
             </xacro:if>
 
             <xacro:if value="${version=='index'}">
+                <origin
+                    xyz="0 0 0.0228"
+                    rpy="0 0 0"/>
                 <limit
-                    lower="0.015"
-                    upper="0.035"
+                    lower="0.02"
+                    upper="0.03"
                     effort="0"
                     velocity="4"/>
             </xacro:if>
