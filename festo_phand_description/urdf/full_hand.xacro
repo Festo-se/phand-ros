@@ -6,6 +6,7 @@
   <xacro:include filename="$(find festo_phand_description)/urdf/cylinder_macro.xacro" />
   <xacro:include filename="$(find festo_phand_description)/urdf/thumb_macro.xacro" />
   <xacro:include filename="$(find festo_phand_description)/urdf/hand_macro.xacro" />
+  <xacro:include filename="$(find festo_phand_description)/urdf/common_material_and_constants.xacro" />
 
     <xacro:wrist  prefix="" version="" />
 
@@ -223,7 +224,7 @@
                 type="revolute">
             <origin
                     xyz="-0.02396 0.02209 0.03342"
-                    rpy="0.56 -0.141 1.15"/> //1.588 0.078 0
+                    rpy="0 -0.141 1.15"/> //1.588 0.078 0
 
             <parent link="hand"/>
 

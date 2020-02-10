@@ -23,6 +23,7 @@ class JointCalculations:
         self.l5 = 26.95e-3
         self.theta3 = np.deg2rad(18.6)
 
+    # Matlab theta 4
     def calculate_wristBase_cylinderR(self, theta1, theta2):
 
         return -m.atan2(- m.cos(self.theta3)*(self.l4 - self.l1*m.cos(theta1)) - m.sin(self.theta3)*(self.l2*m.cos(theta2) - self.l5
@@ -32,7 +33,50 @@ class JointCalculations:
                          + m.pow(abs(self.l2*m.cos(theta2) - self.l5 + self.l1*m.sin(theta1)*m.sin(theta2)),2)
                             + m.pow(abs(self.l4 - self.l1*m.cos(theta1)),2)
                         ))
-    # def calculate_horizontal_R_vertical_R:
+
+    # Matlab theta5
+    def calculate_horizontal_R_vertical_R(self,theta1, theta2):
+
+        return m.atan2(
+            m.cos(self.theta3)*(self.l2*m.cos(theta2) - self.l5 +
+            self.l1*m.sin(theta1)*m.sin(theta2)) -
+            m.sin(self.theta3)*(self.l4 - self.l1*m.cos(theta1)),
+            self.calculate_rigthcylinder_rod(theta1,theta2) # L6
+        )
+
+    # Matlab theta 6
+    def calculate_wristBase_cylinderL(self, theta1, theta2):
+
+        return -m.atan2(
+            -m.cos(-self.theta3)*(self.l4 - self.l1*m.cos(theta1))
+            -m.sin(-self.theta3)*(self.l2*m.cos(theta2)
+            -self.l5 + self.l1*m.sin(theta1)*m.sin(theta2)),
+            self.calculate_leftcylinder_rod(theta1, theta2))
+
+
+    # Matlab theta7
+    def calculate_horizontal_L_vertical_L(self,theta1, theta2):
+
+        return m.atan2(
+            m.cos(-self.theta3)*(self.l2*m.cos(theta2)
+            - self.l5 + self.l1*m.sin(theta1)*m.sin(theta2))
+            - m.sin(-self.theta3)*(self.l4 - self.l1*m.cos(theta1)),
+            self.calculate_leftcylinder_rod(theta1, theta2))
+
+
+    def calculate_l0(self):
+        return self.calculate_leftcylinder_rod(0,0)
+
+    # Matlab L6
+    def calculate_rigthcylinder_rod(self,theta1, theta2):
+
+        return m.sqrt(
+            m.pow(abs(self.l4 - self.l1*m.cos(theta1)),2) +
+            m.pow(abs(self.l3 + self.l2*m.sin(theta2) + self.l1*m.cos(theta2)*m.sin(theta1)),2) +
+            m.pow(abs(self.l5 - self.l2*m.cos(theta2) + self.l1*m.sin(theta1)*m.sin(theta2)),2)
+        )
+
+    # Matlab L7
     def calculate_leftcylinder_rod(self,theta1, theta2):
 
         return m.sqrt(
@@ -40,6 +84,7 @@ class JointCalculations:
             m.pow(abs(self.l4 - self.l1*m.cos(theta1)),2) +
             m.pow(abs(self.l3 - self.l2*m.sin(theta2) + self.l1*m.cos(theta2)*m.sin(theta1)),2)
                   )
+
 
 
 class JointSlider(QSlider):
@@ -115,20 +160,27 @@ class HandJointPublisher(QWidget):
         # other joint mapping
         idx_theta1 = self.joint_state.name.index("rotation_x")
         idx_theta2 = self.joint_state.name.index("rotation_y")
-
         theta1 = self.joint_state.position[idx_theta1]
         theta2 = self.joint_state.position[idx_theta2]
+
+        # Right cylinder
+        idx_rcr = self.joint_state.name.index("rightcylinder_rod")
         idx_wbr = self.joint_state.name.index("wristBase_cylinderR")
+        idx_hrvr = self.joint_state.name.index("horizontal_R_vertical_R")
+        self.joint_state.position[idx_wbr] = -self.jc.calculate_wristBase_cylinderR(theta1,theta2)
+        self.joint_state.position[idx_hrvr] = -self.jc.calculate_horizontal_R_vertical_R(theta1,theta2)
+        self.joint_state.position[idx_rcr] = self.jc.calculate_l0() - self.jc.calculate_rigthcylinder_rod(theta1, theta2)
+
+        # Left cylinder
         idx_lcr = self.joint_state.name.index("leftcylinder_rod")
+        idx_wbl = self.joint_state.name.index("wristBase_horizontal_L")
+        idx_hrvl = self.joint_state.name.index("horizontal_L_vertical_L")
+        self.joint_state.position[idx_wbl] = self.jc.calculate_wristBase_cylinderL(theta1,theta2)
+        self.joint_state.position[idx_hrvl] = self.jc.calculate_horizontal_L_vertical_L(theta1,theta2)
+        self.joint_state.position[idx_lcr] = self.jc.calculate_leftcylinder_rod(theta1,theta2) - self.jc.calculate_l0()
 
-        self.joint_state.position[idx_wbr] = self.jc.calculate_wristBase_cylinderR(theta1,theta2)
 
-
-        self.joint_state.position[idx_lcr] = self.jc.calculate_leftcylinder_rod(theta1,theta2) - 0.1580
-
-
-
-        print(self.joint_state.position[idx_wbr])
+        print(self.joint_state.position[idx_rcr])
 
         self.publish_joint_state.publish(self.joint_state)
 

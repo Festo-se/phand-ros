@@ -27,11 +27,7 @@
                     <mesh
                             filename="package://festo_phand_description/meshes/finger/base_link.STL"/>
                 </geometry>
-                <material
-                        name="${prefix}">
-                    <color
-                            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
-                </material>
+<xacro:grey />
             </visual>
             <collision>
                 <origin
@@ -54,11 +50,7 @@
                     <mesh
                             filename="package://festo_phand_description/meshes/finger/fake_intermediate.STL"/>
                 </geometry>
-                <material
-                        name="${prefix}">
-                    <color
-                            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
-                </material>
+<xacro:grey />
             </visual>
             <collision>
                 <origin
@@ -99,11 +91,7 @@
                     <mesh
                             filename="package://festo_phand_description/meshes/finger/fake_intermediate.STL"/>
                 </geometry>
-                <material
-                        name="${prefix}">
-                    <color
-                            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
-                </material>
+<xacro:grey />
             </visual>
             <collision>
                 <origin
@@ -158,11 +146,7 @@
                     <mesh
                             filename="package://festo_phand_description/meshes/finger/fake_intermediate.STL"/>
                 </geometry>
-                <material
-                        name="${prefix}">
-                    <color
-                            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
-                </material>
+<xacro:grey />
             </visual>
             <collision>
                 <origin
@@ -217,11 +201,7 @@
                     <mesh
                             filename="package://festo_phand_description/meshes/finger/fake_intermediate.STL"/>
                 </geometry>
-                <material
-                        name="${prefix}">
-                    <color
-                            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
-                </material>
+<xacro:grey />
             </visual>
             <collision>
                 <origin
@@ -267,11 +247,7 @@
                     </xacro:if>
 
                 </geometry>
-                <material
-                        name="${prefix}">
-                    <color
-                            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
-                </material>
+<xacro:grey />
             </visual>
             <collision>
                 <origin
@@ -313,11 +289,7 @@
                     <mesh
                             filename="package://festo_phand_description/meshes/finger/fake_intermediate.STL"/>
                 </geometry>
-                <material
-                        name="${prefix}">
-                    <color
-                            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
-                </material>
+<xacro:grey />
             </visual>
             <collision>
                 <origin
@@ -380,11 +352,7 @@
                     <mesh
                             filename="package://festo_phand_description/meshes/finger/fake_intermediate.STL"/>
                 </geometry>
-                <material
-                        name="${prefix}">
-                    <color
-                            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
-                </material>
+<xacro:grey />
             </visual>
             <collision>
                 <origin
@@ -439,11 +407,7 @@
                     <mesh
                             filename="package://festo_phand_description/meshes/finger/fake_intermediate.STL"/>
                 </geometry>
-                <material
-                        name="${prefix}">
-                    <color
-                            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
-                </material>
+<xacro:grey />
             </visual>
             <collision>
                 <origin
@@ -502,11 +466,7 @@
                         <mesh filename="package://festo_phand_description/meshes/finger/phallanx_small.STL"/>
                     </xacro:if>
                 </geometry>
-                <material
-                        name="${prefix}">
-                    <color
-                            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
-                </material>
+<xacro:grey />
             </visual>
             <collision>
                 <origin
@@ -561,11 +521,7 @@
                     <mesh
                             filename="package://festo_phand_description/meshes/finger/fake_intermediate.STL"/>
                 </geometry>
-                <material
-                        name="${prefix}">
-                    <color
-                            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
-                </material>
+<xacro:grey />
             </visual>
             <collision>
                 <origin
@@ -627,11 +583,7 @@
                     <mesh
                             filename="package://festo_phand_description/meshes/finger/fake_intermediate.STL"/>
                 </geometry>
-                <material
-                        name="${prefix}">
-                    <color
-                            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
-                </material>
+<xacro:grey />
             </visual>
             <collision>
                 <origin
@@ -686,11 +638,7 @@
                     <mesh
                             filename="package://festo_phand_description/meshes/finger/fake_intermediate.STL"/>
                 </geometry>
-                <material
-                        name="${prefix}">
-                    <color
-                            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
-                </material>
+<xacro:grey />
             </visual>
             <collision>
                 <origin
@@ -745,11 +693,7 @@
                     <mesh
                             filename="package://festo_phand_description/meshes/finger/tip_link.STL"/>
                 </geometry>
-                <material
-                        name="${prefix}">
-                    <color
-                            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
-                </material>
+<xacro:grey />
             </visual>
             <collision>
                 <origin
