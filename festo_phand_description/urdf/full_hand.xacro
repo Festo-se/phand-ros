@@ -224,18 +224,18 @@
                 type="revolute">
             <origin
                     xyz="-0.02396 0.02209 0.03342"
-                    rpy="0 -0.141 1.15"/> //1.588 0.078 0
+                    rpy="${(45)*M_PI/180} -0.141 1.15"/> //1.588 0.078 0
 
             <parent link="hand"/>
 
             <child link="cylinder_base"/>
 
             <axis
-                    xyz="1 0 0"/>
+                    xyz="-1 0 0"/>
 
                 <limit
-                    lower="-1"
-                    upper="1"
+                    lower="-3"
+                    upper="3"
                     effort="0"
                     velocity="0"/>
     </joint>

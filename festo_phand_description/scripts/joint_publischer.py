@@ -21,6 +21,11 @@ class JointCalculations:
         self.l3 = 158e-3
         self.l4 = 27.02e-3
         self.l5 = 26.95e-3
+
+        self.l9     = 76.41e-3
+        self.l10    = 18.81e-3
+        self.l11_0  = self.l9-self.l10
+
         self.theta3 = np.deg2rad(18.6)
 
     # Matlab theta 4
@@ -85,6 +90,20 @@ class JointCalculations:
             m.pow(abs(self.l3 - self.l2*m.sin(theta2) + self.l1*m.cos(theta2)*m.sin(theta1)),2)
                   )
 
+    def calculate_index_angles(self, cylinder_rod ):
+
+
+
+        self.l11 = self.l11_0+cylinder_rod
+
+        ph1 =  2*m.atan(((self.l9*m.pow((self.l9 + self.l10 - self.l11),2)*m.sqrt(((self.l9 - self.l10 + self.l11)*(self.l10 - self.l9 + self.l11))/( m.pow((self.l9 + self.l10 - self.l11),3)*(self.l9 + self.l10 + self.l11))))/(self.l9 - self.l10 + self.l11) - (self.l10*m.pow((self.l9 + self.l10 - self.l11),2)*m.sqrt(((self.l9 - self.l10 + self.l11)*(self.l10 - self.l9 + self.l11))/(m.pow((self.l9 + self.l10 - self.l11),3)*(self.l9 + self.l10 + self.l11))))/(self.l9 - self.l10 + self.l11) + (self.l11*m.pow((self.l9 + self.l10 - self.l11),2)*m.sqrt(((self.l9 - self.l10 + self.l11)*(self.l10 - self.l9 + self.l11))/(m.pow((self.l9 + self.l10 - self.l11),3)*(self.l9 + self.l10 + self.l11))))/(self.l9 - self.l10 + self.l11))/(self.l9 + self.l10 - self.l11))
+
+        ph2 = 2*m.atan(m.pow((self.l9 + self.l10 - self.l11),2)*m.sqrt((((self.l9 - self.l10 + self.l11)*(self.l10 - self.l9 + self.l11))/(m.pow( (self.l9 + self.l10 - self.l11), 3)*(self.l9 + self.l10 + self.l11))))/(self.l9 - self.l10 + self.l11))
+
+        print([cylinder_rod, ph1, ph1])
+
+        return [ph1, ph2]
+
 
 
 class JointSlider(QSlider):
@@ -95,7 +114,7 @@ class JointSlider(QSlider):
         super(JointSlider, self).__init__(Qt.Horizontal)
         self.joint_name = joint_name
         self.setMinimumWidth(300)
-        self.setMinimum(-100)
+        self.setMinimum(0)
         self.setMaximum(100)
         self.setTickPosition(0)
         self.setTickPosition(QSlider.TicksBelow)
@@ -103,15 +122,28 @@ class JointSlider(QSlider):
         self.valueChanged[int].connect(self.map_value)
         self.joint_data = joint_data
 
-        self.map_value(0.0)
+        print(joint_data)
+        self.set_zero_value()
+        self.map_value(self.value())
+
 
 
     @property
     def joint_value(self):
-        if self.value() < 0:
-            return -1*((self.joint_data.limit.lower) / 100) * self.value()
+
+        return ((self.joint_data.limit.upper - self.joint_data.limit.lower ) / 100) * self.value() + self.joint_data.limit.lower
+
+
+    def set_zero_value(self):
+
+
+        zero_value = 0
+        if self.joint_data.limit.lower > 0:
+            zero_value = self.joint_data.limit.lower
         else:
-            return ((self.joint_data.limit.upper) / 100) * self.value()
+            zero_value = -self.joint_data.limit.lower / ((self.joint_data.limit.upper - self.joint_data.limit.lower ) / 100)
+
+        self.setValue(zero_value)
 
 
     def map_value(self, value):
@@ -133,10 +165,10 @@ class HandJointPublisher(QWidget):
 
         self.joint_state = JointState()
         self.jc = JointCalculations()
-        self.display_joints = ['rotation_x', 'rotation_y']
+        self.display_joints = ['rotation_x', 'rotation_y', 'cylinder_rod','index_deviation','index_cylinder_base']
         self.joint_state.name = [ 'rotation_x', 'rotation_y', 'pinky_joint_1', 'pinky_joint_6', 'ringjoint_1', 'ringjoint_6', 'middlejoint_1', 'middlejoint_6',
                                   'indexjoint_1', 'indexjoint_6', 'thumbjoint_1', 'thumbjoint_6', 'drive_rotation', 'cylinder_rod', 'leftcylinder_rod', 'rightcylinder_rod', 'index_deviation',
-                                  'index_cylinder_base', 'index_cylinder_tip', 'wristBase_horizontal_L', 'horizontal_L_vertical_L',
+                                  'index_cylinder_base', 'wristBase_horizontal_L', 'horizontal_L_vertical_L',
                                   'wristBase_cylinderR', 'horizontal_R_vertical_R']
         self.joint_state.position = [0] * len(self.joint_state.name)
         self.sliders = []
@@ -179,8 +211,18 @@ class HandJointPublisher(QWidget):
         self.joint_state.position[idx_hrvl] = self.jc.calculate_horizontal_L_vertical_L(theta1,theta2)
         self.joint_state.position[idx_lcr] = self.jc.calculate_leftcylinder_rod(theta1,theta2) - self.jc.calculate_l0()
 
+        # Calculate the index joints
+        'cylinder_rod', 'index_deviation', 'index_cylinder_base'
+        idx_irod = self.joint_state.name.index("cylinder_rod")
+        idx_idev = self.joint_state.name.index("index_deviation")
+        idx_ibase = self.joint_state.name.index("index_cylinder_base")
 
-        print(self.joint_state.position[idx_rcr])
+        [phi1, phi2] = self.jc.calculate_index_angles(self.joint_state.position[idx_irod])
+        self.joint_state.position[idx_idev] = phi1
+        self.joint_state.position[idx_ibase] =  phi2
+
+        print([self.joint_state.position[idx_rcr], self.joint_state.position[idx_irod]])
+        print([self.joint_state.position[idx_rcr], self.joint_state.position[idx_irod]])
 
         self.publish_joint_state.publish(self.joint_state)
 
@@ -217,7 +259,7 @@ class HandJointPublisher(QWidget):
 
 
 if __name__ == '__main__':
-    rospy.init_node('festo_phand_joint_state_publisher')
+    rospy.init_node('joint_state_publisher')
     signal.signal(signal.SIGINT, signal.SIG_DFL)
     app = QApplication(sys.argv)
     ui = HandJointPublisher()

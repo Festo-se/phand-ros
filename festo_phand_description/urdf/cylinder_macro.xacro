@@ -46,9 +46,18 @@
                 name="${prefix}rod">
 
             <visual>
+                 <xacro:if value="${version=='wrist'}">
                 <origin
                         xyz="0 0 0"
                         rpy="0 0 0"/>
+
+                  </xacro:if>
+                <xacro:if value="${version=='index'}">
+                <origin
+                        xyz="0 0 0.0168"
+                        rpy="0 0 0"/>
+
+                  </xacro:if>
                 <geometry>
                     <xacro:if value="${version=='wrist'}">
                         <mesh filename="package://festo_phand_description/meshes/cylinder/rod.STL"/>
@@ -135,11 +144,11 @@
 
             <xacro:if value="${version=='index'}">
                 <origin
-                    xyz="0 0 0.0228"
+                    xyz="0 0 0.00"
                     rpy="0 0 0"/>
                 <limit
-                    lower="0.02"
-                    upper="0.03"
+                    lower="0.01"
+                    upper="0.02"
                     effort="0"
                     velocity="4"/>
             </xacro:if>
