@@ -1,17 +1,17 @@
 /* FSR simple matrix testing sketch. 
-Chloe Dickson, Festo Bionics - Oct. 2019 
+Chloe Dickson, Festo Bionics - Nov. 2019 
 
 Based on:  LadyAda simple FSR testing sketch
            ROS ADC example
-           ROS Uint16Array message
+           ROS Uint16Arraz message
            
 Sensors initial range: 10kOhm-100Ohm (when pressed)
 Textile matrix setup: rows/columns of conductive textile tape (conductive 
 side against velostat), in matrix sandwich setup with velostat in the middle.
           
-Breadboard setup: Voltage divider with 10k resistor and parallel 4.7uF capa
-Horizontal lines connected to A0-2, vertical lines to digital outputs 3,5,6
-Tested on an Arduino Uno
+Breadboard setup: see default High setup, 2.2kOhm resistors. Columns 
+pulled high through resistors, rows high (to Vcc), one row pulled low 
+at a time for readout. Sampling on columns.
 */
 
 #if (ARDUINO >= 100)
@@ -34,15 +34,16 @@ void comm_callback(const std_msgs::UInt16MultiArray& msg);
 ros::Subscriber<std_msgs::UInt16MultiArray> sub("/settings" , comm_callback);
 
 uint16_t adc_msg_data[DATA_LENGTH] = {0} ;
-uint16_t setting_msg_data[3] = {0} ;
+uint16_t setting_msg_data[4] = {0} ;
 
-// the FSRs and resistors are connected to a0-2
-uint8_t row_pins[X_DIM] = {0,1,2};
-uint8_t col_pins[Y_DIM] = {3,5,6}; 
+// the FSRs and 2.2K pulldowns are connected to a0-2
+uint8_t col_pins[X_DIM] = {0,1,2};
+uint8_t row_pins[Y_DIM] = {3,5,6}; 
 
 uint16_t delay1 = 5;
 uint16_t delay2 = 5; 
 uint16_t pwmValue = 155;
+static const uint8_t MODE = 1;
 
 //Adjust sensing parameters with values entered in GUI
 void comm_callback(const std_msgs::UInt16MultiArray& msg){
@@ -62,35 +63,39 @@ void setup()
   
   adc_msg.data = adc_msg_data ;
   adc_msg.data_length = DATA_LENGTH;
+
+//  adc_msg.mode = MODE;
   
   //Set-up digital outputs for matrix serial reading
   for (uint8_t i=0; i<Y_DIM; i++){
-    pinMode(col_pins[i], OUTPUT);
+    pinMode(row_pins[i], OUTPUT);  
+    analogWrite(row_pins[i], pwmValue); //pull line high 
   }
   
   nh.initNode();
   nh.advertise(p);
   nh.subscribe(sub);
-
-  delay(2000);
-  digitalWrite(13, LOW);
 }
 
 
 void loop()
 {
-  for (uint8_t col=0; col<Y_DIM; col++){
-      
-    analogWrite(col_pins[col], pwmValue); 
+  
+  for (uint8_t row=0; row<Y_DIM; row++){
+    
+    //Pull line low with delay  
+    analogWrite(row_pins[row], 0); 
     delay(delay1);
 
-    for (uint8_t row=0; row<X_DIM; row++){
-      uint8_t i = row*Y_DIM + col;
-      adc_msg.data[i] = analogRead(row_pins[row]);
+    for (uint8_t col=0; col<X_DIM; col++){
+      uint8_t i = row*X_DIM + col;
+      adc_msg.data[i] = 1023 - analogRead(col_pins[col]);
       delay(delay2);
-    } 
-    analogWrite(col_pins[col], 0);
-    
+    }
+
+    //pull line high again
+    analogWrite(row_pins[row], pwmValue);
+
   }
       
   p.publish(&adc_msg);

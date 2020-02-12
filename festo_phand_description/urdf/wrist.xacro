@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<robot name="wrist" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find festo_phand_description)/urdf/wrist_macro.xacro" />
+
+
+    <xacro:wrist  prefix="" version="" />
+
+
+</robot>
+
+
