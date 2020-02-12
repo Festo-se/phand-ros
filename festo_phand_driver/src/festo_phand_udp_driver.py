@@ -231,11 +231,13 @@ class ROSPhandUdpDriver():
         Range: 100000.0 - 400000.0 psi
         """
 
-        values = [0] * 12
-        for x in range(len(msg.values)):
-            values[x] = msg.values[x] * 100000.0 + 100000.0  
+        # values = [0] * 12
+        # for x in range(len(msg.values)):
+        #     values[x] = msg.values[x] * 100000.0 + 100000.0  
 
-        self.phand.set_pressure_data(values)
+        # print(values)
+
+        self.phand.set_pressure_data(msg.values)
 
     def set_valves_topic_cb(self, msg):
         """
