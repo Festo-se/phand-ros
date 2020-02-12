@@ -34,6 +34,11 @@ class ROSPhandUdpDriver():
 
     def __init__(self):
 
+        # Init ros
+        rospy.init_node("festo_phand_driver")
+        # start the udp event loop
+        importlib.reload(logging) 
+
         self.phand = PHand()        
         self.phand.register_new_data_available_cb(self.new_data_available_cb)
         self.phand.set_required_msg_ids(self.required_msgs_ids)
@@ -44,8 +49,6 @@ class ROSPhandUdpDriver():
 
         self.current_time = 0
 
-        # Init ros
-        rospy.init_node("festo_phand_driver")
         state_pub = rospy.Publisher("festo/phand/state", HandState, queue_size=1)
         
         self.flex_pub = rospy.Publisher("festo/phand/connected_sensors/flex_sensors", GenericSensor, queue_size=1)
@@ -62,9 +65,6 @@ class ROSPhandUdpDriver():
         rospy.Service("festo/phand/open", SimpleOpen, self.simple_open_cb)
         rospy.Service("festo/phand/set_configuration", SetConfiguration, self.set_configuration_cb)        
 
-        # start the udp event loop
-        importlib.reload(logging)        
-
         rate = rospy.Rate(100)
         rospy.loginfo("Starting ros event loop")
         while not rospy.is_shutdown():
@@ -73,7 +73,6 @@ class ROSPhandUdpDriver():
             rate.sleep()
 
         rospy.loginfo("Shutting down udp client")
-
         self.phand.shutdown()
 
     def new_data_available_cb(self):
