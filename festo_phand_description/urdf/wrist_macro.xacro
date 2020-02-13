@@ -4,6 +4,26 @@
 
     <xacro:macro name="wrist" params="prefix version">
 
+<!--        <link-->
+<!--                name="${prefix}eef_link">-->
+<!--        </link>-->
+
+<!--        <joint-->
+<!--                name="eef_link_joint"-->
+<!--                type="fixed">-->
+<!--            <origin-->
+<!--                    xyz="0 0 -0.22232"-->
+<!--                    rpy="0 0 0"/>-->
+
+<!--            <parent link="${prefix}wrist_base"/>-->
+
+<!--            <child link="${prefix}eef_link"/>-->
+
+<!--            <axis-->
+<!--                    xyz="1 0 0"/>-->
+
+<!--        </joint>-->
+
         <link
                 name="${prefix}wrist_base">
 
@@ -14,11 +34,34 @@
                 <geometry>
                         <mesh filename="package://festo_phand_description/meshes/wrist/wrist_base.STL"/>
                 </geometry>
-                <material
-                        name="${prefix}">
-                    <color
-                            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
-                </material>
+
+
+                     <xacro:black />
+
+            </visual>
+            <collision>
+                <origin
+                        xyz="0 0 0"
+                        rpy="0 0 0"/>
+                <geometry>
+                     <mesh filename="package://festo_phand_description/meshes/wrist/wrist_base.STL"/>
+                </geometry>
+            </collision>
+        </link>
+                <link
+                name="${prefix}wrist_base2">
+
+            <visual>
+                <origin
+                        xyz="0 0 0"
+                        rpy="0 0 0"/>
+                <geometry>
+                        <mesh filename="package://festo_phand_description/meshes/static_components.STL"/>
+                </geometry>
+
+
+                     <xacro:black />
+
             </visual>
             <collision>
                 <origin
@@ -30,6 +73,8 @@
             </collision>
         </link>
 
+
+
         <link
                 name="${prefix}wrist_top">
 
@@ -40,11 +85,9 @@
                 <geometry>
                     <mesh filename="package://festo_phand_description/meshes/wrist/wrist_top.STL"/>
                 </geometry>
-                <material
-                        name="${prefix}">
-                    <color
-                            rgba="0 0.819607843137255 0.933333333333333 1"/>
-                </material>
+
+                    <xacro:black />
+
             </visual>
             <collision>
                 <origin
@@ -63,7 +106,7 @@
         </link>
 
         <joint
-                name="rotation_x"
+                name="${prefix}rotation_x"
                 type="revolute">
             <origin
                     xyz="0 0 0"
@@ -82,9 +125,23 @@
                     effort="0"
                     velocity="4"/>
         </joint>
+        <joint
+                name="${prefix}base_covers"
+                type="fixed">
+            <origin
+                    xyz="0 0 0"
+                    rpy="0 0 0"/>
 
+            <parent link="${prefix}wrist_base"/>
+
+            <child link="${prefix}wrist_base2"/>
+
+            <axis
+                    xyz="1 0 0"/>
+
+        </joint>
          <joint
-                name="rotation_y"
+                name="${prefix}rotation_y"
                 type="revolute">
             <origin
                     xyz="0 0 0"

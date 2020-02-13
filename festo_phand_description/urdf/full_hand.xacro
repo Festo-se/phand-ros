@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
-<robot name="full_hand" xmlns:xacro="http://ros.org/wiki/xacro">
+<robot name="phand" xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:macro name="phand" params="prefix">
+
+  <xacro:include filename="$(find festo_phand_description)/urdf/common_material_and_constants.xacro" />
 
   <xacro:include filename="$(find festo_phand_description)/urdf/wrist_macro.xacro" />
   <xacro:include filename="$(find festo_phand_description)/urdf/finger_macro.xacro" />
@@ -7,50 +10,50 @@
   <xacro:include filename="$(find festo_phand_description)/urdf/thumb_macro.xacro" />
   <xacro:include filename="$(find festo_phand_description)/urdf/hand_macro.xacro" />
 
-    <xacro:wrist  prefix="" version="" />
+    <xacro:wrist  prefix="${prefix}" version="" />
 
-    <xacro:finger  prefix="pinky_" version="small" />
-    <xacro:finger  prefix="ring" version="big" />
-    <xacro:finger  prefix="middle" version="big" />
-    <xacro:finger  prefix="index" version="big" />
+    <xacro:finger  prefix="${prefix}pinky_" version="small" linkjoint6="${prefix}pinky_joint1" linkjoint1="" />
+    <xacro:finger  prefix="${prefix}ring" version="big" linkjoint6="" linkjoint1=""/>
+    <xacro:finger  prefix="${prefix}middle" version="big" linkjoint6="${prefix}ring_" linkjoint1=""/>
+    <xacro:finger  prefix="${prefix}index" version="big" linkjoint6="" linkjoint1=""/>
 
-    <xacro:thumb  prefix="" version="" />
+    <xacro:thumb  prefix="${prefix}" version="" linkjoint6="" linkjoint1=""/>
 
-    <xacro:cylinder  prefix="" version="index" />
-    <xacro:cylinder  prefix="left" version="wrist" />
-    <xacro:cylinder  prefix="right" version="wrist" />
+    <xacro:cylinder  prefix="${prefix}" version="index" />
+    <xacro:cylinder  prefix="${prefix}left" version="wrist" />
+    <xacro:cylinder  prefix="${prefix}right" version="wrist" />
 
-    <xacro:hand  prefix="" version="" />
+    <xacro:hand  prefix="${prefix}" version="" />
 
-   <link name="base_link" >
+   <link name="${prefix}eef_link" >
 
    </link>
     <joint
-           name="base_joint"
+           name="${prefix}base_joint"
         type="fixed">
             <origin
-                    xyz="0 0 0"
+                    xyz="0 0 0.22232"
                     rpy="0 0 0"/> //1.629 -0.248 -0.326
 
-            <parent link="base_link"/>
-            <child link="wrist_base"/>
+            <parent link="${prefix}eef_link"/>
+            <child link="${prefix}wrist_base"/>
 
     </joint>
 
     //pinky
-  <link name="pinky_base_dummy" >
+  <link name="${prefix}pinky_base_dummy" >
 
   </link>
     <joint
-           name="hand_pinky"
+           name="${prefix}hand_pinky"
                 type="fixed">
             <origin
                     xyz="-0.04879 0.01961  0.12328"
                     rpy="1.643 -0.319 0"/> //1.629 -0.248 -0.326 .643 -0.319 0
 
-            <parent link="hand"/>
+            <parent link="${prefix}hand"/>
 
-            <child link="pinky_base_dummy"/>
+            <child link="${prefix}pinky_base_dummy"/>
 
             <axis
                     xyz="0 0 0"/>
@@ -62,15 +65,15 @@
                     velocity="0"/>
   </joint>
     <joint
-           name="hand_pinky2"
+           name="${prefix}hand_pinky2"
                 type="fixed">
             <origin
                     xyz="0 0 0"
                     rpy=" 0 1.57 0"/> //1.629 -0.248 -0.326
 
-            <parent link="pinky_base_dummy"/>
+            <parent link="${prefix}pinky_base_dummy"/>
 
-            <child link="pinky_base_link"/>
+            <child link="${prefix}pinky_base_link"/>
 
             <axis
                     xyz="0 0 0"/>
@@ -83,19 +86,19 @@
   </joint>
 
     //ring
-  <link name="ring_base_dummy" >
+  <link name="${prefix}ring_base_dummy" >
 
   </link>
     <joint
-           name="hand_ring"
+           name="${prefix}hand_ring"
                 type="fixed">
             <origin
                     xyz="-0.0182 0.02676 0.13027"
                     rpy="1.49 -0.055 0"/> //1.629 -0.248 -0.326
 
-            <parent link="hand"/>
+            <parent link="${prefix}hand"/>
 
-            <child link="ring_base_dummy"/>
+            <child link="${prefix}ring_base_dummy"/>
 
             <axis
                     xyz="0 0 0"/>
@@ -107,15 +110,15 @@
                     velocity="0"/>
     </joint>
     <joint
-           name="hand_ring2"
+           name="${prefix}hand_ring2"
                 type="fixed">
             <origin
                     xyz="0 0 0"
                     rpy=" 0 1.57 0"/> //1.629 -0.248 -0.326
 
-            <parent link="ring_base_dummy"/>
+            <parent link="${prefix}ring_base_dummy"/>
 
-            <child link="ringbase_link"/>
+            <child link="${prefix}ringbase_link"/>
 
             <axis
                     xyz="0 0 0"/>
@@ -128,19 +131,19 @@
   </joint>
 
     //middle
-  <link name="middle_base_dummy" >
+  <link name="${prefix}middle_base_dummy" >
 
   </link>
     <joint
-           name="hand_middle"
+           name="${prefix}hand_middle"
                 type="fixed">
             <origin
                     xyz="0.00579 0.01641 0.13459"
                     rpy="1.588 0.078 0"/> //1.629 -0.248 -0.326
 
-            <parent link="hand"/>
+            <parent link="${prefix}hand"/>
 
-            <child link="middle_base_dummy"/>
+            <child link="${prefix}middle_base_dummy"/>
 
             <axis
                     xyz="0 0 0"/>
@@ -152,15 +155,15 @@
                     velocity="0"/>
     </joint>
     <joint
-           name="middle_ring2"
+           name="${prefix}middle_ring2"
                 type="fixed">
             <origin
                     xyz="0 0 0"
                     rpy=" 0 1.1 0"/> //1.629 -0.248 -0.326
 
-            <parent link="middle_base_dummy"/>
+            <parent link="${prefix}middle_base_dummy"/>
 
-            <child link="middlebase_link"/>
+            <child link="${prefix}middlebase_link"/>
 
             <axis
                     xyz="0 0 0"/>
@@ -173,19 +176,19 @@
   </joint>
 
     //index
-  <link name="index_base_dummy" >
+  <link name="${prefix}index_base_dummy" >
 
   </link>
     <joint
-           name="indexBase_index"
+           name="${prefix}indexBase_index"
                 type="fixed">
             <origin
                     xyz="0.0005 0.00634 0.03501"
                     rpy="1.588 0 0"/> //1.588 0.078 0
 
-            <parent link="index_base_joint"/>
+            <parent link="${prefix}index_base_joint"/>
 
-            <child link="index_base_dummy"/>
+            <child link="${prefix}index_base_dummy"/>
 
             <axis
                     xyz="0 0 0"/>
@@ -197,15 +200,15 @@
                     velocity="0"/>
     </joint>
     <joint
-           name="indexBase_index2"
+           name="${prefix}indexBase_index2"
                 type="fixed">
             <origin
                     xyz="0 0 0"
                     rpy=" 0 -0.4 0"/> //0 1.1 0
 
-            <parent link="index_base_dummy"/>
+            <parent link="${prefix}index_base_dummy"/>
 
-            <child link="indexbase_link"/>
+            <child link="${prefix}indexbase_link"/>
 
             <axis
                     xyz="0 0 0"/>
@@ -219,57 +222,57 @@
 
     //index_cylinder
     <joint
-           name="index_cylinder_base"
+           name="${prefix}index_cylinder_base"
                 type="revolute">
             <origin
                     xyz="-0.02396 0.02209 0.03342"
-                    rpy="0 -0.141 1.15"/> //1.588 0.078 0
+                    rpy="${(45)*M_PI/180} -0.141 1.15"/> //1.588 0.078 0
 
-            <parent link="hand"/>
+            <parent link="${prefix}hand"/>
 
-            <child link="cylinder_base"/>
+            <child link="${prefix}cylinder_base"/>
 
             <axis
-                    xyz="1 0 0"/>
+                    xyz="-1 0 0"/>
 
                 <limit
-                    lower="-1"
-                    upper="1"
+                    lower="-3"
+                    upper="3"
                     effort="0"
                     velocity="0"/>
     </joint>
-    <joint
-           name="index_cylinder_tip"
-                type="revolute">
-            <origin
-                    xyz="0 0 0.04475"
-                    rpy="0 0 0"/> //1.588 0.078 0
+<!--    <joint-->
+<!--           name="${prefix}index_cylinder_tip"-->
+<!--                type="revolute">-->
+<!--            <origin-->
+<!--                    xyz="0 0 0.04475"-->
+<!--                    rpy="0 0 0"/> //1.588 0.078 0-->
 
-            <parent link="rod"/>
+<!--            <parent link="${prefix}rod"/>-->
 
-            <child link="index_base_joint"/>
+<!--            <child link="${prefix}index_base_joint"/>-->
 
-            <axis
-                    xyz="0 0 0"/>
+<!--            <axis-->
+<!--                    xyz="0 0 0"/>-->
 
-                <limit
-                    lower="0"
-                    upper="0"
-                    effort="0"
-                    velocity="0"/>
-    </joint>
+<!--                <limit-->
+<!--                    lower="0"-->
+<!--                    upper="1.0"-->
+<!--                    effort="0"-->
+<!--                    velocity="0"/>-->
+<!--    </joint>-->
 
     //thumb
     <joint
-           name="hand_thumb"
+           name="${prefix}hand_thumb"
                 type="fixed">
             <origin
                     xyz="0 0 0.025"
                     rpy="0 0 0"/> //1.588 0.078 0
 
-            <parent link="hand"/>
+            <parent link="${prefix}hand"/>
 
-            <child link="drive"/>
+            <child link="${prefix}drive"/>
 
             <axis
                     xyz="0 0 0"/>
@@ -292,15 +295,15 @@
 
 
     <joint
-           name="hand_wrist"
+           name="${prefix}hand_wrist"
                 type="fixed">
             <origin
                     xyz="0.00489 -0.0341 0.02622"
                     rpy="-0.1682 -0.0842 -1.1466"/> //-0.145 -0.13 -1.15
 
-            <parent link="wrist_top"/>
+            <parent link="${prefix}wrist_top"/>
 
-            <child link="hand"/>
+            <child link="${prefix}hand"/>
 
             <axis
                     xyz="0 0 0"/>
@@ -357,21 +360,21 @@
     //forearm_cylinders
     //LEFT
 
-    <link name="horizontal_dummyL" >
+    <link name="${prefix}horizontal_dummyL" >
   </link>
-    <link name="vertical_dummyL" >
+    <link name="${prefix}vertical_dummyL" >
   </link>
 
     <joint
-           name="wristBase_horizontal_L"
+           name="${prefix}wristBase_horizontal_L"
                 type="revolute">
             <origin
                     xyz="0.02702 0.02695 -0.15803"
                     rpy="0 0 0.349"/> //
 
-            <parent link="wrist_base"/>
+            <parent link="${prefix}wrist_base"/>
 
-            <child link="horizontal_dummyL"/> //leftcylinder_base
+            <child link="${prefix}horizontal_dummyL"/> //leftcylinder_base
 
             <axis
                     xyz="1 0 0"/>
@@ -383,15 +386,15 @@
                     velocity="0"/>
     </joint>
     <joint
-           name="horizontal_L_vertical_L"
+           name="${prefix}horizontal_L_vertical_L"
                 type="revolute">
             <origin
                     xyz="-0.00928 0 0"
                     rpy="0 0 0"/> //
 
-            <parent link="horizontal_dummyL"/>
+            <parent link="${prefix}horizontal_dummyL"/>
 
-            <child link="vertical_dummyL"/> //leftcylinder_base
+            <child link="${prefix}vertical_dummyL"/> //leftcylinder_base
 
             <axis
                     xyz="0 1 0"/>
@@ -403,15 +406,15 @@
                     velocity="0"/>
     </joint>
     <joint
-           name="vertical_L_leftcylinder_base"
+           name="${prefix}vertical_L_leftcylinder_base"
                 type="fixed">
             <origin
                     xyz="0.00928 0 0"
                     rpy="0 0 0"/> //
 
-            <parent link="vertical_dummyL"/>
+            <parent link="${prefix}vertical_dummyL"/>
 
-            <child link="leftcylinder_base"/> //
+            <child link="${prefix}leftcylinder_base"/> //
 
             <axis
                     xyz="0 0 0"/>
@@ -424,21 +427,21 @@
     </joint>
 
 
-    <link name="horizontal_dummyR" >
+    <link name="${prefix}horizontal_dummyR" >
   </link>
-    <link name="vertical_dummyR" >
+    <link name="${prefix}vertical_dummyR" >
   </link>
 
     <joint
-           name="wristBase_cylinderR"
+           name="${prefix}wristBase_cylinderR"
                 type="revolute">
             <origin
                     xyz="0.02702 -0.02695 -0.15808"
                     rpy="0 0 -0.349"/> //
 
-            <parent link="wrist_base"/>
+            <parent link="${prefix}wrist_base"/>
 
-            <child link="horizontal_dummyR"/> //leftcylinder_base
+            <child link="${prefix}horizontal_dummyR"/> //leftcylinder_base
 
             <axis
                     xyz="1 0 0"/>
@@ -450,15 +453,15 @@
                     velocity="0"/>
     </joint>
     <joint
-           name="horizontal_R_vertical_R"
+           name="${prefix}horizontal_R_vertical_R"
                 type="revolute">
             <origin
                     xyz="-0.00928 0 0"
                     rpy="0 0 0"/> //
 
-            <parent link="horizontal_dummyR"/>
+            <parent link="${prefix}horizontal_dummyR"/>
 
-            <child link="vertical_dummyR"/> //leftcylinder_base
+            <child link="${prefix}vertical_dummyR"/> //leftcylinder_base
 
             <axis
                     xyz="0 1 0"/>
@@ -470,15 +473,15 @@
                     velocity="0"/>
     </joint>
     <joint
-           name="vertical_R_rightcylinder_base"
+           name="${prefix}vertical_R_rightcylinder_base"
                 type="fixed">
             <origin
                     xyz="0.00928 0 0"
                     rpy="0 0 0"/> //
 
-            <parent link="vertical_dummyR"/>
+            <parent link="${prefix}vertical_dummyR"/>
 
-            <child link="rightcylinder_base"/> //
+            <child link="${prefix}rightcylinder_base"/> //
 
             <axis
                     xyz="0 0 0"/>
@@ -493,6 +496,7 @@
 
 
 
+    </xacro:macro>
 
 </robot>
 

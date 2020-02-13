@@ -1,0 +1,588 @@
+Panels:
+  - Class: rviz/Displays
+    Help Height: 70
+    Name: Displays
+    Property Tree Widget:
+      Expanded:
+        - /Global Options1
+        - /Status1
+        - /RobotModel1
+        - /RobotModel1/Links1
+        - /RobotModel1/Links1/eef_link1
+      Splitter Ratio: 0.5
+    Tree Height: 491
+  - Class: rviz/Views
+    Expanded:
+      - /Current View1
+    Name: Views
+    Splitter Ratio: 0.5
+  - Class: rviz/Help
+    Name: Help
+  - Class: rviz/Selection
+    Name: Selection
+Preferences:
+  PromptSaveOnExit: true
+Toolbars:
+  toolButtonStyle: 2
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Alpha: 1
+      Class: rviz/RobotModel
+      Collision Enabled: false
+      Enabled: true
+      Links:
+        All Links Enabled: true
+        Expand Joint Details: false
+        Expand Link Details: false
+        Expand Tree: false
+        Link Tree Style: Links in Alphabetic Order
+        base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        cylinder_base:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        drive:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        eef_link:
+          Alpha: 1
+          Show Axes: true
+          Show Trail: false
+        hand:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        horizontal_dummyL:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        horizontal_dummyR:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        indexPhallanx_1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        indexPhallanx_2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        index_base_dummy:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        index_base_joint:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        indexbase_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        indexfake_intermediate_1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        indexfake_intermediate_10:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        indexfake_intermediate_2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        indexfake_intermediate_3:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        indexfake_intermediate_4:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        indexfake_intermediate_5:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        indexfake_intermediate_6:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        indexfake_intermediate_7:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        indexfake_intermediate_8:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        indexfake_intermediate_9:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        indextip_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        leftball:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        leftcylinder_base:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        leftrod:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        mid:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        middlePhallanx_1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        middlePhallanx_2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        middle_base_dummy:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        middlebase_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        middlefake_intermediate_1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        middlefake_intermediate_10:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        middlefake_intermediate_2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        middlefake_intermediate_3:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        middlefake_intermediate_4:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        middlefake_intermediate_5:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        middlefake_intermediate_6:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        middlefake_intermediate_7:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        middlefake_intermediate_8:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        middlefake_intermediate_9:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        middletip_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        pinky_Phallanx_1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        pinky_Phallanx_2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        pinky_base_dummy:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        pinky_base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        pinky_fake_intermediate_1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        pinky_fake_intermediate_10:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        pinky_fake_intermediate_2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        pinky_fake_intermediate_3:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        pinky_fake_intermediate_4:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        pinky_fake_intermediate_5:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        pinky_fake_intermediate_6:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        pinky_fake_intermediate_7:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        pinky_fake_intermediate_8:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        pinky_fake_intermediate_9:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        pinky_tip_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rightball:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rightcylinder_base:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rightrod:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ringPhallanx_1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ringPhallanx_2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ring_base_dummy:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        ringbase_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ringfake_intermediate_1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ringfake_intermediate_10:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ringfake_intermediate_2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ringfake_intermediate_3:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ringfake_intermediate_4:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ringfake_intermediate_5:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ringfake_intermediate_6:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ringfake_intermediate_7:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ringfake_intermediate_8:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ringfake_intermediate_9:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ringtip_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rod:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        thumbPhallanx_1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        thumbPhallanx_2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        thumb_base:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        thumb_base_link_dummy:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        thumbbase_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        thumbfake_intermediate_1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        thumbfake_intermediate_10:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        thumbfake_intermediate_2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        thumbfake_intermediate_3:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        thumbfake_intermediate_4:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        thumbfake_intermediate_5:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        thumbfake_intermediate_6:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        thumbfake_intermediate_7:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        thumbfake_intermediate_8:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        thumbfake_intermediate_9:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        thumbtip_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        vertical_dummyL:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        vertical_dummyR:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        wrist_base:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wrist_base2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wrist_top:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+      Name: RobotModel
+      Robot Description: robot_description
+      TF Prefix: ""
+      Update Interval: 0
+      Value: true
+      Visual Enabled: true
+    - Alpha: 0.5
+      Cell Size: 1
+      Class: rviz/Grid
+      Color: 160; 160; 164
+      Enabled: true
+      Line Style:
+        Line Width: 0.029999999329447746
+        Value: Lines
+      Name: Grid
+      Normal Cell Count: 0
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Plane: XY
+      Plane Cell Count: 10
+      Reference Frame: <Fixed Frame>
+      Value: true
+  Enabled: true
+  Global Options:
+    Background Color: 48; 48; 48
+    Default Light: true
+    Fixed Frame: eef_link
+    Frame Rate: 30
+  Name: root
+  Tools:
+    - Class: rviz/Interact
+      Hide Inactive Objects: true
+    - Class: rviz/Measure
+    - Class: rviz/Select
+  Value: true
+  Views:
+    Current:
+      Class: rviz/Orbit
+      Distance: 0.7038124203681946
+      Enable Stereo Rendering:
+        Stereo Eye Separation: 0.05999999865889549
+        Stereo Focal Distance: 1
+        Swap Stereo Eyes: false
+        Value: false
+      Focal Point:
+        X: 0.08880213648080826
+        Y: 0.00375391379930079
+        Z: -0.10463063418865204
+      Focal Shape Fixed Size: true
+      Focal Shape Size: 0.05000000074505806
+      Invert Z Axis: false
+      Name: Current View
+      Near Clip Distance: 0.009999999776482582
+      Pitch: -1.0597959756851196
+      Target Frame: <Fixed Frame>
+      Value: Orbit (rviz)
+      Yaw: 0.12065083533525467
+    Saved: ~
+Window Geometry:
+  Displays:
+    collapsed: false
+  Height: 1052
+  Help:
+    collapsed: false
+  Hide Left Dock: false
+  Hide Right Dock: false
+  QMainWindow State: 000000ff00000000fd0000000200000000000001f8000003c2fc0200000003fb000000100044006900730070006c006100790073010000003d0000026e000000c900fffffffb0000000a0056006900650077007301000002b10000014e000000a400fffffffb0000000800480065006c00700000000345000000ba0000006e00ffffff0000000100000100000003c2fc0200000001fb0000001200530065006c0065006300740069006f006e010000003d000003c20000005c00ffffff0000047c000003c200000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  Selection:
+    collapsed: false
+  Views:
+    collapsed: false
+  Width: 1920
+  X: 1920
+  Y: 120

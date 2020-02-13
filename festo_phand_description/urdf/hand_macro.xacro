@@ -14,11 +14,9 @@
                 <geometry>
                         <mesh filename="package://festo_phand_description/meshes/hand.STL"/>
                 </geometry>
-                <material
-                        name="${prefix}">
-                    <color
-                            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
-                </material>
+
+                    <xacro:black />
+
             </visual>
             <collision>
                 <origin
@@ -61,7 +59,7 @@
                 type="revolute">
             <origin
                     xyz="0.02385 -0.00408 0.08704"
-                    rpy="0 -0.131 1.15"/> //0 -0.131 1.57
+                    rpy="${(45-6)*M_PI/-180} -0.131 1.15"/> //0 -0.131 1.57
 
             <parent link="${prefix}hand"/>
 
@@ -71,8 +69,8 @@
                     xyz="1 0 0"/>
 
                 <limit
-                    lower="-1"
-                    upper="1"
+                    lower="-2"
+                    upper="2"
                     effort="0"
                     velocity="4"/>
         </joint>
