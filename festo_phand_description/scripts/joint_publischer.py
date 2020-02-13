@@ -135,8 +135,7 @@ class JointSlider(QSlider):
 
 
     def set_zero_value(self):
-
-
+        print([self.joint_data.name, self.joint_data.limit.lower, self.joint_data.limit.upper])
         zero_value = 0
         if self.joint_data.limit.lower > 0:
             zero_value = self.joint_data.limit.lower
@@ -157,19 +156,21 @@ class HandJointPublisher(QWidget):
     def __init__(self):
         super(QWidget, self).__init__()
 
+        self.hand_prefix = rospy.get_param("~hand_name", "")
+        self.display_joints = rospy.get_param("~visible_joints", "")
+
         self.gridLayout = QGridLayout(self)
+        self.setWindowTitle(self.hand_prefix + "joint publisher")
         self.show()
 
         self.robot = URDF.from_parameter_server()
-        print(self.robot)
 
         self.joint_state = JointState()
         self.jc = JointCalculations()
-        self.display_joints = ['rotation_x', 'rotation_y', 'cylinder_rod','index_deviation','index_cylinder_base']
-        self.joint_state.name = [ 'rotation_x', 'rotation_y', 'pinky_joint_1', 'pinky_joint_6', 'ringjoint_1', 'ringjoint_6', 'middlejoint_1', 'middlejoint_6',
-                                  'indexjoint_1', 'indexjoint_6', 'thumbjoint_1', 'thumbjoint_6', 'drive_rotation', 'cylinder_rod', 'leftcylinder_rod', 'rightcylinder_rod', 'index_deviation',
-                                  'index_cylinder_base', 'wristBase_horizontal_L', 'horizontal_L_vertical_L',
-                                  'wristBase_cylinderR', 'horizontal_R_vertical_R']
+        self.display_joints.extend([ self.hand_prefix +'rotation_x', self.hand_prefix +'rotation_y', self.hand_prefix +'cylinder_rod'])
+        self.joint_state.name = []
+
+        self.generate_joint_list()
         self.joint_state.position = [0] * len(self.joint_state.name)
         self.sliders = []
 
@@ -181,7 +182,11 @@ class HandJointPublisher(QWidget):
         self.publish_joint_state_timer.timeout.connect(self.update_joint_state)
         self.publish_joint_state_timer.start(100)
 
+    def generate_joint_list(self):
 
+        for joint in self.robot.joints:
+            if joint.type in ["revolute","prismatic"]:
+                self.joint_state.name.append(joint.name)
 
     def update_joint_state(self):
         self.joint_state.header.stamp = rospy.Time.now()
@@ -190,32 +195,32 @@ class HandJointPublisher(QWidget):
             self.joint_state.position[row] = slider.joint_value
 
         # other joint mapping
-        idx_theta1 = self.joint_state.name.index("rotation_x")
-        idx_theta2 = self.joint_state.name.index("rotation_y")
+        idx_theta1 = self.joint_state.name.index(self.hand_prefix +"rotation_x")
+        idx_theta2 = self.joint_state.name.index(self.hand_prefix +"rotation_y")
         theta1 = self.joint_state.position[idx_theta1]
         theta2 = self.joint_state.position[idx_theta2]
 
         # Right cylinder
-        idx_rcr = self.joint_state.name.index("rightcylinder_rod")
-        idx_wbr = self.joint_state.name.index("wristBase_cylinderR")
-        idx_hrvr = self.joint_state.name.index("horizontal_R_vertical_R")
+        idx_rcr = self.joint_state.name.index(self.hand_prefix +"rightcylinder_rod")
+        idx_wbr = self.joint_state.name.index(self.hand_prefix +"wristBase_cylinderR")
+        idx_hrvr = self.joint_state.name.index(self.hand_prefix +"horizontal_R_vertical_R")
         self.joint_state.position[idx_wbr] = -self.jc.calculate_wristBase_cylinderR(theta1,theta2)
         self.joint_state.position[idx_hrvr] = -self.jc.calculate_horizontal_R_vertical_R(theta1,theta2)
         self.joint_state.position[idx_rcr] = self.jc.calculate_l0() - self.jc.calculate_rigthcylinder_rod(theta1, theta2)
 
         # Left cylinder
-        idx_lcr = self.joint_state.name.index("leftcylinder_rod")
-        idx_wbl = self.joint_state.name.index("wristBase_horizontal_L")
-        idx_hrvl = self.joint_state.name.index("horizontal_L_vertical_L")
+        idx_lcr = self.joint_state.name.index(self.hand_prefix +"leftcylinder_rod")
+        idx_wbl = self.joint_state.name.index(self.hand_prefix +"wristBase_horizontal_L")
+        idx_hrvl = self.joint_state.name.index(self.hand_prefix +"horizontal_L_vertical_L")
         self.joint_state.position[idx_wbl] = self.jc.calculate_wristBase_cylinderL(theta1,theta2)
         self.joint_state.position[idx_hrvl] = self.jc.calculate_horizontal_L_vertical_L(theta1,theta2)
         self.joint_state.position[idx_lcr] = self.jc.calculate_leftcylinder_rod(theta1,theta2) - self.jc.calculate_l0()
 
         # Calculate the index joints
         'cylinder_rod', 'index_deviation', 'index_cylinder_base'
-        idx_irod = self.joint_state.name.index("cylinder_rod")
-        idx_idev = self.joint_state.name.index("index_deviation")
-        idx_ibase = self.joint_state.name.index("index_cylinder_base")
+        idx_irod = self.joint_state.name.index(self.hand_prefix +"cylinder_rod")
+        idx_idev = self.joint_state.name.index(self.hand_prefix +"index_deviation")
+        idx_ibase = self.joint_state.name.index(self.hand_prefix +"index_cylinder_base")
 
         [phi1, phi2] = self.jc.calculate_index_angles(self.joint_state.position[idx_irod])
         self.joint_state.position[idx_idev] = phi1

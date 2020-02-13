@@ -8,8 +8,9 @@ Panels:
         - /Status1
         - /RobotModel1
         - /RobotModel1/Links1
+        - /RobotModel1/Links1/eef_link1
       Splitter Ratio: 0.5
-    Tree Height: 314
+    Tree Height: 491
   - Class: rviz/Views
     Expanded:
       - /Current View1
@@ -50,6 +51,10 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        eef_link:
+          Alpha: 1
+          Show Axes: true
+          Show Trail: false
         hand:
           Alpha: 1
           Show Axes: false
@@ -495,6 +500,11 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        wrist_base2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         wrist_top:
           Alpha: 1
           Show Axes: false
@@ -528,7 +538,7 @@ Visualization Manager:
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: wrist_base
+    Fixed Frame: eef_link
     Frame Rate: 30
   Name: root
   Tools:
@@ -540,39 +550,39 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 0.5157051682472229
+      Distance: 0.7038124203681946
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.04571523889899254
-        Y: -0.04315485805273056
-        Z: -0.016180995851755142
+        X: 0.08880213648080826
+        Y: 0.00375391379930079
+        Z: -0.10463063418865204
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: -0.02979748323559761
+      Pitch: -1.0597959756851196
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 5.498826026916504
+      Yaw: 0.12065083533525467
     Saved: ~
 Window Geometry:
   Displays:
     collapsed: false
-  Height: 780
+  Height: 1052
   Help:
     collapsed: false
   Hide Left Dock: false
   Hide Right Dock: false
-  QMainWindow State: 000000ff00000000fd0000000200000000000001f8000002b2fc0200000003fb000000100044006900730070006c006100790073010000003d000001bd000000c900fffffffb0000000a005600690065007700730100000200000000ef000000a400fffffffb0000000800480065006c00700000000345000000ba0000006e00ffffff0000000100000100000002b2fc0200000001fb0000001200530065006c0065006300740069006f006e010000003d000002b20000005c00ffffff0000029c000002b200000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000200000000000001f8000003c2fc0200000003fb000000100044006900730070006c006100790073010000003d0000026e000000c900fffffffb0000000a0056006900650077007301000002b10000014e000000a400fffffffb0000000800480065006c00700000000345000000ba0000006e00ffffff0000000100000100000003c2fc0200000001fb0000001200530065006c0065006300740069006f006e010000003d000003c20000005c00ffffff0000047c000003c200000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Views:
     collapsed: false
-  Width: 1440
-  X: 2400
-  Y: 280
+  Width: 1920
+  X: 1920
+  Y: 120
