@@ -61,8 +61,8 @@ class ROSPhandUdpDriver():
         rospy.Subscriber("festo/phand/set_positions", Positions, callback=self.set_positions_topic_cb, queue_size=1)
 
         # Offer services
-        rospy.Service("festo/phand/close", SimpleClose, self.simple_close_cb)
-        rospy.Service("festo/phand/open", SimpleOpen, self.simple_open_cb)
+        rospy.Service("festo/phand/close", SimpleOpenClose, self.simple_close_cb)
+        rospy.Service("festo/phand/open", SimpleOpenClose, self.simple_open_cb)
         rospy.Service("festo/phand/set_configuration", SetConfiguration, self.set_configuration_cb)        
 
         rate = rospy.Rate(100)
@@ -164,14 +164,14 @@ class ROSPhandUdpDriver():
         
         return resp
 
-    def simple_open_cb(self, msg: SimpleOpenRequest):
+    def simple_open_cb(self, msg: SimpleOpenCloseRequest):
         """
         Callback function for the simple open function.        
         :param msg: SimpleOpenRequest
         :return: SimpleOpenResult
         """
 
-        resp = SimpleOpenResponse()
+        resp = SimpleOpenCloseResponse()
 
         if self.phand.simple_open_pressure():
 
@@ -190,16 +190,16 @@ class ROSPhandUdpDriver():
         # Return result                  
         return resp
 
-    def simple_close_cb(self, msg: SimpleCloseRequest):
+    def simple_close_cb(self, msg: SimpleOpenCloseRequest):
         """
         Callback function for the simple close function
         :param msg: SimpleCloseRequest
         :return: SimpleCloseResult
         """
 
-        resp = SimpleCloseResponse()        
+        resp = SimpleOpenCloseResponse()        
 
-        if self.phand.simple_close():
+        if self.phand.simple_close(msg.speed, msg.pressures):
             
             rospy.loginfo("Closing the hand in the grip mode: %s", (self.phand.grip_mode))
             resp.success = True

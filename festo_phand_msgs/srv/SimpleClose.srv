@@ -1,7 +1,0 @@
-# All configuration options are optional
-HandConfiguration configuration
-float32 max_pressure # 0 - 6x10^5 [Pa]
-float32 speed        # 0-1.0
----
-bool success                    # True if required pressure is reached.
-diagnostic_msgs/KeyValue state
