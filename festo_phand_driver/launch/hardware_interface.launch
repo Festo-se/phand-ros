@@ -5,5 +5,5 @@
       <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" /> 
       <!-- <include file="$(find festo_phand_linear_axis_testsetup)/launch/hardware_launch.launch" /--> 
 
-      <node name="phand_debug_ui" pkg="festo_phand_driver" type="start_webserver.py" /> 
+      <!-- <node name="phand_debug_ui" pkg="festo_phand_driver" type="start_webserver.py" />  -->
 </launch>
