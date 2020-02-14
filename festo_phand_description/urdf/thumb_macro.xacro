@@ -4,7 +4,7 @@
 
     <xacro:macro name="thumb" params="prefix version">
 
-        <xacro:finger  prefix="thumb" version="big" />
+        <xacro:finger  prefix="${prefix}thumb" version="big" linkjoint1="" linkjoint6="" />
 
 
         <link
@@ -59,7 +59,7 @@
             </collision>
         </link>
 
-        <link name="thumb_base_link_dummy" >
+        <link name="${prefix}thumb_base_link_dummy" >
 
         </link>
 
@@ -93,7 +93,7 @@
 
             <parent link="${prefix}thumb_base"/>
 
-            <child link="thumb_base_link_dummy"/>
+            <child link="${prefix}thumb_base_link_dummy"/>
 
             <axis
                     xyz="0 0 0"/>
@@ -112,9 +112,9 @@
                     xyz="0 0 0"
                     rpy="0 2.356 0"/>
 
-            <parent link="thumb_base_link_dummy"/>
+            <parent link="${prefix}thumb_base_link_dummy"/>
 
-            <child link="thumbbase_link"/>
+            <child link="${prefix}thumbbase_link"/>
 
             <axis
                     xyz="0 0 0"/>

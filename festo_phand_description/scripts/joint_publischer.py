@@ -110,8 +110,9 @@ class JointSlider(QSlider):
 
     valueUpdated = pyqtSignal(float)
 
-    def __init__(self, joint_name, joint_data):
+    def __init__(self, joint_name, joint_data, joint_list):
         super(JointSlider, self).__init__(Qt.Horizontal)
+        self.joint_list = joint_list
         self.joint_name = joint_name
         self.setMinimumWidth(300)
         self.setMinimum(0)
@@ -126,13 +127,27 @@ class JointSlider(QSlider):
         self.set_zero_value()
         self.map_value(self.value())
 
-
-
     @property
     def joint_value(self):
 
-        return ((self.joint_data.limit.upper - self.joint_data.limit.lower ) / 100) * self.value() + self.joint_data.limit.lower
+        if self.joint_data.mimic is None:
+            return ((self.joint_data.limit.upper - self.joint_data.limit.lower ) / 100) * self.value() + self.joint_data.limit.lower
+        else:
 
+            for joint in self.joint_list:
+                if joint.joint_name in self.joint_data.mimic.joint:
+                    mul = 1
+                    offset = 0
+
+                    if type(self.joint_data.mimic.multiplier) is float:
+                        mul = self.joint_data.mimic.multiplier
+
+                    if type(self.joint_data.mimic.offset) is float:
+                        offset = self.joint_data.mimic.offset
+
+                    return joint.joint_value*mul + offset
+            rospy.logwarn("Mimic joint not found from: %s to: %s "%(self.joint_name, self.joint_data.mimic.joint))
+            return 0.0
 
     def set_zero_value(self):
         print([self.joint_data.name, self.joint_data.limit.lower, self.joint_data.limit.upper])
@@ -144,11 +159,8 @@ class JointSlider(QSlider):
 
         self.setValue(zero_value)
 
-
     def map_value(self, value):
         self.valueUpdated.emit(self.joint_value)
-
-
 
 
 class HandJointPublisher(QWidget):
@@ -158,6 +170,17 @@ class HandJointPublisher(QWidget):
 
         self.hand_prefix = rospy.get_param("~hand_name", "")
         self.display_joints = rospy.get_param("~visible_joints", "")
+        self.joint_wild_card = rospy.get_param("~show_all_joints_with", "phand_")
+        self.not_display_joints = [
+            self.hand_prefix +'rightcylinder_rod',
+            self.hand_prefix +'wristBase_cylinderR',
+            self.hand_prefix +'horizontal_R_vertical_R',
+            self.hand_prefix +'leftcylinder_rod',
+            self.hand_prefix +'wristBase_horizontal_L',
+            self.hand_prefix +'horizontal_L_vertical_L',
+            self.hand_prefix +'index_deviation',
+            self.hand_prefix +'index_cylinder_base',
+        ]
 
         self.gridLayout = QGridLayout(self)
         self.setWindowTitle(self.hand_prefix + "joint publisher")
@@ -217,7 +240,6 @@ class HandJointPublisher(QWidget):
         self.joint_state.position[idx_lcr] = self.jc.calculate_leftcylinder_rod(theta1,theta2) - self.jc.calculate_l0()
 
         # Calculate the index joints
-        'cylinder_rod', 'index_deviation', 'index_cylinder_base'
         idx_irod = self.joint_state.name.index(self.hand_prefix +"cylinder_rod")
         idx_idev = self.joint_state.name.index(self.hand_prefix +"index_deviation")
         idx_ibase = self.joint_state.name.index(self.hand_prefix +"index_cylinder_base")
@@ -231,8 +253,6 @@ class HandJointPublisher(QWidget):
 
         self.publish_joint_state.publish(self.joint_state)
 
-
-
     def find_joint_data(self, name):
 
         for joint_data in self.robot.joints:
@@ -241,9 +261,7 @@ class HandJointPublisher(QWidget):
 
     def setup_gui(self):
 
-
         for row, joint in enumerate(self.joint_state.name):
-
 
             lbl = QLabel(joint)
             lbl_value = QLabel()
@@ -251,13 +269,25 @@ class HandJointPublisher(QWidget):
             lbl_value.setMinimumWidth(50)
             lbl_value.setMaximumWidth(50)
             joint_data = self.find_joint_data(joint)
-            self.sliders.append(JointSlider(joint, joint_data))
+
+
+            self.sliders.append(JointSlider(joint, joint_data, self.sliders))
             self.sliders[row].valueUpdated.connect(lbl_value.setNum)
 
-            if joint in self.display_joints:
+            if joint not in self.not_display_joints and ( joint in self.display_joints or ( self.joint_wild_card in joint and joint_data.mimic is None) ):
                 self.gridLayout.addWidget(lbl,row,0)
                 self.gridLayout.addWidget(self.sliders[row], row, 1)
                 self.gridLayout.addWidget(lbl_value, row, 2)
+
+
+
+
+
+
+
+
+
+
 
 
 
