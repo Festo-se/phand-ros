@@ -8,7 +8,6 @@ Panels:
         - /Status1
         - /RobotModel1
         - /RobotModel1/Links1
-        - /RobotModel1/Links1/eef_link1
       Splitter Ratio: 0.5
     Tree Height: 491
   - Class: rviz/Views
@@ -37,475 +36,471 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        base_link:
+        phand1_cylinder_base:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        cylinder_base:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
           Value: true
-        drive:
+        phand1_drive:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        eef_link:
+        phand1_eef_link:
           Alpha: 1
-          Show Axes: true
+          Show Axes: false
           Show Trail: false
-        hand:
+        phand1_hand:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        horizontal_dummyL:
+        phand1_horizontal_dummyL:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        horizontal_dummyR:
+        phand1_horizontal_dummyR:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        indexPhallanx_1:
+        phand1_indexPhallanx_1:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        indexPhallanx_2:
+        phand1_indexPhallanx_2:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        index_base_dummy:
+        phand1_index_base_dummy:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        index_base_joint:
+        phand1_index_base_joint:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        indexbase_link:
+        phand1_indexbase_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        indexfake_intermediate_1:
+        phand1_indexfake_intermediate_1:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        indexfake_intermediate_10:
+        phand1_indexfake_intermediate_10:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        indexfake_intermediate_2:
+        phand1_indexfake_intermediate_2:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        indexfake_intermediate_3:
+        phand1_indexfake_intermediate_3:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        indexfake_intermediate_4:
+        phand1_indexfake_intermediate_4:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        indexfake_intermediate_5:
+        phand1_indexfake_intermediate_5:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        indexfake_intermediate_6:
+        phand1_indexfake_intermediate_6:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        indexfake_intermediate_7:
+        phand1_indexfake_intermediate_7:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        indexfake_intermediate_8:
+        phand1_indexfake_intermediate_8:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        indexfake_intermediate_9:
+        phand1_indexfake_intermediate_9:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        indextip_link:
+        phand1_indextip_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        leftball:
+        phand1_leftball:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        leftcylinder_base:
+        phand1_leftcylinder_base:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        leftrod:
+        phand1_leftrod:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        mid:
+        phand1_mid:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        middlePhallanx_1:
+        phand1_middlePhallanx_1:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        middlePhallanx_2:
+        phand1_middlePhallanx_2:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        middle_base_dummy:
+        phand1_middle_base_dummy:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        middlebase_link:
+        phand1_middlebase_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        middlefake_intermediate_1:
+        phand1_middlefake_intermediate_1:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        middlefake_intermediate_10:
+        phand1_middlefake_intermediate_10:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        middlefake_intermediate_2:
+        phand1_middlefake_intermediate_2:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        middlefake_intermediate_3:
+        phand1_middlefake_intermediate_3:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        middlefake_intermediate_4:
+        phand1_middlefake_intermediate_4:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        middlefake_intermediate_5:
+        phand1_middlefake_intermediate_5:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        middlefake_intermediate_6:
+        phand1_middlefake_intermediate_6:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        middlefake_intermediate_7:
+        phand1_middlefake_intermediate_7:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        middlefake_intermediate_8:
+        phand1_middlefake_intermediate_8:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        middlefake_intermediate_9:
+        phand1_middlefake_intermediate_9:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        middletip_link:
+        phand1_middletip_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        pinky_Phallanx_1:
+        phand1_pinky_Phallanx_1:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        pinky_Phallanx_2:
+        phand1_pinky_Phallanx_2:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        pinky_base_dummy:
+        phand1_pinky_base_dummy:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        pinky_base_link:
+        phand1_pinky_base_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        pinky_fake_intermediate_1:
+        phand1_pinky_fake_intermediate_1:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        pinky_fake_intermediate_10:
+        phand1_pinky_fake_intermediate_10:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        pinky_fake_intermediate_2:
+        phand1_pinky_fake_intermediate_2:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        pinky_fake_intermediate_3:
+        phand1_pinky_fake_intermediate_3:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        pinky_fake_intermediate_4:
+        phand1_pinky_fake_intermediate_4:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        pinky_fake_intermediate_5:
+        phand1_pinky_fake_intermediate_5:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        pinky_fake_intermediate_6:
+        phand1_pinky_fake_intermediate_6:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        pinky_fake_intermediate_7:
+        phand1_pinky_fake_intermediate_7:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        pinky_fake_intermediate_8:
+        phand1_pinky_fake_intermediate_8:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        pinky_fake_intermediate_9:
+        phand1_pinky_fake_intermediate_9:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        pinky_tip_link:
+        phand1_pinky_tip_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rightball:
+        phand1_rightball:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rightcylinder_base:
+        phand1_rightcylinder_base:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rightrod:
+        phand1_rightrod:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        ringPhallanx_1:
+        phand1_ringPhallanx_1:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        ringPhallanx_2:
+        phand1_ringPhallanx_2:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        ring_base_dummy:
+        phand1_ring_base_dummy:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        ringbase_link:
+        phand1_ringbase_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        ringfake_intermediate_1:
+        phand1_ringfake_intermediate_1:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        ringfake_intermediate_10:
+        phand1_ringfake_intermediate_10:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        ringfake_intermediate_2:
+        phand1_ringfake_intermediate_2:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        ringfake_intermediate_3:
+        phand1_ringfake_intermediate_3:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        ringfake_intermediate_4:
+        phand1_ringfake_intermediate_4:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        ringfake_intermediate_5:
+        phand1_ringfake_intermediate_5:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        ringfake_intermediate_6:
+        phand1_ringfake_intermediate_6:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        ringfake_intermediate_7:
+        phand1_ringfake_intermediate_7:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        ringfake_intermediate_8:
+        phand1_ringfake_intermediate_8:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        ringfake_intermediate_9:
+        phand1_ringfake_intermediate_9:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        ringtip_link:
+        phand1_ringtip_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rod:
+        phand1_rod:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        thumbPhallanx_1:
+        phand1_thumbPhallanx_1:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        thumbPhallanx_2:
+        phand1_thumbPhallanx_2:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        thumb_base:
+        phand1_thumb_base:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        thumb_base_link_dummy:
+        phand1_thumb_base_link_dummy:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        thumbbase_link:
+        phand1_thumbbase_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        thumbfake_intermediate_1:
+        phand1_thumbfake_intermediate_1:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        thumbfake_intermediate_10:
+        phand1_thumbfake_intermediate_10:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        thumbfake_intermediate_2:
+        phand1_thumbfake_intermediate_2:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        thumbfake_intermediate_3:
+        phand1_thumbfake_intermediate_3:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        thumbfake_intermediate_4:
+        phand1_thumbfake_intermediate_4:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        thumbfake_intermediate_5:
+        phand1_thumbfake_intermediate_5:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        thumbfake_intermediate_6:
+        phand1_thumbfake_intermediate_6:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        thumbfake_intermediate_7:
+        phand1_thumbfake_intermediate_7:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        thumbfake_intermediate_8:
+        phand1_thumbfake_intermediate_8:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        thumbfake_intermediate_9:
+        phand1_thumbfake_intermediate_9:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        thumbtip_link:
+        phand1_thumbtip_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        vertical_dummyL:
+        phand1_vertical_dummyL:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        vertical_dummyR:
+        phand1_vertical_dummyR:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        wrist_base:
+        phand1_wrist_base:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        wrist_base2:
+        phand1_wrist_base2:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        wrist_top:
+        phand1_wrist_top:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -538,7 +533,7 @@ Visualization Manager:
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: eef_link
+    Fixed Frame: phand1_eef_link
     Frame Rate: 30
   Name: root
   Tools:
@@ -578,7 +573,7 @@ Window Geometry:
     collapsed: false
   Hide Left Dock: false
   Hide Right Dock: false
-  QMainWindow State: 000000ff00000000fd0000000200000000000001f8000003c2fc0200000003fb000000100044006900730070006c006100790073010000003d0000026e000000c900fffffffb0000000a0056006900650077007301000002b10000014e000000a400fffffffb0000000800480065006c00700000000345000000ba0000006e00ffffff0000000100000100000003c2fc0200000001fb0000001200530065006c0065006300740069006f006e010000003d000003c20000005c00ffffff0000047c000003c200000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd000000020000000000000379000003c2fc0200000003fb000000100044006900730070006c006100790073010000003d0000026e000000c900fffffffb0000000a0056006900650077007301000002b10000014e000000a400fffffffb0000000800480065006c00700000000345000000ba0000006e00ffffff0000000100000100000003c2fc0200000001fb0000001200530065006c0065006300740069006f006e010000003d000003c20000005c00ffffff000002fb000003c200000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Views:

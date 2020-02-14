@@ -2,7 +2,7 @@
 
 <robot name="finger" xmlns:xacro="http://ros.org/wiki/xacro">
 
-    <xacro:macro name="finger" params="prefix version linkchambers">
+    <xacro:macro name="finger" params="prefix version linkjoint1 linkjoint6">
 
 
         <link
@@ -81,6 +81,9 @@
                     upper="0.25"
                     effort="0"
                     velocity="0"/>
+            <xacro:if value="${linkjoint1!=''}">
+                <mimic joint="${linkjoint1}"/>
+            </xacro:if>
         </joint>
         <link
                 name="${prefix}fake_intermediate_2">
@@ -319,7 +322,7 @@
             </xacro:if>
 
             <xacro:if value="${linkjoint6!=''}">
-                <mimic joint="${linkto}"/>
+                <mimic joint="${linkjoint6}"/>
             </xacro:if>
 
             <parent

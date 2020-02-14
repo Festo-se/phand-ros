@@ -31,6 +31,10 @@ class HandPressureSlider(QSlider):
 
         self.valueChanged[int].connect(self.map_value)
 
+        self.setStyleSheet("QSlider::groove:horizontal { border: 1px solid #999999; height: 8px; background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #B1B1B1, stop:1 #c4c4c4); margin: 2px 0;}"
+                           "QSlider::handle:horizontal { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #b4b4b4, stop:1 #8f8f8f); "
+                           "border: 1px solid #5c5c5c;height:30px;width: 30px;margin: -5px 0; border-radius: 3px;}")
+
     @property
     def joint_value(self):
         return self.value() * self.max_pressure/100
@@ -86,12 +90,13 @@ class HandControllerGui(QWidget):
 
         self.show()
 
-
     def hand_state_cb(self, msg):
 
+        # msg=HandState()
+        # msg.
         for num, pressure in enumerate(msg.internal_sensors.actual_pressures.values):
-            self.pressure_lbls[num].setNum( round(pressure/1e5-1,2))
-
+            # self.pressure_lbls[num].setNum( round(pressure/1e5-1,2))
+            self.pressure_lbls[num].setText("%.2f" % round(pressure/1e5-1, 2) )
 
     def setup_gui(self):
 
@@ -99,6 +104,7 @@ class HandControllerGui(QWidget):
             lbl = QLabel(str(joint))
             lbl_value = QLabel()
             lbl_value.setNum(0.00)
+
             lbl_value.setMinimumWidth(50)
             lbl_value.setMaximumWidth(50)
 
@@ -106,15 +112,16 @@ class HandControllerGui(QWidget):
             self.sliders[row].valueUpdated.connect(lbl_value.setNum)
             self.sliders[row].valueUpdated.connect(self.open_btn_click)
 
-
             self.gridLayout.addWidget(lbl, row, 0)
             self.gridLayout.addWidget(self.sliders[row], row, 1)
             self.gridLayout.addWidget(lbl_value, row, 2)
 
         for row, joint in enumerate(self.joints):
             lbl = QLabel(str(0.0))
-            lbl_value.setMinimumWidth(150)
-            lbl_value.setMaximumWidth(150)
+            lbl.setMinimumWidth(50)
+            lbl.setMaximumWidth(50
+                                )
+
             self.pressure_lbls.append(lbl)
 
             lbl_value = QLabel()
@@ -129,7 +136,6 @@ class HandControllerGui(QWidget):
             self.gridLayout.addWidget(self.sliders[row + len(self.joints)], row, 3)
             self.gridLayout.addWidget(lbl_value, row, 4)
             self.gridLayout.addWidget(lbl, row, 5)
-
 
         btn_open = QPushButton("Open")
         btn_open.clicked.connect(self.open_btn_click)
@@ -147,7 +153,7 @@ class HandControllerGui(QWidget):
         self.gridLayout.addWidget(lbl, len(self.joints) + 1, 2)
 
 
-        self.gridLayout.addWidget(self.overall_slider, len(self.joints) + 2, 1, 1,4)
+        self.gridLayout.addWidget(self.overall_slider, len(self.joints) + 2, 0, 1,6)
 
 
     def generate_publish_data(self, suffix):
