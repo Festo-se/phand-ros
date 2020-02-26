@@ -32,11 +32,11 @@
                         rpy="0 0 0"/>
                 <geometry>
                      <xacro:if value="${version=='wrist'}">
-                        <mesh filename="package://festo_phand_description/meshes/cylinder/cylinder_base.STL"/>
+                        <mesh filename="package://festo_phand_description/meshes/cylinder/cylinder_base_convex.STL"/>
                     </xacro:if>
 
                     <xacro:if value="${version=='index'}">
-                        <mesh filename="package://festo_phand_description/meshes/cylinder/index_cylinder_base.STL"/>
+                        <mesh filename="package://festo_phand_description/meshes/cylinder/index_cylinder_base_convex.STL"/>
                     </xacro:if>
                 </geometry>
             </collision>
@@ -79,11 +79,11 @@
                         rpy="0 0 0"/>
                 <geometry>
                     <xacro:if value="${version=='wrist'}">
-                        <mesh filename="package://festo_phand_description/meshes/cylinder/rod.STL"/>
+                        <mesh filename="package://festo_phand_description/meshes/cylinder/rod_convex.STL"/>
                     </xacro:if>
 
                     <xacro:if value="${version=='index'}">
-                        <mesh filename="package://festo_phand_description/meshes/cylinder/index_rod.STL"/>
+                        <mesh filename="package://festo_phand_description/meshes/cylinder/index_rod_convex.STL"/>
                     </xacro:if>
                 </geometry>
             </collision>
@@ -113,7 +113,7 @@
                             rpy="0 0 0"/>
                     <geometry>
                         <mesh
-                                filename="package://festo_phand_description/meshes/cylinder/ball.STL"/>
+                                filename="package://festo_phand_description/meshes/cylinder/ball_convex.STL"/>
                     </geometry>
                 </collision>
             </link>

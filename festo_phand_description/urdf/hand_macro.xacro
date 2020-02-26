@@ -23,7 +23,7 @@
                         xyz="0 0 0"
                         rpy="0 0 0"/>
                 <geometry>
-                     <mesh filename="package://festo_phand_description/meshes/hand.STL"/>
+                     <mesh filename="package://festo_phand_description/meshes/hand_convex.STL"/>
                 </geometry>
             </collision>
         </link>
@@ -49,7 +49,7 @@
                         xyz="0 0 0"
                         rpy="0 0 0"/>
                 <geometry>
-                    <mesh filename="package://festo_phand_description/meshes/index_base_joint.STL"/>
+                    <mesh filename="package://festo_phand_description/meshes/index_base_joint_convex.STL"/>
                 </geometry>
             </collision>
         </link>
