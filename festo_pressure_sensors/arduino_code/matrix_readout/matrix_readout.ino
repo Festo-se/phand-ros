@@ -13,7 +13,7 @@ delay1: [0, 255] delay before measuring after pulling a line up (between rows)
 delay2: [0, 255] delay after measuring (between each columns of the same row)
 delay3: [0, 255] delay after pulling column low (between rows)
 
-Limited mode:¨
+Limited mode:
 Reads only a finite number of sensor values then stops the program. Useful 
 for exporting and analysing small data subsets. A LED indicates when measuring.
 Copy-paste the serial output into a .csv (or .txt) file, save then press reset.
@@ -32,14 +32,13 @@ A LED is connected to Digital Output pin 13 (optional).
 
 static const uint8_t X_DIM = 3; // number of columns per matrix
 static const uint8_t Y_DIM = 3; // number of rows per matrix
-static const uint8_t MATRIX_COUNT = 1; // number of matrices
+static const uint8_t MATRIX_COUNT = 2; // number of matrices
 static const uint8_t X_DIM_TOT = X_DIM*MATRIX_COUNT; // total number of columns
 static const uint8_t DATA_LENGTH = X_DIM*Y_DIM; // data length of a single matrix
 
 // un-/comment or modify column/row lines to reflect the hardware setup
-uint8_t col_pins[X_DIM_TOT] = {2,3,4}; // DOx Vertical lines (1, 2, 3)
-//{2,3,4}
-//uint8_t col_pins[X_DIM_TOT] = {2,3,4,5,6,7}; // 2 matrices
+//uint8_t col_pins[X_DIM_TOT] = {2,3,4}; // DOx Vertical lines (1, 2, 3)
+uint8_t col_pins[X_DIM_TOT] = {2,3,4,5,6,7}; // 2 matrices
 //uint8_t col_pins[X_DIM_TOT] = {2,3,4,5,6,7,8,9,10}; // 3 matrices
 uint8_t row_pins[Y_DIM] = {0,1,2}; // AIx Horizontal lines (A, B, C)
 
@@ -76,8 +75,8 @@ void setup()
   // Print Serial Plotter labels for 3x3 matrices, un-/comment or modify
   // label lines to reflect the hardware setup
   Serial.print("A1,A2,A3,B1,B2,B3,C1,C2,C3,");
-  //Serial.print("2-A1,2-A2,2-A3,2-B1,2-B2,2-B3,2-C1,2-C2,2-C3,");
-  //Serial.print("3-A1,3-A2,3-A3,3-B1,3-B2,3-B3,3-C1,3-C2,3-C3,");
+//  Serial.print("2-A1, 2-A2, 2-A3, 2-B1, 2-B2, 2-B3, 2-C1, 2-C2, 2-C3, ");
+//  Serial.print("3-A1, 3-A2, 3-A3, 3-B1, 3-B2, 3-B3, 3-C1, 3-C2, 3-C3, ");
   Serial.println("");
 
   digitalWrite(13, HIGH);

@@ -27,6 +27,27 @@ def time_plot(df, sample_name):
 
     return
 
+def time_plot2(df, sample_name,labels):
+    # Initialise figure
+    fig, ax = plt.subplots(figsize=(16, 4))
+    ax.plot(df)
+
+    # Define colour space for lines
+    colourmap = plt.cm.gist_ncar
+    plt.gca().set_prop_cycle(plt.cycler('color', plt.cm.jet(np.linspace(0, 0.9, 9))))
+
+    # Set up layout
+    ax.set(xlabel='time steps',
+           ylabel='signal (analog counts)',
+           title='data sample: ' + sample_name)
+    ax.legend(labels)
+    ax.grid()
+
+    #     fig.savefig("data/figures/"+sample_name+"_timeplot.png")
+    plt.show()
+
+    return
+
 
 def max_plot(data, sample_name):
     fig, ax = plt.subplots(figsize=(16, 4))
