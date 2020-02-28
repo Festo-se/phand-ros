@@ -30,9 +30,8 @@ find_package(catkin REQUIRED COMPONENTS
     SetConfiguration.srv
     SetCtrlMode.srv
     SetImuOffsets.srv
-    SetTactileOffsets.srv
-    SimpleClose.srv
-    SimpleOpen.srv
+    SetTactileOffsets.srv    
+    SimpleOpenClose.srv
 
  )
 

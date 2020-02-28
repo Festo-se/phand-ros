@@ -1,0 +1,175 @@
+<?xml version="1.0"?>
+
+<robot name="cylinder" xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <xacro:macro name="cylinder" params="prefix version">
+
+        <link
+                name="${prefix}cylinder_base">
+
+            <visual>
+                <origin
+                        xyz="0 0 0"
+                        rpy="0 0 0"/>
+                <geometry>
+                    <xacro:if value="${version=='wrist'}">
+                        <mesh filename="package://festo_phand_description/meshes/cylinder/cylinder_base.STL"/>
+                    </xacro:if>
+
+                    <xacro:if value="${version=='index'}">
+                        <mesh filename="package://festo_phand_description/meshes/cylinder/index_cylinder_base.STL"/>
+                    </xacro:if>
+                </geometry>
+                <material
+                        name="${prefix}">
+                    <color
+                            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+                </material>
+            </visual>
+            <collision>
+                <origin
+                        xyz="0 0 0"
+                        rpy="0 0 0"/>
+                <geometry>
+                     <xacro:if value="${version=='wrist'}">
+                        <mesh filename="package://festo_phand_description/meshes/cylinder/cylinder_base_convex.STL"/>
+                    </xacro:if>
+
+                    <xacro:if value="${version=='index'}">
+                        <mesh filename="package://festo_phand_description/meshes/cylinder/index_cylinder_base_convex.STL"/>
+                    </xacro:if>
+                </geometry>
+            </collision>
+        </link>
+
+        <link
+                name="${prefix}rod">
+
+            <visual>
+                 <xacro:if value="${version=='wrist'}">
+                <origin
+                        xyz="0 0 0"
+                        rpy="0 0 0"/>
+
+                  </xacro:if>
+                <xacro:if value="${version=='index'}">
+                <origin
+                        xyz="0 0 0.0168"
+                        rpy="0 0 0"/>
+
+                  </xacro:if>
+                <geometry>
+                    <xacro:if value="${version=='wrist'}">
+                        <mesh filename="package://festo_phand_description/meshes/cylinder/rod.STL"/>
+                    </xacro:if>
+
+                    <xacro:if value="${version=='index'}">
+                        <mesh filename="package://festo_phand_description/meshes/cylinder/index_rod.STL"/>
+                    </xacro:if>
+                </geometry>
+                <material
+                        name="${prefix}">
+                    <color
+                            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+                </material>
+            </visual>
+            <collision>
+                <origin
+                        xyz="0 0 0"
+                        rpy="0 0 0"/>
+                <geometry>
+                    <xacro:if value="${version=='wrist'}">
+                        <mesh filename="package://festo_phand_description/meshes/cylinder/rod_convex.STL"/>
+                    </xacro:if>
+
+                    <xacro:if value="${version=='index'}">
+                        <mesh filename="package://festo_phand_description/meshes/cylinder/index_rod_convex.STL"/>
+                    </xacro:if>
+                </geometry>
+            </collision>
+        </link>
+
+        <xacro:if value="${version=='wrist'}">
+            <link
+                    name="${prefix}ball">
+
+                <visual>
+                    <origin
+                            xyz="0 0 0"
+                            rpy="0 0 0"/>
+                    <geometry>
+                        <mesh
+                                filename="package://festo_phand_description/meshes/cylinder/ball.STL"/>
+                    </geometry>
+                    <material
+                            name="${prefix}">
+                        <color
+                                rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+                    </material>
+                </visual>
+                <collision>
+                    <origin
+                            xyz="0 0 0"
+                            rpy="0 0 0"/>
+                    <geometry>
+                        <mesh
+                                filename="package://festo_phand_description/meshes/cylinder/ball_convex.STL"/>
+                    </geometry>
+                </collision>
+            </link>
+        </xacro:if>
+
+        <joint
+                name="${prefix}cylinder_rod"
+                type="prismatic">
+
+
+            <parent link="${prefix}cylinder_base"/>
+
+            <child link="${prefix}rod"/>
+
+            <axis
+                    xyz="0 0 1"/>
+
+            <xacro:if value="${version=='wrist'}">
+                <origin
+                    xyz="0 0 0.052"
+                    rpy="0 0 0"/>
+                <limit
+                    lower="-0.00"
+                    upper="0.037"
+                    effort="0"
+                    velocity="4"/>
+            </xacro:if>
+
+            <xacro:if value="${version=='index'}">
+                <origin
+                    xyz="0 0 0.00"
+                    rpy="0 0 0"/>
+                <limit
+                    lower="0.01"
+                    upper="0.02"
+                    effort="0"
+                    velocity="4"/>
+            </xacro:if>
+
+        </joint>
+
+        <xacro:if value="${version=='wrist'}">
+             <joint
+                    name="${prefix}rod_ball"
+                    type="fixed">
+                <origin
+                        xyz="0 0 0.106"
+                        rpy="0 0 0"/>
+                <parent
+                        link="${prefix}rod"/>
+                <child
+                        link="${prefix}ball"/>
+                <axis
+                        xyz="0 1 0"/>
+            </joint>
+        </xacro:if>
+
+    </xacro:macro>
+</robot>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<robot name="thumb" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find festo_phand_description)/urdf/thumb_macro.xacro" />
+  <xacro:include filename="$(find festo_phand_description)/urdf/finger_macro.xacro" />
+
+  <xacro:finger  prefix="thumb" version="big" linkjoint1="" linkjoint6="" />
+
+  <xacro:thumb  prefix="" version="" />
+
+</robot>
+
+

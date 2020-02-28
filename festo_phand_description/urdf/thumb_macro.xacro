@@ -1,0 +1,130 @@
+<?xml version="1.0"?>
+
+<robot name="thumb" xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <xacro:macro name="thumb" params="prefix version">
+
+        <xacro:finger  prefix="${prefix}thumb" version="big" linkjoint1="" linkjoint6="" />
+
+
+        <link
+                name="${prefix}drive">
+
+            <visual>
+                <origin
+                        xyz="0 0 0"
+                        rpy="0 0 0"/>
+                <geometry>
+                        <mesh filename="package://festo_phand_description/meshes/thumb/drive.STL"/>
+                </geometry>
+                <material
+                        name="${prefix}">
+                    <color
+                            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+                </material>
+            </visual>
+            <collision>
+                <origin
+                        xyz="0 0 0"
+                        rpy="0 0 0"/>
+                <geometry>
+                        <mesh filename="package://festo_phand_description/meshes/thumb/drive_convex.STL"/>
+                </geometry>
+            </collision>
+        </link>
+
+        <link
+                name="${prefix}thumb_base">
+
+            <visual>
+                <origin
+                        xyz="0 0 0"
+                        rpy="0 0 0"/>
+                <geometry>
+                        <mesh filename="package://festo_phand_description/meshes/thumb/thumb_base.STL"/>
+                </geometry>
+                <material
+                        name="${prefix}">
+                    <color
+                            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+                </material>
+            </visual>
+            <collision>
+                <origin
+                        xyz="0 0 0"
+                        rpy="0 0 0"/>
+                <geometry>
+                        <mesh filename="package://festo_phand_description/meshes/thumb/thumb_base_convex.STL"/>
+                </geometry>
+            </collision>
+        </link>
+
+        <link name="${prefix}thumb_base_link_dummy" >
+
+        </link>
+
+        <joint
+                name="${prefix}drive_rotation"
+                type="revolute">
+            <origin
+                    xyz="0 0 0"
+                    rpy="0 0 0"/>
+
+            <parent link="${prefix}drive"/>
+
+            <child link="${prefix}thumb_base"/>
+
+            <axis
+                    xyz="0 0 1"/>
+
+                <limit
+                    lower="-1"
+                    upper="1"
+                    effort="0"
+                    velocity="4"/>
+        </joint>
+
+        <joint
+                name="${prefix}finger2base"
+                type="fixed">
+            <origin
+                    xyz="0.02653 -0.02601 0.0293"
+                    rpy="0.393 0 -2.35"/>
+
+            <parent link="${prefix}thumb_base"/>
+
+            <child link="${prefix}thumb_base_link_dummy"/>
+
+            <axis
+                    xyz="0 0 0"/>
+
+                <limit
+                    lower="0"
+                    upper="0"
+                    effort="0"
+                    velocity="0"/>
+        </joint>
+
+        <joint
+                name="${prefix}finger2base2"
+                type="fixed">
+            <origin
+                    xyz="0 0 0"
+                    rpy="0 2.356 0"/>
+
+            <parent link="${prefix}thumb_base_link_dummy"/>
+
+            <child link="${prefix}thumbbase_link"/>
+
+            <axis
+                    xyz="0 0 0"/>
+
+                <limit
+                    lower="0"
+                    upper="0"
+                    effort="0"
+                    velocity="0"/>
+        </joint>
+
+    </xacro:macro>
+</robot>

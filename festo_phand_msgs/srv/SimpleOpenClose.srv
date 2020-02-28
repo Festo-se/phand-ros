@@ -1,0 +1,5 @@
+float32 speed        # 0 - 1.0
+float32[] pressures  # 0 - 600000.0 [Pa]
+---
+bool success
+diagnostic_msgs/KeyValue state
