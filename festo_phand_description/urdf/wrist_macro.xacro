@@ -44,7 +44,7 @@
                         xyz="0 0 0"
                         rpy="0 0 0"/>
                 <geometry>
-                     <mesh filename="package://festo_phand_description/meshes/wrist/wrist_base.STL"/>
+                     <mesh filename="package://festo_phand_description/meshes/wrist/wrist_base_convex.STL"/>
                 </geometry>
             </collision>
         </link>
@@ -56,7 +56,7 @@
                         xyz="0 0 0"
                         rpy="0 0 0"/>
                 <geometry>
-                        <mesh filename="package://festo_phand_description/meshes/static_components.STL"/>
+                        <mesh filename="package://festo_phand_description/meshes/static_components_convex.STL"/>
                 </geometry>
 
 
@@ -68,7 +68,7 @@
                         xyz="0 0 0"
                         rpy="0 0 0"/>
                 <geometry>
-                     <mesh filename="package://festo_phand_description/meshes/wrist/wrist_base.STL"/>
+                     <mesh filename="package://festo_phand_description/meshes/static_components_convex.STL"/>
                 </geometry>
             </collision>
         </link>
@@ -94,7 +94,7 @@
                         xyz="0 0 0"
                         rpy="0 0 0"/>
                 <geometry>
-                    <mesh filename="package://festo_phand_description/meshes/wrist/wrist_top.STL"/>
+                    <mesh filename="package://festo_phand_description/meshes/wrist/wrist_top_convex.STL"/>
                 </geometry>
             </collision>
         </link>

@@ -28,7 +28,7 @@
                         xyz="0 0 0"
                         rpy="0 0 0"/>
                 <geometry>
-                        <mesh filename="package://festo_phand_description/meshes/thumb/drive.STL"/>
+                        <mesh filename="package://festo_phand_description/meshes/thumb/drive_convex.STL"/>
                 </geometry>
             </collision>
         </link>
@@ -54,7 +54,7 @@
                         xyz="0 0 0"
                         rpy="0 0 0"/>
                 <geometry>
-                        <mesh filename="package://festo_phand_description/meshes/thumb/thumb_base.STL"/>
+                        <mesh filename="package://festo_phand_description/meshes/thumb/thumb_base_convex.STL"/>
                 </geometry>
             </collision>
         </link>

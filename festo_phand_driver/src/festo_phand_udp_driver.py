@@ -14,9 +14,11 @@ import importlib
 import rospy
 from diagnostic_msgs.msg import KeyValue
 # Festo imports
+from bionic_tools.pid_control import PID
 from phand_core_lib.phand import PHand, PHandState
 from festo_phand_msgs.msg import *
 from festo_phand_msgs.srv import *
+from std_srvs.srv import Trigger, TriggerResponse
 from bionic_messages.bionic_messages import *
 
 
@@ -60,16 +62,32 @@ class ROSPhandUdpDriver():
         rospy.Subscriber("festo/phand/set_pressures", SimpleFluidPressures, callback=self.set_pressures_topic_cb, queue_size=1)
         rospy.Subscriber("festo/phand/set_positions", Positions, callback=self.set_positions_topic_cb, queue_size=1)
 
+        rospy.Subscriber("festo/phand/wrist/set_positions", Positions, callback=self.set_wrist_position_cb, queue_size=1)
+
         # Offer services
         rospy.Service("festo/phand/close", SimpleOpenClose, self.simple_close_cb)
         rospy.Service("festo/phand/open", SimpleOpenClose, self.simple_open_cb)
-        rospy.Service("festo/phand/set_configuration", SetConfiguration, self.set_configuration_cb)        
+        rospy.Service("festo/phand/set_configuration", SetConfiguration, self.set_configuration_cb)      
+
+        rospy.Service("festo/phand/calibrate/wrist", Trigger, self.calibrate_wrist_cb)  
+
+        P = 1
+        I = 0.001
+        D = 0.005
+        self.wrist_control_left = PID(P, I, D)
+        self.wrist_control_left.setSampleTime(0.2)
+        self.wrist_control_right = PID(P, I, D) 
+        self.wrist_control_right.setSampleTime(0.2)  
+        self.pressures = [100000.0] * 12  
+
+        self.wrist_control_left.SetPoint = 2500
 
         rate = rospy.Rate(100)
         rospy.loginfo("Starting ros event loop")
-        while not rospy.is_shutdown():
+        while not rospy.is_shutdown(): 
             self.generate_hand_state()
             state_pub.publish(self.hand_state)
+            self.control_wrist()
             rate.sleep()
 
         rospy.loginfo("Shutting down udp client")
@@ -124,7 +142,53 @@ class ROSPhandUdpDriver():
             state.value = key_value[1]            
             self.hand_state.status_codes.append(state)
 
+    def control_wrist(self):
+        """
+        Control the wrist
+        """
+
+        if self.phand.com_state != PHandState.ONLINE:
+            return
+
+        self.wrist_control_left.update(self.phand.messages['BionicCylinderSensorMessage'].values[1])
+        self.wrist_control_right.update(self.phand.messages['BionicCylinderSensorMessage'].values[2])
+
+        left = self.wrist_control_left.output
+        right = self.wrist_control_right.output
+
+        if left < 100 and left > -100:
+            return
+
+        self.pressures[2] = 400000
+        self.pressures[5] = self.pressures[5] + left
+
+        if self.pressures[5] >= 700000.0: 
+            self.pressures[5] = 700000.0
+        elif self.pressures[5] <= 100000.0:
+            self.pressures[5] = 100000.0
+        
+        self.phand.set_pressure_data(self.pressures)
+        
+        #print ("LEFT SOLL %.2f  IST %.2f" % (self.wrist_control_left.SetPoint, self.pressures[5]) )
+        #print ("LEFT SOLL %.2f  IST %.2f" % (self.wrist_control_left.SetPoint, left) )
+        
     # Service callbacks
+
+    def calibrate_wrist_cb(self, msg):
+        """
+        Start the calibration wizard of the hand
+        """
+
+        calib_response = TriggerResponse()
+        
+        if self.phand.calibrate_wrist():
+            calib_response.success = True
+            calib_response.message = "Calibration finished."
+        else:
+            calib_response.success = False
+            calib_response.message = "Calibration not finished."
+
+        return calib_response
 
     def set_configuration_cb(self, msg):
         """
@@ -215,6 +279,37 @@ class ROSPhandUdpDriver():
         return resp       
 
     # Topic Callbacks
+    def set_wrist_position_cb(self, msg):
+        """
+        Set the wrist position according to the mm input values
+        """
+
+        if len(msg.positions) != 2:
+            logging.warning("The wrist needs two values as input")
+            return
+
+        self.wrist_control_left.SetPoint = self.phand.wrist_left_calib_zero - (msg.positions[0] * self.phand.wrist_left_calib_step)
+        self.wrist_control_right.SetPoint = self.phand.wrist_right_calib_zero + (msg.positions[1] * self.phand.wrist_right_calib_step)
+
+        # new_left_value = 100000
+        # new_right_value = 100000
+
+        # working = True
+        # while working:
+        #     if self.phand.messages['BionicCylinderSensorMessage'].values[1] > value_left:
+        #         new_left_value = new_left_value + 1000
+        #     elif self.phand.messages['BionicCylinderSensorMessage'].values[1] < value_left:
+        #         new_left_value = new_left_value - 1000
+
+        #     if self.phand.messages['BionicCylinderSensorMessage'].values[2] < value_right:
+        #         new_right_value = new_right_value + 1000
+        #     elif self.phand.messages['BionicCylinderSensorMessage'].values[2] > value_right:
+        #         new_right_value = new_right_value - 1000
+
+        #     rospy.sleep(0.01)
+
+        #     print ("LEFT %s    RIGHT %s" % (new_left_value, new_right_value) )
+
     def set_positions_topic_cb(self, msg):
         """
         If the position control is activated, set the positions of the finger.

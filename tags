@@ -1,0 +1,35 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+ROSPhandUdpDriver	festo_phand_driver/src/festo_phand_udp_driver.py	/^class ROSPhandUdpDriver(PhandUdpDriver):$/;"	c
+__author__	festo_phand_driver/src/festo_phand_udp_driver.py	/^__author__ = "Marinus Matthias Moerdijk"$/;"	v
+__copyright__	festo_phand_driver/src/festo_phand_udp_driver.py	/^__copyright__ = "Copyright 2019, Festo Coperate Bionic Projects"$/;"	v
+__credits__	festo_phand_driver/src/festo_phand_udp_driver.py	/^__credits__ = ["Marinus Matthias Moerdijk"]$/;"	v
+__email__	festo_phand_driver/src/festo_phand_udp_driver.py	/^__email__ = "marinus.moerdijk@festo.com"$/;"	v
+__init__	festo_phand_driver/src/festo_phand_udp_driver.py	/^    def __init__(self):$/;"	m	class:ROSPhandUdpDriver
+__license__	festo_phand_driver/src/festo_phand_udp_driver.py	/^__license__ = "GPL"$/;"	v
+__maintainer__	festo_phand_driver/src/festo_phand_udp_driver.py	/^__maintainer__ = "Marinus Moerdijk"$/;"	v
+__status__	festo_phand_driver/src/festo_phand_udp_driver.py	/^__status__ = "Experimental"$/;"	v
+__version__	festo_phand_driver/src/festo_phand_udp_driver.py	/^__version__ = "1.0.3"$/;"	v
+add_msg_id_to_state	festo_phand_driver/src/festo_phand_udp_driver.py	/^    def add_msg_id_to_state(func):$/;"	m	class:ROSPhandUdpDriver
+generate_hand_state	festo_phand_driver/src/festo_phand_udp_driver.py	/^    def generate_hand_state(self):$/;"	m	class:ROSPhandUdpDriver
+hand_bendsensor_cb	festo_phand_driver/src/festo_phand_udp_driver.py	/^    def hand_bendsensor_cb(self, msg):$/;"	m	class:ROSPhandUdpDriver
+hand_states	festo_phand_driver/src/festo_phand_udp_driver.py	/^    hand_states = ["OFFLINE", "ONLINE", "ERROR"]$/;"	v	class:ROSPhandUdpDriver
+internal_imu_cb	festo_phand_driver/src/festo_phand_udp_driver.py	/^    def internal_imu_cb(self, msg):$/;"	m	class:ROSPhandUdpDriver
+msg	festo_phand_driver/scripts/setpoints_test.py	/^msg = ValveSetPoints()$/;"	v
+pub	festo_phand_driver/scripts/setpoints_test.py	/^pub = rospy.Publisher("\/festo\/phand\/set_valve_setpoints", ValveSetPoints, queue_size=1)$/;"	v
+rate	festo_phand_driver/scripts/setpoints_test.py	/^rate = rospy.Rate(1)$/;"	v
+required_msgs_ids	festo_phand_driver/src/festo_phand_udp_driver.py	/^    required_msgs_ids = []$/;"	v	class:ROSPhandUdpDriver
+set_configuration_cb	festo_phand_driver/src/festo_phand_udp_driver.py	/^    def set_configuration_cb(self, msg):$/;"	m	class:ROSPhandUdpDriver
+set_positions_topic_cb	festo_phand_driver/src/festo_phand_udp_driver.py	/^    def set_positions_topic_cb(self, msg):$/;"	m	class:ROSPhandUdpDriver
+set_pressures_topic_cb	festo_phand_driver/src/festo_phand_udp_driver.py	/^    def set_pressures_topic_cb(self, msg):$/;"	m	class:ROSPhandUdpDriver
+set_valves_topic_cb	festo_phand_driver/src/festo_phand_udp_driver.py	/^    def set_valves_topic_cb(self, msg):$/;"	m	class:ROSPhandUdpDriver
+simple_close_cb	festo_phand_driver/src/festo_phand_udp_driver.py	/^    def simple_close_cb(self, msg: SimpleCloseRequest):$/;"	m	class:ROSPhandUdpDriver
+simple_open_cb	festo_phand_driver/src/festo_phand_udp_driver.py	/^    def simple_open_cb(self, msg: SimpleOpenRequest):$/;"	m	class:ROSPhandUdpDriver
+step	festo_phand_driver/scripts/setpoints_test.py	/^        step = 0$/;"	v
+step	festo_phand_driver/scripts/setpoints_test.py	/^step = 0$/;"	v
+valve_terminal_cb	festo_phand_driver/src/festo_phand_udp_driver.py	/^    def valve_terminal_cb(self, msg):$/;"	m	class:ROSPhandUdpDriver
+wrap	festo_phand_driver/src/festo_phand_udp_driver.py	/^        def wrap(self, *args, **kwargs):$/;"	f	function:ROSPhandUdpDriver.add_msg_id_to_state
