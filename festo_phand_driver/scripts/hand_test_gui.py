@@ -44,13 +44,19 @@ class HandPressureSlider(QSlider):
 
 class HandControllerGui(QWidget):
 
+    handstate_update = pyqtSignal()
+
     def __init__(self):
         super(QWidget, self).__init__()
+        self.last_time = 0
+        self.send_threshold = 0.01
+        self.hand_state = HandState()
         self.sliders = []
         self.pressure_lbls = []
         self.joint_pressures = []
         self.overall_slider = QSlider(Qt.Horizontal)
         self.overall_slider.setValue(100)
+
 
         self.setStyleSheet("font-family: 'Arial';")
 
@@ -88,15 +94,19 @@ class HandControllerGui(QWidget):
 
         self.set_pressure_topic = rospy.Publisher("festo/phand/set_pressures", SimpleFluidPressures, queue_size=1)
 
+        self.handstate_update.connect(self.update_pressure_lables)
+
         self.show()
 
-    def hand_state_cb(self, msg):
 
-        # msg=HandState()
-        # msg.
-        for num, pressure in enumerate(msg.internal_sensors.actual_pressures.values):
+    def update_pressure_lables(self):
+        for num, pressure in enumerate(self.hand_state.internal_sensors.actual_pressures.values):
             # self.pressure_lbls[num].setNum( round(pressure/1e5-1,2))
             self.pressure_lbls[num].setText("%.2f" % round(pressure/1e5-1, 2) )
+
+    def hand_state_cb(self, msg):
+        self.hand_state = msg
+        self.handstate_update.emit()
 
     def setup_gui(self):
 
@@ -119,8 +129,7 @@ class HandControllerGui(QWidget):
         for row, joint in enumerate(self.joints):
             lbl = QLabel(str(0.0))
             lbl.setMinimumWidth(50)
-            lbl.setMaximumWidth(50
-                                )
+            lbl.setMaximumWidth(50)
 
             self.pressure_lbls.append(lbl)
 
@@ -152,9 +161,25 @@ class HandControllerGui(QWidget):
         self.pressure_lbls.append(lbl)
         self.gridLayout.addWidget(lbl, len(self.joints) + 1, 2)
 
-
         self.gridLayout.addWidget(self.overall_slider, len(self.joints) + 2, 0, 1,6)
 
+        btn_copy_open = QPushButton("Copy pressure open values")
+        btn_copy_open.clicked.connect(self.copy_values)
+        self.gridLayout.addWidget(btn_copy_open, len(self.joints) + 3, 0, 1, 3)
+
+        btn_copy_close = QPushButton("Copy pressure close values")
+        btn_copy_close.clicked.connect(self.copy_values)
+        self.gridLayout.addWidget(btn_copy_close, len(self.joints) + 3, 3, 1, 3)
+
+    def copy_values(self):
+        sender = self.sender()
+        if "open" in sender.text():
+            self.generate_publish_data("_open")
+        else:
+            self.generate_publish_data("_close")
+
+        clipboard = QApplication.clipboard()
+        clipboard.setText(str(self.joint_pressures))
 
     def generate_publish_data(self, suffix):
         self.joint_pressures = []
@@ -165,20 +190,24 @@ class HandControllerGui(QWidget):
                 else:
                     self.joint_pressures.append((joint.joint_value + 1)*1e5 )
 
-
     def close_btn_click(self):
-        self.generate_publish_data("_close")
 
-        msg = SimpleFluidPressures()
-        msg.values = self.joint_pressures
-        self.set_pressure_topic.publish(msg)
+        if rospy.get_time() - self.last_time > self.send_threshold:
+            self.last_time = rospy.get_time()
+            self.generate_publish_data("_close")
+            msg = SimpleFluidPressures()
+            msg.values = self.joint_pressures
+            self.set_pressure_topic.publish(msg)
 
     def open_btn_click(self):
-        self.generate_publish_data("_open")
 
-        msg = SimpleFluidPressures()
-        msg.values = self.joint_pressures
-        self.set_pressure_topic.publish(msg)
+        if rospy.get_time() - self.last_time > self.send_threshold:
+            self.last_time = rospy.get_time()
+            self.generate_publish_data("_open")
+            msg = SimpleFluidPressures()
+            msg.values = self.joint_pressures
+            self.set_pressure_topic.publish(msg)
+
 
 if __name__ == '__main__':
     rospy.init_node('joint_state_publisher')

@@ -1,20 +1,12 @@
 #!/usr/bin/env python
+# Modified from : https://gist.github.com/awesomebytes/a3bc8729d0c1d0a9499172b9a77d2622
 
 import sys
 import os
 import subprocess
 
 # Script taken from doing the needed operation
-# (Filters > Remeshing, Simplification and Reconstruction >
-# Quadric Edge Collapse Decimation, with parameters:
-# 0.9 percentage reduction (10%), 0.3 Quality threshold (70%)
-# Target number of faces is ignored with those parameters
-# conserving face normals, planar simplification and
-# post-simplimfication cleaning)
 # And going to Filter > Show current filter script
-
-# To genrete all collision meshes use :  find . | grep .STL | xargs  ./generate_convex_hulls.py remove_old
-
 
 filter_script_mlx = """<!DOCTYPE FilterScript>
 <FilterScript>
@@ -40,23 +32,31 @@ def apply_meshlab_filter(in_file, out_file,
     # Add the output filename and output flags
     command += " -o " + out_file + " -om vn fn"
     # Execute command
-    print "Going to execute: " + command
+    print( "Going to execute: " + command)
     output = subprocess.check_output(command, shell=True)
     last_line = output.splitlines()[-1]
-    print
-    print "Done:"
-    print in_file + " > " + out_file + ": " + last_line
+    print( in_file + " > " + out_file + ": " + last_line)
 
 
 if __name__ == '__main__':
 
-    print sys.argv[1:]
+    if len(sys.argv) < 2 :
+        print("Applies the meshlab filter specified in the filterscript variable to the input files "
+              "and saves the output with _convex added to the filename")
+        print("Usage: ./generate_convexhulls.py [remove_old] <input files>")
+        print("\tAdding \"remove_old\" as second argument replaces old meshes")
+        print("Example to find all stl meshes in a directory and sub dirs:")
+        print("\t$find . | grep .STL | grep -v \"_convex\" | xargs  ./generate_convex_hulls.py remove_old")
 
-    for mesh in sys.argv[2:]:
+    start_index = 1
+    if "remove_old" in sys.argv :
+        start_index = 2
+
+    for mesh in sys.argv[start_index:]:
 
         in_mesh = mesh
         filename = in_mesh.split('/')[-1]
-        print "Input mesh: " + in_mesh + " (filename: " + filename + ")"
+        print("Input mesh: " + in_mesh + " (filename: " + filename + ")")
 
         out_mesh = in_mesh[:-4] + "_convex.STL"
 
@@ -65,4 +65,4 @@ if __name__ == '__main__':
 
         apply_meshlab_filter(in_mesh, out_mesh)
 
-        print "Done reducing" + out_mesh
+        print("Done with: "  + out_mesh)
