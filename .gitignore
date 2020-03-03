@@ -1,6 +1,6 @@
 # Byte-compiled / optimized / DLL files
 
-**data/figures
+**/data/figures
 
 __pycache__/
 *.py[cod]
