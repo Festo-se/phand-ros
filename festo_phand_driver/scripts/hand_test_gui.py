@@ -52,6 +52,7 @@ class HandControllerGui(QWidget):
         self.overall_slider = QSlider(Qt.Horizontal)
         self.overall_slider.setValue(100)
 
+        self.setStyleSheet("font-family: 'Arial';")
 
         self.overall_slider.valueChanged.connect(self.open_btn_click)
 
@@ -82,7 +83,6 @@ class HandControllerGui(QWidget):
         self.joint_limits = [5.0]*12
 
         self.setup_gui()
-
 
         rospy.Subscriber("festo/phand/state", HandState, self.hand_state_cb)
 

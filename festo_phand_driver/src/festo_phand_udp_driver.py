@@ -87,7 +87,7 @@ class ROSPhandUdpDriver():
         while not rospy.is_shutdown(): 
             self.generate_hand_state()
             state_pub.publish(self.hand_state)
-            self.control_wrist()
+            # self.control_wrist()
             rate.sleep()
 
         rospy.loginfo("Shutting down udp client")
