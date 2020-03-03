@@ -252,5 +252,99 @@ def max_map2(fig, axs, data, sample_name, n):
 
     return fig, axs
 
+def map_matrix(df, sample_name, what='max', remap='no'):
+
+    rows = ['0','1','2','3','4','5','6','7','8','9','10','11']
+    columns = ['0','1','2','3','4','5','6','7','8','9','10','11']
+    
+    if what == 'max':
+        data = pd.DataFrame(df.max().values.reshape(12,12)).T
+    elif what == 'min':
+        data = pd.DataFrame(df.min().values.reshape(12,12)).T
+        
+    if remap == 'yes':
+        data.iloc[[11],[11]] = 0
+        rows = [2,1,0,3,8,9,4,5,6,10,11]
+        columns = [3,4,5,6,7,8,9,10,11,0,1,2]
+        data = data.loc[rows].loc[:,columns]
+
+    # Plot the heatmap
+    fig, ax = plt.subplots()
+    im = ax.imshow(data, cmap="YlOrRd", vmin=0, vmax=3000)  # cmap="Wistia"
+
+    # Create colorbar
+    cbar_kw = {}
+    cbarlabel = "Sensor max values (analog counts)"
+    cbar = ax.figure.colorbar(im, ax=ax, **cbar_kw)
+    cbar.ax.set_ylabel(cbarlabel, rotation=-90, va="bottom")
+
+    # We want to show all ticks...
+    ax.set_xticks(np.arange(len(columns)))
+    ax.set_yticks(np.arange(len(rows)))
+    # ... and label them with the respective list entries
+    ax.set_xticklabels(columns)
+    ax.set_yticklabels(rows)
+
+    # Loop over data dimensions and create text annotations.
+    for i in range(len(rows)):
+        for j in range(len(columns)):
+            try:
+                text = ax.text(j, i, max_data[i, j],ha="center", va="center", color="black")
+                pass
+            except:
+                pass
+
+    ax.set_title('data sample: ' + sample_name+' '+what+' values')
+    fig.tight_layout()
+    plt.show()
+
+def map_matrix2(fig, axs, df, sample_name, n, what='max', remap='no'):
+
+    rows = ['0','1','2','3','4','5','6','7','8','9','10','11']
+    columns = ['0','1','2','3','4','5','6','7','8','9','10','11']
+    
+    x = int(n / 3)
+    y = n % 3
+    
+    if what == 'max':
+        data = pd.DataFrame(df.max().values.reshape(12,12)).T
+    elif what == 'min':
+        data = pd.DataFrame(df.min().values.reshape(12,12)).T
+        
+    if remap == 'yes':
+        data.iloc[[11],[11]] = 0
+        rows = [2,1,0,3,8,9,4,5,6,10,11]
+        columns = [3,4,5,6,7,8,9,10,11,0,1,2]
+        data = data.loc[rows].loc[:,columns]
+
+    # Plot the heatmap
+    im = axs[x,y].imshow(data, cmap="YlOrRd", vmin=0, vmax=3000)  # cmap="Wistia"
+
+    # Create colorbar
+    cbar_kw = {}
+    cbarlabel = "Sensor max values (analog counts)"
+    cbar = axs[x,y].figure.colorbar(im, ax=axs[x,y], **cbar_kw)
+    cbar.ax.set_ylabel(cbarlabel, rotation=-90, va="bottom")
+
+    # We want to show all ticks...
+    axs[x,y].set_xticks(np.arange(len(columns)))
+    axs[x,y].set_yticks(np.arange(len(rows)))
+    # ... and label them with the respective list entries
+    axs[x,y].set_xticklabels(columns)
+    axs[x,y].set_yticklabels(rows)
+
+    # Loop over data dimensions and create text annotations.
+    for i in range(len(rows)):
+        for j in range(len(columns)):
+            try:
+                text = axs[x,y].text(j, i, max_data[i, j],ha="center", va="center", color="black")
+                pass
+            except:
+                pass
+
+    axs[x,y].set_title('data sample: ' + sample_name+' '+what+' values')
+    
+    return fig, axs
+
 
 
