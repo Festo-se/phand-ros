@@ -1,5 +1,10 @@
 #!/usr/bin/env python
-import sys, os, signal
+import sys
+import os
+import signal
+import rospy
+import numpy
+import scipy.interpolate as sp_interp
 from PyQt5 import uic
 from PyQt5 import QtCore, QtGui, QtWidgets
 from numpy import interp
@@ -12,25 +17,18 @@ from pressure_sensor_gui import Ui_MainWindow
 from std_msgs.msg import Float32MultiArray, UInt16MultiArray
 from festo_pressure_sensors.msg import SensorValuesArduino
 
-import rospy
-import numpy
-import scipy.interpolate as sp_interp
-
-
 class PressureSensorGui(Ui_MainWindow, QtCore.QObject ):
 
     update_gui = QtCore.pyqtSignal(bool)
     msg = SensorValuesArduino()
-    msg2 = Float32MultiArray()
     settings_msg = UInt16MultiArray()
 
-    def __init__(self,mw):
+    def __init__(self, mw):
         super(PressureSensorGui, self).__init__()
         self.setupUi(mw)
         self.mw = mw
-        rospy.Subscriber("/adc", SensorValuesArduino, self.adc_cb)
 
-        self.pub = rospy.Publisher("/chloe", Float32MultiArray, queue_size=1)
+        rospy.Subscriber("/adc", SensorValuesArduino, self.adc_cb)
         self.settings_pub = rospy.Publisher("/settings", UInt16MultiArray, queue_size=1, latch=True)
 
         self.update_gui.connect(self.update_gui_cb)
@@ -189,9 +187,6 @@ class PressureSensorGui(Ui_MainWindow, QtCore.QObject ):
         self.msg = msg
         self.update_gui.emit(True)
 
-        self.msg2.data = self.msg.data
-        self.pub.publish(self.msg2)
-
     def update_label(self, lbl, value, showVal=1):
         color = self.pressure_color_mapping(value)
         color_str = "rgba(%i,%i,%i,%i)" % (color.r * 255, color.g * 255, color.b * 255, color.a * 255)
@@ -230,7 +225,6 @@ class PressureSensorGui(Ui_MainWindow, QtCore.QObject ):
             self.setup_gui_matrix()
             self.setup_minmax_matrix()
 
-
         # Measured values
         for row in range(self.x_dim):
             for col in range(self.y_dim):
@@ -266,6 +260,7 @@ class PressureSensorGui(Ui_MainWindow, QtCore.QObject ):
                 for col in range(self.y_dim_interp):
                     idx = self.y_dim_interp * row + col
                     self.update_label(self.lbls[idx], np.maximum(self.meas_interp[row][col], 0), self.cb_showVals.isChecked() )
+
 
 if __name__ == '__main__':
     rospy.init_node("matrix_plotter_node")
