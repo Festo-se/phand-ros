@@ -1,7 +1,14 @@
 <?xml version="1.0"?>
 <launch>
       <node pkg="festo_phand_driver" type="festo_phand_udp_driver.py" name="phand_hardware_interface" output="screen" />
-      
-      <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" />       
+
       <node name="phand_debug_ui" pkg="festo_phand_driver" type="start_webserver.py" />
+
+      <group if="$(arg test_gui)">
+            <node name="festo_test_ui" pkg="festo_phand_driver" type="hand_test_gui.py" respawn="false"/>
+      </group>
+
+      <include file="$(find festo_phand_description)/launch/display_full_hand_joint_pub.launch" />
+
+
 </launch>

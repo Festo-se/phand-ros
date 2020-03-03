@@ -28,6 +28,20 @@
    <link name="${prefix}eef_link" >
 
    </link>
+   <link name="grabbing_point_link" >
+
+   </link>
+    <joint
+           name="grabbing_point_joint"
+        type="fixed">
+            <origin
+                    xyz="-0.01 0.0138 0.10968"
+                    rpy="0 0 0"/> //1.629 -0.248 -0.326
+
+            <parent link="${prefix}wrist_base"/>
+            <child link="grabbing_point_link"/>
+
+    </joint>
     <joint
            name="${prefix}base_joint"
         type="fixed">
