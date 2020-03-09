@@ -13,10 +13,10 @@ from festo_phand_msgs.srv import *
 class SettingsSlider(QSlider):
     valueUpdated = pyqtSignal(float)
 
-    def __init__(self, name, max, default, min):
+    def __init__(self, name, maxv, default, minv):
         super(SettingsSlider, self).__init__(Qt.Horizontal)
-        self.min = min
-        self.max = max
+        self.minv = minv
+        self.maxv = maxv
         self.name = name
         self.setMinimumWidth(300)
         self.setMinimum(0)
@@ -29,18 +29,18 @@ class SettingsSlider(QSlider):
         self.set_slider_value(default)
 
     def set_slider_value(self, value):
-        val = (value - self.min)*100/(self.max-self.min)
+        val = (value - self.minv)*100/(self.maxv-self.minv)
         self.setValue(val)
 
     @property
     def slider_value(self):
-        return max(self.min + self.value() * (self.max-self.min) / 100, self.min)
+        return max(self.minv + self.value() * (self.maxv-self.minv) / 100, self.minv)
 
     def map_value(self):
         self.valueUpdated.emit(self.slider_value)
 
 
-class LoomiaSettigs(QWidget):
+class LoomiaSettings(QWidget):
 
     def __init__(self):
         super(QWidget, self).__init__()
@@ -61,7 +61,7 @@ class LoomiaSettigs(QWidget):
                   ["Column 10", 50000, 40000, 0],
                   ["Column 11", 50000, 40000, 0]
                   ]
-        self.sliders =[]
+        self.sliders = []
         for row, l in enumerate(labels):
 
             lbl = QLabel(l[0])
@@ -77,6 +77,7 @@ class LoomiaSettigs(QWidget):
             self.gridLayout.addWidget(self.sliders[row], row, 1)
             self.gridLayout.addWidget(lbl_value, row, 2)
 
+        rospy.wait_for_service("festo/phand/set_loomia_config")
         self.set_loomia_settings = rospy.ServiceProxy("festo/phand/set_loomia_config", LoomiaSensorConfig)
 
         for sl in self.sliders:
@@ -92,14 +93,15 @@ class LoomiaSettigs(QWidget):
         for i in range(11):
             msg.series_resistance.append(self.sliders[2+i].slider_value)
 
-        print(msg)
+        # print(msg)
         self.set_loomia_settings(msg)
+
 
 if __name__ == '__main__':
 
     rospy.init_node("loomia_settings")
     signal.signal(signal.SIGINT, signal.SIG_DFL)
     app = QApplication(sys.argv)
-    ui = LoomiaSettigs()
+    ui = LoomiaSettings()
     # Start the event loop.
     sys.exit(app.exec_())
