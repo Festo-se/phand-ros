@@ -57,6 +57,9 @@ class HandControllerGui(QWidget):
         self.overall_slider = QSlider(Qt.Horizontal)
         self.overall_slider.setValue(100)
 
+
+        self.setStyleSheet("font-family: 'Arial';")
+
         self.overall_slider.valueChanged.connect(self.open_btn_click)
 
         self.gridLayout = QGridLayout(self)
