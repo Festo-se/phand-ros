@@ -1,10 +1,6 @@
 #!/usr/bin/env python
-import signal, sys
+import signal
 import rospy
-from urdf_parser_py.urdf import URDF
-
-from sensor_msgs.msg import JointState
-from std_msgs.msg import Header
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from festo_phand_msgs.srv import *
@@ -77,8 +73,8 @@ class LoomiaSettings(QWidget):
             self.gridLayout.addWidget(self.sliders[row], row, 1)
             self.gridLayout.addWidget(lbl_value, row, 2)
 
-        rospy.wait_for_service("festo/phand/set_loomia_config")
-        self.set_loomia_settings = rospy.ServiceProxy("festo/phand/set_loomia_config", LoomiaSensorConfig)
+        rospy.wait_for_service("festo/phand/set_loomia_configuration")
+        self.set_loomia_settings = rospy.ServiceProxy("festo/phand/set_loomia_configuration", LoomiaSensorConfig)
 
         for sl in self.sliders:
             sl.map_value()
