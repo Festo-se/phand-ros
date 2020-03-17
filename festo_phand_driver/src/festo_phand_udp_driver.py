@@ -67,7 +67,9 @@ class ROSPhandUdpDriver():
         # Offer services
         rospy.Service("festo/phand/close", SimpleOpenClose, self.simple_close_cb)
         rospy.Service("festo/phand/open", SimpleOpenClose, self.simple_open_cb)
-        rospy.Service("festo/phand/set_configuration", SetConfiguration, self.set_configuration_cb)      
+        rospy.Service("festo/phand/set_configuration", SetConfiguration, self.set_configuration_cb)
+        rospy.Service("festo/phand/set_loomia_configuration", LoomiaSensorConfig, self.loomia_config_srv_cb)
+
 
         rospy.Service("festo/phand/calibrate/wrist", Trigger, self.calibrate_wrist_cb)  
 
@@ -189,6 +191,18 @@ class ROSPhandUdpDriver():
             calib_response.message = "Calibration not finished."
 
         return calib_response
+
+    def loomia_config_srv_cb(self, msg:LoomiaSensorConfigRequest):
+
+        if len(msg.series_resistance) != 11:
+            rospy.logerr("Number of series resistance does not match the required number of 11")
+            return LoomiaSensorConfigResponse(False)
+
+        self.phand.set_loomia_config(msg.reference_voltage,
+                                     msg.series_resistance,
+                                     msg.d_column_switch)
+
+        return LoomiaSensorConfigResponse(True)
 
     def set_configuration_cb(self, msg):
         """

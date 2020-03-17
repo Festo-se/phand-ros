@@ -13,7 +13,7 @@ class BionicSoftHandSerialClientRosInterface:
     def __init__(self):
 
         self.loomia_pub = rospy.Publisher("festo/phand/connected_sensors/loomia_sensors", GenericSensor, queue_size=1)
-        rospy.Service("festo/phand/set_loomia_config", LoomiaSensorConfig, self.loomia_config_srv_cb)
+        rospy.Service("festo/phand/set_loomia_configuration", LoomiaSensorConfig, self.loomia_config_srv_cb)
 
         msg_handler = BionicMessageHandler()
         msg = BionicLoomiaMessage(BIONIC_MSG_IDS.LOOMIA_BOARD)
