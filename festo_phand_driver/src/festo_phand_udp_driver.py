@@ -68,7 +68,8 @@ class ROSPhandUdpDriver():
         rospy.Service("festo/phand/close", SimpleOpenClose, self.simple_close_cb)
         rospy.Service("festo/phand/open", SimpleOpenClose, self.simple_open_cb)
         rospy.Service("festo/phand/set_configuration", SetConfiguration, self.set_configuration_cb)
-        rospy.Service("festo/phand/set_loomia_configuration", LoomiaSensorConfig, self.loomia_config_srv_cb)
+        rospy.Service("festo/phand/loomia/set_configuration", LoomiaSensorConfig, self.loomia_config_srv_cb)
+        rospy.Service("festo/phand/flexsensors/set_configuration", FlexSensorConfig, self.flexsensor_config_srv_cb)
 
 
         rospy.Service("festo/phand/calibrate/wrist", Trigger, self.calibrate_wrist_cb)  
@@ -94,6 +95,8 @@ class ROSPhandUdpDriver():
 
         rospy.loginfo("Shutting down udp client")
         self.phand.shutdown()
+
+
 
     def new_data_available_cb(self):
         """
@@ -191,6 +194,21 @@ class ROSPhandUdpDriver():
             calib_response.message = "Calibration not finished."
 
         return calib_response
+
+    def flexsensor_config_srv_cb(self, msg: FlexSensorConfigRequest):
+
+        if len(msg.series_resistance_top) != 7 or len(msg.series_resistance_bottom) != 7:
+            rospy.logerr("Number of series resistance does not match the required number of 7")
+            return FlexSensorConfigResponse(False)
+
+        self.phand.set_flexsensor_config(msg.led_green,
+                                         msg.led_blue,
+                                         msg.led_red,
+                                         msg.override_leds,
+                                         msg.series_resistance_top,
+                                         msg.series_resistance_bottom)
+
+        return FlexSensorConfigResponse(True)
 
     def loomia_config_srv_cb(self, msg:LoomiaSensorConfigRequest):
 

@@ -1,0 +1,12 @@
+float32 led_green
+float32 led_blue
+float32 led_red
+float32 override_leds
+# Series resistance for each top sensor (Total of 7)
+# Max 50 kOhm
+float32[] series_resistance_top
+# Series resistance for each bottom sensor (Total of 7)
+# Max 50 kOhm
+float32[] series_resistance_bottom
+---
+bool result

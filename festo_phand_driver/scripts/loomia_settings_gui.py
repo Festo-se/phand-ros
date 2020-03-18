@@ -73,8 +73,8 @@ class LoomiaSettings(QWidget):
             self.gridLayout.addWidget(self.sliders[row], row, 1)
             self.gridLayout.addWidget(lbl_value, row, 2)
 
-        rospy.wait_for_service("festo/phand/set_loomia_configuration")
-        self.set_loomia_settings = rospy.ServiceProxy("festo/phand/set_loomia_configuration", LoomiaSensorConfig)
+        rospy.wait_for_service("festo/phand/loomia/set_configuration")
+        self.set_loomia_settings = rospy.ServiceProxy("festo/phand/loomia/set_configuration", LoomiaSensorConfig)
 
         for sl in self.sliders:
             sl.map_value()

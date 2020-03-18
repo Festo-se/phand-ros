@@ -34,6 +34,7 @@ find_package(catkin REQUIRED COMPONENTS
     SetPositionOffsets.srv
     SetTactileOffsets.srv
     SimpleOpenClose.srv
+    FlexSensorConfig.srv
  )
 
 ## Generate actions in the 'action' folder
