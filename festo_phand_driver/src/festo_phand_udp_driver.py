@@ -404,14 +404,26 @@ class ROSPhandUdpDriver():
         self.hand_state.internal_sensors.mag.magnetic_field.y = msg.mag_y
         self.hand_state.internal_sensors.mag.magnetic_field.z = msg.mag_z
 
-    def hand_loomia_generate(self, msg):
+    def hand_loomia_generate(self, msg: BionicLoomiaMessage):
 
         loomia_sensor = GenericSensor()
         loomia_sensor.name = msg.get_unique_name()
         loomia_sensor.id = msg.get_id()
-        loomia_sensor.raw_values = msg.pressures
 
-        self.loomia_pub.publish(loomia_sensor) 
+        loomia_sensor.raw_values = msg.pressures
+        loomia_sensor.raw_values.extend(msg.set_resitance_values)
+        loomia_sensor.raw_values.append(msg.set_measurement_delay)
+        loomia_sensor.raw_values.append(msg.set_ref_voltage)
+        loomia_sensor.raw_values.append(msg.meas_ref_voltage)
+
+        # Calculating the real voltage values for the
+        # raw using the method from RM0038 Rev. 287/906 (Reference manual st)
+
+        for value in msg.pressures:
+            calibrated_value = (msg.meas_ref_voltage / pow(2, 12))*value
+            loomia_sensor.calibrated_values.append(calibrated_value)
+
+        self.loomia_pub.publish(loomia_sensor)
 
     def hand_cylinder_generate(self, msg):
         
