@@ -5,5 +5,8 @@ float32[] series_resistance
 float32 reference_voltage
 # Cycles delay after column switch
 float32 d_column_switch
+
+float32 led_logo
+float32 led_board
 ---
 bool result

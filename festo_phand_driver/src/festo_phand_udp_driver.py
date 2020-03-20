@@ -22,7 +22,7 @@ from std_srvs.srv import Trigger, TriggerResponse
 from bionic_messages.bionic_messages import *
 
 
-class ROSPhandUdpDriver():
+class ROSPhandUdpDriver:
     """
     Wrapper class for the phand_core_lib to provide a ros interface for the phand
     """
@@ -218,7 +218,9 @@ class ROSPhandUdpDriver():
 
         self.phand.set_loomia_config(msg.reference_voltage,
                                      msg.series_resistance,
-                                     msg.d_column_switch)
+                                     msg.d_column_switch,
+                                     msg.led_logo,
+                                     msg.led_board)
 
         return LoomiaSensorConfigResponse(True)
 
@@ -405,7 +407,6 @@ class ROSPhandUdpDriver():
         self.hand_state.internal_sensors.mag.magnetic_field.z = msg.mag_z
 
     def hand_loomia_generate(self, msg: BionicLoomiaMessage):
-
         loomia_sensor = GenericSensor()
         loomia_sensor.name = msg.get_unique_name()
         loomia_sensor.id = msg.get_id()
@@ -418,7 +419,6 @@ class ROSPhandUdpDriver():
 
         # Calculating the real voltage values for the
         # raw using the method from RM0038 Rev. 287/906 (Reference manual st)
-
         for value in msg.pressures:
             calibrated_value = (msg.meas_ref_voltage / pow(2, 12))*value
             loomia_sensor.calibrated_values.append(calibrated_value)

@@ -43,8 +43,10 @@ class LoomiaSettings(QWidget):
 
         self.gridLayout = QGridLayout(self)
 
-        labels = [["Reference Voltage", 3.2, 2.0, 1.2],
+        labels = [["Reference Voltage", 2.8, 2.0, 1.4],
                   ["Delay before measurement", 200, 75, 20],
+                  ["Led board", 1, 0, 0],
+                  ["Led logo", 1, 0, 0],
                   ["Column 1",  50000, 40000, 0],
                   ["Column 2",  50000, 40000, 0],
                   ["Column 3",  50000, 40000, 0],
@@ -86,8 +88,10 @@ class LoomiaSettings(QWidget):
         msg = LoomiaSensorConfigRequest()
         msg.reference_voltage = self.sliders[0].slider_value
         msg.d_column_switch = self.sliders[1].slider_value
+        msg.led_board = self.sliders[2].slider_value
+        msg.led_logo  = self.sliders[3].slider_value
         for i in range(11):
-            msg.series_resistance.append(self.sliders[2+i].slider_value)
+            msg.series_resistance.append(self.sliders[4+i].slider_value)
 
         # print(msg)
         self.set_loomia_settings(msg)

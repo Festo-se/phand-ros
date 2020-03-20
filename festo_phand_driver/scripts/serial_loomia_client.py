@@ -20,7 +20,7 @@ class BionicSoftHandSerialClientRosInterface:
         msg.register_cb(self.loomia_msg_cb)
         msg_handler.register_message_type(msg)
 
-        self.action_msg = BionicSetLoomiaValuesActionMessage(2.2, [1000]*12, 75)
+        self.action_msg = BionicSetLoomiaValuesActionMessage(2.2, [1000]*12, 75, 0, 0)
         msg_handler.register_message_type(self.action_msg)
 
         self.sc = BionicSerialClient(message_handler=msg_handler,
@@ -38,7 +38,9 @@ class BionicSoftHandSerialClientRosInterface:
 
         self.action_msg.set_data(msg.reference_voltage,
                                  msg.series_resistance,
-                                 msg.d_column_switch)
+                                 msg.d_column_switch,
+                                 msg.led_logo,
+                                 msg.led_board)
 
         return LoomiaSensorConfigResponse(True)
 
