@@ -1,4 +1,4 @@
-
+#!/usr/bin/env python
 import signal, sys
 import numpy as np
 import math as m

@@ -13,28 +13,30 @@ find_package(catkin REQUIRED COMPONENTS
 
  add_message_files(
     FILES
-    ControlMode.msg
-    GenericSensor.msg
-    GripState.msg
-    HandConfiguration.msg
-    HandSensors.msg
-    HandState.msg
-    Positions.msg
-    SimpleFluidPressures.msg
-    ValveSetPoints.msg
+CalibrationValue.msg
+ControlMode.msg
+GenericSensor.msg
+GripState.msg
+HandConfiguration.msg
+HandSensors.msg
+HandState.msg
+Positions.msg
+SimpleFluidPressures.msg
+ValveSetPoints.msg
  )
 
 ## Generate services in the 'srv' folder
  add_service_files(
    FILES
-    LoomiaSensorConfig.srv
-    SetConfiguration.srv
-    SetCtrlMode.srv
-    SetImuOffsets.srv
-    SetPositionOffsets.srv
-    SetTactileOffsets.srv
-    SimpleOpenClose.srv
-    FlexSensorConfig.srv
+FlexSensorConfig.srv
+LoomiaSensorConfig.srv
+SetConfiguration.srv
+SetCtrlMode.srv
+SetImuOffsets.srv
+SetPositionOffsets.srv
+SetSensorCalibration.srv
+SetTactileOffsets.srv
+SimpleOpenClose.srv
  )
 
 ## Generate actions in the 'action' folder

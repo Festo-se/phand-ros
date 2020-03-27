@@ -15,11 +15,12 @@ import rospy
 from diagnostic_msgs.msg import KeyValue
 # Festo imports
 from bionic_tools.pid_control import PID
-from phand_core_lib.phand import PHand, PHandState
+from phand_core_lib.phand import PHand, PHandState, PhandSensorCalibrationValue
 from festo_phand_msgs.msg import *
 from festo_phand_msgs.srv import *
 from std_srvs.srv import Trigger, TriggerResponse
 from bionic_messages.bionic_messages import *
+from ufw.util import valid_address
 
 
 class ROSPhandUdpDriver:
@@ -71,6 +72,7 @@ class ROSPhandUdpDriver:
         rospy.Service("festo/phand/loomia/set_configuration", LoomiaSensorConfig, self.loomia_config_srv_cb)
         rospy.Service("festo/phand/flexsensors/set_configuration", FlexSensorConfig, self.flexsensor_config_srv_cb)
 
+        rospy.Service("festo/phand/set_sensor_calibration", SetSensorCalibration, self.set_sensor_calibration_cb)
 
         rospy.Service("festo/phand/calibrate/wrist", Trigger, self.calibrate_wrist_cb)  
 
@@ -90,7 +92,7 @@ class ROSPhandUdpDriver:
         while not rospy.is_shutdown(): 
             self.generate_hand_state()
             state_pub.publish(self.hand_state)
-            # self.control_wrist()
+            self.control_wrist()
             rate.sleep()
 
         rospy.loginfo("Shutting down udp client")
@@ -174,8 +176,8 @@ class ROSPhandUdpDriver:
         
         self.phand.set_pressure_data(self.pressures)
         
-        #print ("LEFT SOLL %.2f  IST %.2f" % (self.wrist_control_left.SetPoint, self.pressures[5]) )
-        #print ("LEFT SOLL %.2f  IST %.2f" % (self.wrist_control_left.SetPoint, left) )
+        # print ("LEFT SOLL %.2f  IST %.2f" % (self.wrist_control_left.SetPoint, self.pressures[5]) )
+        # print ("LEFT SOLL %.2f  IST %.2f" % (self.wrist_control_left.SetPoint, left) )
         
     # Service callbacks
 
@@ -194,6 +196,23 @@ class ROSPhandUdpDriver:
             calib_response.message = "Calibration not finished."
 
         return calib_response
+
+    def set_sensor_calibration_cb(self, msg:SetSensorCalibrationRequest):
+
+        print(msg)
+
+        calib_values = []
+        for calib_v in msg.calibration_values:
+            calib_values.append(
+                PhandSensorCalibrationValue(value_id=calib_v.id,
+                                            value=calib_v.value))
+
+        self.phand.set_calibration(
+            sensor_id=msg.sensor_id,
+            calibration_values=calib_values)
+
+        return SetSensorCalibrationResponse(True)
+        
 
     def flexsensor_config_srv_cb(self, msg: FlexSensorConfigRequest):
 
