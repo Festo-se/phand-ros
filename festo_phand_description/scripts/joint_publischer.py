@@ -11,98 +11,9 @@ from sensor_msgs.msg import JointState
 from std_msgs.msg import Header
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
+from phand_core_lib.phand import *
 
 
-class JointCalculations:
-
-    def __init__(self):
-        self.l1 = 27.63e-3
-        self.l2 = 26.63e-3
-        self.l3 = 158e-3
-        self.l4 = 27.02e-3
-        self.l5 = 26.95e-3
-
-        self.l9     = 76.41e-3
-        self.l10    = 18.81e-3
-        self.l11_0  = self.l9-self.l10
-
-        self.theta3 = np.deg2rad(18.6)
-
-    # Matlab theta 4
-    def calculate_wristBase_cylinderR(self, theta1, theta2):
-
-        return -m.atan2(- m.cos(self.theta3)*(self.l4 - self.l1*m.cos(theta1)) - m.sin(self.theta3)*(self.l2*m.cos(theta2) - self.l5
-               + self.l1*m.sin(theta1)*m.sin(theta2)),
-                        m.sqrt(
-                            m.pow(abs(self.l3 - self.l2*m.sin(theta2) + self.l1*m.cos(theta2)*m.sin(theta1)),2)
-                         + m.pow(abs(self.l2*m.cos(theta2) - self.l5 + self.l1*m.sin(theta1)*m.sin(theta2)),2)
-                            + m.pow(abs(self.l4 - self.l1*m.cos(theta1)),2)
-                        ))
-
-    # Matlab theta5
-    def calculate_horizontal_R_vertical_R(self,theta1, theta2):
-
-        return m.atan2(
-            m.cos(self.theta3)*(self.l2*m.cos(theta2) - self.l5 +
-            self.l1*m.sin(theta1)*m.sin(theta2)) -
-            m.sin(self.theta3)*(self.l4 - self.l1*m.cos(theta1)),
-            self.calculate_rigthcylinder_rod(theta1,theta2) # L6
-        )
-
-    # Matlab theta 6
-    def calculate_wristBase_cylinderL(self, theta1, theta2):
-
-        return -m.atan2(
-            -m.cos(-self.theta3)*(self.l4 - self.l1*m.cos(theta1))
-            -m.sin(-self.theta3)*(self.l2*m.cos(theta2)
-            -self.l5 + self.l1*m.sin(theta1)*m.sin(theta2)),
-            self.calculate_leftcylinder_rod(theta1, theta2))
-
-
-    # Matlab theta7
-    def calculate_horizontal_L_vertical_L(self,theta1, theta2):
-
-        return m.atan2(
-            m.cos(-self.theta3)*(self.l2*m.cos(theta2)
-            - self.l5 + self.l1*m.sin(theta1)*m.sin(theta2))
-            - m.sin(-self.theta3)*(self.l4 - self.l1*m.cos(theta1)),
-            self.calculate_leftcylinder_rod(theta1, theta2))
-
-
-    def calculate_l0(self):
-        return self.calculate_leftcylinder_rod(0,0)
-
-    # Matlab L6
-    def calculate_rigthcylinder_rod(self,theta1, theta2):
-
-        return m.sqrt(
-            m.pow(abs(self.l4 - self.l1*m.cos(theta1)),2) +
-            m.pow(abs(self.l3 + self.l2*m.sin(theta2) + self.l1*m.cos(theta2)*m.sin(theta1)),2) +
-            m.pow(abs(self.l5 - self.l2*m.cos(theta2) + self.l1*m.sin(theta1)*m.sin(theta2)),2)
-        )
-
-    # Matlab L7
-    def calculate_leftcylinder_rod(self,theta1, theta2):
-
-        return m.sqrt(
-            m.pow(abs(self.l2*m.cos(theta2) - self.l5 + self.l1*m.sin(theta1)*m.sin(theta2)),2) +
-            m.pow(abs(self.l4 - self.l1*m.cos(theta1)),2) +
-            m.pow(abs(self.l3 - self.l2*m.sin(theta2) + self.l1*m.cos(theta2)*m.sin(theta1)),2)
-                  )
-
-    def calculate_index_angles(self, cylinder_rod ):
-
-
-
-        self.l11 = self.l11_0+cylinder_rod
-
-        ph1 =  2*m.atan(((self.l9*m.pow((self.l9 + self.l10 - self.l11),2)*m.sqrt(((self.l9 - self.l10 + self.l11)*(self.l10 - self.l9 + self.l11))/( m.pow((self.l9 + self.l10 - self.l11),3)*(self.l9 + self.l10 + self.l11))))/(self.l9 - self.l10 + self.l11) - (self.l10*m.pow((self.l9 + self.l10 - self.l11),2)*m.sqrt(((self.l9 - self.l10 + self.l11)*(self.l10 - self.l9 + self.l11))/(m.pow((self.l9 + self.l10 - self.l11),3)*(self.l9 + self.l10 + self.l11))))/(self.l9 - self.l10 + self.l11) + (self.l11*m.pow((self.l9 + self.l10 - self.l11),2)*m.sqrt(((self.l9 - self.l10 + self.l11)*(self.l10 - self.l9 + self.l11))/(m.pow((self.l9 + self.l10 - self.l11),3)*(self.l9 + self.l10 + self.l11))))/(self.l9 - self.l10 + self.l11))/(self.l9 + self.l10 - self.l11))
-
-        ph2 = 2*m.atan(m.pow((self.l9 + self.l10 - self.l11),2)*m.sqrt((((self.l9 - self.l10 + self.l11)*(self.l10 - self.l9 + self.l11))/(m.pow( (self.l9 + self.l10 - self.l11), 3)*(self.l9 + self.l10 + self.l11))))/(self.l9 - self.l10 + self.l11))
-
-        print([cylinder_rod, ph1, ph1])
-
-        return [ph1, ph2]
 
 
 

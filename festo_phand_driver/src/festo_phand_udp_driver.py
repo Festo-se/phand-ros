@@ -21,7 +21,7 @@ from festo_phand_msgs.srv import *
 from std_srvs.srv import Trigger, TriggerResponse
 from bionic_messages.bionic_messages import *
 from ufw.util import valid_address
-
+from festo_phand_joint_publisher import HandJointPublisher
 
 class ROSPhandUdpDriver:
     """
@@ -40,12 +40,19 @@ class ROSPhandUdpDriver:
         # Init ros
         rospy.init_node("festo_phand_driver")
         # start the udp event loop
-        importlib.reload(logging) 
+        importlib.reload(logging)
+        logging.basicConfig(format='%(asctime)s,%(msecs)d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
+                            datefmt='%Y-%m-%d:%H:%M:%S',
+                            level=logging.DEBUG)
 
-        self.phand = PHand()        
+        self.phand = PHand()
+
+        self.joinpub = HandJointPublisher(self.phand)
+
+
         self.phand.register_new_data_available_cb(self.new_data_available_cb)
         self.phand.set_required_msg_ids(self.required_msgs_ids)
-        
+
         # Setup internal status
         self.hand_state = HandState()
         self.hand_state.state = -1
@@ -92,7 +99,8 @@ class ROSPhandUdpDriver:
         while not rospy.is_shutdown(): 
             self.generate_hand_state()
             state_pub.publish(self.hand_state)
-            self.control_wrist()
+            self.joinpub.update_joint_state()
+            #self.control_wrist()
             rate.sleep()
 
         rospy.loginfo("Shutting down udp client")
@@ -448,8 +456,13 @@ class ROSPhandUdpDriver:
         
         cylinder_sensor = GenericSensor()
         cylinder_sensor.name = msg.get_unique_name()
+        cylinder_sensor.provides = msg.provides
         cylinder_sensor.id = msg.get_id()
         cylinder_sensor.raw_values = msg.values
+        cylinder_sensor.calibrated_values = msg.calibrated_values
+
+        self.joinpub.set_sensor_input(l1=msg.calibrated_values[1],
+                                       l2=msg.calibrated_values[2])
 
         self.cylinder_pub.publish(cylinder_sensor)             
 

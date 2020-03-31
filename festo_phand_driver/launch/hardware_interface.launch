@@ -12,7 +12,7 @@
 
       <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" />
 
-<!--      <include file="$(find festo_phand_description)/launch/display_full_hand_joint_pub.launch" />-->
+      <include file="$(find festo_phand_description)/launch/display_full_hand_joint_pub.launch" />
 
 
 </launch>
