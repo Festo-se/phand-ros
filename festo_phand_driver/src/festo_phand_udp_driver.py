@@ -39,6 +39,7 @@ class ROSPhandUdpDriver:
 
         # Init ros
         rospy.init_node("festo_phand_driver")
+
         # start the udp event loop
         importlib.reload(logging)
         logging.basicConfig(format='%(asctime)s,%(msecs)d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
@@ -48,7 +49,6 @@ class ROSPhandUdpDriver:
         self.phand = PHand()
 
         self.joinpub = HandJointPublisher(self.phand)
-
 
         self.phand.register_new_data_available_cb(self.new_data_available_cb)
         self.phand.set_required_msg_ids(self.required_msgs_ids)

@@ -1,8 +1,12 @@
 <?xml version="1.0"?>
 <launch>
       <arg name="test_gui"  default="false" />
+      <arg name="sim" default="true" />
 
-      <node pkg="festo_phand_driver" type="festo_phand_udp_driver.py" name="phand_hardware_interface" output="screen" />
+
+      <node pkg="festo_phand_driver" type="festo_phand_udp_driver.py" name="phand_hardware_interface" output="screen" >
+            <param name="sim" value="$(arg sim)"/>
+      </node>
 
       <node name="phand_debug_ui" pkg="festo_phand_driver" type="start_webserver.py" />
 
@@ -12,7 +16,7 @@
 
       <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" />
 
-      <include file="$(find festo_phand_description)/launch/display_full_hand_joint_pub.launch" />
+<!--      <include file="$(find festo_phand_description)/launch/display_full_hand_joint_pub.launch" />-->
 
 
 </launch>
