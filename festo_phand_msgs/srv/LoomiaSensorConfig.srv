@@ -1,0 +1,12 @@
+# Series resistance for each column (Total of 11)
+# Max 50 kOhm
+float32[] series_resistance
+# Reference voltage of for all measurements
+float32 reference_voltage
+# Cycles delay after column switch
+float32 d_column_switch
+
+float32 led_logo
+float32 led_board
+---
+bool result

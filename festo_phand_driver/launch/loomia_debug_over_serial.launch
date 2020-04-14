@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+      <node pkg="festo_phand_driver" type="loomia_settings_gui.py" name="loomia_settings_gui" output="screen" />
+      <node pkg="festo_phand_driver" type="serial_loomia_client.py" name="loomia_serial_interface" output="screen" />
+      <node pkg="plotjuggler" type="PlotJuggler"
+            name="plotjugler"
+            output="screen"
+            args="--layout $(find festo_phand_driver)/config/plot_juggler_sensors_loomia.xml"
+      />
+
+
+</launch>

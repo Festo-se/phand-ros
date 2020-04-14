@@ -15,14 +15,15 @@ import rospy
 from diagnostic_msgs.msg import KeyValue
 # Festo imports
 from bionic_tools.pid_control import PID
-from phand_core_lib.phand import PHand, PHandState
+from phand_core_lib.phand import PHand, PHandState, PhandSensorCalibrationValue
 from festo_phand_msgs.msg import *
 from festo_phand_msgs.srv import *
 from std_srvs.srv import Trigger, TriggerResponse
 from bionic_messages.bionic_messages import *
+from ufw.util import valid_address
+from festo_phand_joint_publisher import HandJointPublisher
 
-
-class ROSPhandUdpDriver():
+class ROSPhandUdpDriver:
     """
     Wrapper class for the phand_core_lib to provide a ros interface for the phand
     """
@@ -38,13 +39,20 @@ class ROSPhandUdpDriver():
 
         # Init ros
         rospy.init_node("festo_phand_driver")
-        # start the udp event loop
-        importlib.reload(logging) 
 
-        self.phand = PHand()        
+        # start the udp event loop
+        importlib.reload(logging)
+        logging.basicConfig(format='%(asctime)s,%(msecs)d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
+                            datefmt='%Y-%m-%d:%H:%M:%S',
+                            level=logging.DEBUG)
+
+        self.phand = PHand()
+
+        self.joinpub = HandJointPublisher(self.phand)
+
         self.phand.register_new_data_available_cb(self.new_data_available_cb)
         self.phand.set_required_msg_ids(self.required_msgs_ids)
-        
+
         # Setup internal status
         self.hand_state = HandState()
         self.hand_state.state = -1
@@ -67,7 +75,11 @@ class ROSPhandUdpDriver():
         # Offer services
         rospy.Service("festo/phand/close", SimpleOpenClose, self.simple_close_cb)
         rospy.Service("festo/phand/open", SimpleOpenClose, self.simple_open_cb)
-        rospy.Service("festo/phand/set_configuration", SetConfiguration, self.set_configuration_cb)      
+        rospy.Service("festo/phand/set_configuration", SetConfiguration, self.set_configuration_cb)
+        rospy.Service("festo/phand/loomia/set_configuration", LoomiaSensorConfig, self.loomia_config_srv_cb)
+        rospy.Service("festo/phand/flexsensors/set_configuration", FlexSensorConfig, self.flexsensor_config_srv_cb)
+
+        rospy.Service("festo/phand/set_sensor_calibration", SetSensorCalibration, self.set_sensor_calibration_cb)
 
         rospy.Service("festo/phand/calibrate/wrist", Trigger, self.calibrate_wrist_cb)  
 
@@ -87,11 +99,14 @@ class ROSPhandUdpDriver():
         while not rospy.is_shutdown(): 
             self.generate_hand_state()
             state_pub.publish(self.hand_state)
-            # self.control_wrist()
+            self.joinpub.update_joint_state()
+            #self.control_wrist()
             rate.sleep()
 
         rospy.loginfo("Shutting down udp client")
         self.phand.shutdown()
+
+
 
     def new_data_available_cb(self):
         """
@@ -169,8 +184,8 @@ class ROSPhandUdpDriver():
         
         self.phand.set_pressure_data(self.pressures)
         
-        #print ("LEFT SOLL %.2f  IST %.2f" % (self.wrist_control_left.SetPoint, self.pressures[5]) )
-        #print ("LEFT SOLL %.2f  IST %.2f" % (self.wrist_control_left.SetPoint, left) )
+        # print ("LEFT SOLL %.2f  IST %.2f" % (self.wrist_control_left.SetPoint, self.pressures[5]) )
+        # print ("LEFT SOLL %.2f  IST %.2f" % (self.wrist_control_left.SetPoint, left) )
         
     # Service callbacks
 
@@ -189,6 +204,52 @@ class ROSPhandUdpDriver():
             calib_response.message = "Calibration not finished."
 
         return calib_response
+
+    def set_sensor_calibration_cb(self, msg:SetSensorCalibrationRequest):
+
+        print(msg)
+
+        calib_values = []
+        for calib_v in msg.calibration_values:
+            calib_values.append(
+                PhandSensorCalibrationValue(value_id=calib_v.id,
+                                            value=calib_v.value))
+
+        self.phand.set_calibration(
+            sensor_id=msg.sensor_id,
+            calibration_values=calib_values)
+
+        return SetSensorCalibrationResponse(True)
+        
+
+    def flexsensor_config_srv_cb(self, msg: FlexSensorConfigRequest):
+
+        if len(msg.series_resistance_top) != 7 or len(msg.series_resistance_bottom) != 7:
+            rospy.logerr("Number of series resistance does not match the required number of 7")
+            return FlexSensorConfigResponse(False)
+
+        self.phand.set_flexsensor_config(msg.led_green,
+                                         msg.led_blue,
+                                         msg.led_red,
+                                         msg.override_leds,
+                                         msg.series_resistance_top,
+                                         msg.series_resistance_bottom)
+
+        return FlexSensorConfigResponse(True)
+
+    def loomia_config_srv_cb(self, msg:LoomiaSensorConfigRequest):
+
+        if len(msg.series_resistance) != 11:
+            rospy.logerr("Number of series resistance does not match the required number of 11")
+            return LoomiaSensorConfigResponse(False)
+
+        self.phand.set_loomia_config(msg.reference_voltage,
+                                     msg.series_resistance,
+                                     msg.d_column_switch,
+                                     msg.led_logo,
+                                     msg.led_board)
+
+        return LoomiaSensorConfigResponse(True)
 
     def set_configuration_cb(self, msg):
         """
@@ -372,21 +433,36 @@ class ROSPhandUdpDriver():
         self.hand_state.internal_sensors.mag.magnetic_field.y = msg.mag_y
         self.hand_state.internal_sensors.mag.magnetic_field.z = msg.mag_z
 
-    def hand_loomia_generate(self, msg):
-
+    def hand_loomia_generate(self, msg: BionicLoomiaMessage):
         loomia_sensor = GenericSensor()
         loomia_sensor.name = msg.get_unique_name()
         loomia_sensor.id = msg.get_id()
-        loomia_sensor.raw_values = msg.pressures
 
-        self.loomia_pub.publish(loomia_sensor) 
+        loomia_sensor.raw_values = msg.pressures
+        loomia_sensor.raw_values.extend(msg.set_resitance_values)
+        loomia_sensor.raw_values.append(msg.set_measurement_delay)
+        loomia_sensor.raw_values.append(msg.set_ref_voltage)
+        loomia_sensor.raw_values.append(msg.meas_ref_voltage)
+
+        # Calculating the real voltage values for the
+        # raw using the method from RM0038 Rev. 287/906 (Reference manual st)
+        for value in msg.pressures:
+            calibrated_value = (msg.meas_ref_voltage / pow(2, 12))*value
+            loomia_sensor.calibrated_values.append(calibrated_value)
+
+        self.loomia_pub.publish(loomia_sensor)
 
     def hand_cylinder_generate(self, msg):
         
         cylinder_sensor = GenericSensor()
         cylinder_sensor.name = msg.get_unique_name()
+        cylinder_sensor.provides = msg.provides
         cylinder_sensor.id = msg.get_id()
         cylinder_sensor.raw_values = msg.values
+        cylinder_sensor.calibrated_values = msg.calibrated_values
+
+        self.joinpub.set_sensor_input(l1=msg.calibrated_values[1],
+                                       l2=msg.calibrated_values[2])
 
         self.cylinder_pub.publish(cylinder_sensor)             
 
