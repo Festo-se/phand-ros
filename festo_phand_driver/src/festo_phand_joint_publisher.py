@@ -42,6 +42,7 @@ class HandJointPublisher:
             if joint.type in ["revolute","prismatic"] and self.hand_prefix in joint.name:
                 self.joint_state.name.append(joint.name)
 
+
     def update_joint_state(self):
         self.joint_state.header.stamp = rospy.Time.now()
 

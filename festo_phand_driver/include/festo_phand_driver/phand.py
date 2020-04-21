@@ -57,19 +57,7 @@ class Phand:
         # close_hand_msg.configuration = configure_hand_msg
         # close_hand(close_hand_msg)
 
-        self.pressures_msg.values[0] = 0.0 * 10e5
-        self.pressures_msg.values[1] = 3.7 * 10e5
-        self.pressures_msg.values[2] = 0.0 * 10e5
-        self.pressures_msg.values[3] = 1.0 * 10e5
-        self.pressures_msg.values[4] = 5.3 * 10e5
-        self.pressures_msg.values[5] = 0.0 * 10e5
-        self.pressures_msg.values[6] = 4.6 * 10e5
-        self.pressures_msg.values[7] = 0.0 * 10e5
-        self.pressures_msg.values[8] = 4.3 * 10e5
-        self.pressures_msg.values[9] = 1.2 * 10e5
-        self.pressures_msg.values[10] = 2.7 * 10e5
-        self.pressures_msg.values[11] = 3.0 * 10e5
-
+        self.pressures_msg.values = [100000.0, 405899.99999999994, 175000.0, 311850.0, 594000.0, 100000.0, 594000.0, 100000.0, 594000.0, 100000.0, 579150.0, 594000.0]
         self.pressure_pup.publish(self.pressures_msg)
         rospy.sleep(1)
 

@@ -28,7 +28,7 @@
 <!--    Start the plannings scene update -->
 <node pkg="bionic_vision_driver" type="festo_plannings_scene_updater.py" name="plannings_scene_updater"/>
 
-    <!--    Start the robot gui -->
+<!--        Start the robot gui -->
 <node pkg="festo_robot_gui" type="festo_cobot_gui.py" name="robot_gui"/>
 <!--Start the support services for the gui-->
     <include file="$(find festo_robotic_suite_support)/launch/moveitbot_robotic_suite_support.launch" />

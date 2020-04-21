@@ -35,7 +35,7 @@
            name="grabbing_point_joint"
         type="fixed">
             <origin
-                    xyz="-0.01 0.0138 0.10968"
+                    xyz="-0.01 -0.0138 0.08968"
                     rpy="0 0 0"/> //1.629 -0.248 -0.326
 
             <parent link="${prefix}wrist_base"/>

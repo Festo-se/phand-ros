@@ -43,7 +43,7 @@ class LoomiaSettings(QWidget):
 
         self.gridLayout = QGridLayout(self)
 
-        labels = [["Reference Voltage", 2.8, 2.0, 1.4],
+        labels = [["Reference Voltage", 2.8, 2.0, 1.2],
                   ["Delay before measurement", 200, 75, 20],
                   ["Led board", 1, 0, 0],
                   ["Led logo", 1, 0, 0],

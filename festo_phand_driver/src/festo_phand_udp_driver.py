@@ -48,7 +48,11 @@ class ROSPhandUdpDriver:
 
         self.phand = PHand()
 
-        self.joinpub = HandJointPublisher(self.phand)
+        self.joinpub = []
+        self.joint_pup = False
+        if rospy.has_param("robot_description"):
+            self.joinpub = HandJointPublisher(self.phand)
+            self.joint_pup = True
 
         self.phand.register_new_data_available_cb(self.new_data_available_cb)
         self.phand.set_required_msg_ids(self.required_msgs_ids)
@@ -99,7 +103,8 @@ class ROSPhandUdpDriver:
         while not rospy.is_shutdown(): 
             self.generate_hand_state()
             state_pub.publish(self.hand_state)
-            self.joinpub.update_joint_state()
+            if self.joint_pup:
+                self.joinpub.update_joint_state()
             #self.control_wrist()
             rate.sleep()
 
