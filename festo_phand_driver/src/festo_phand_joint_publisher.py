@@ -8,8 +8,7 @@ import rospy
 from urdf_parser_py.urdf import URDF
 
 from sensor_msgs.msg import JointState
-from std_msgs.msg import Header
-from phand_core_lib.phand import *
+
 
 class HandJointPublisher:
 
@@ -42,13 +41,14 @@ class HandJointPublisher:
     def generate_joint_list(self):
 
         for joint in self.robot.joints:
-            if joint.type in ["revolute","prismatic"]:
+            if joint.type in ["revolute","prismatic"] and self.hand_prefix in joint.name:
                 self.joint_state.name.append(joint.name)
+
 
     def update_joint_state(self):
         self.joint_state.header.stamp = rospy.Time.now()
 
-        [theta1, theta2] = self.phand.jc.calculate_theta1_theta2(self.l1, self.l2)
+        [theta1, theta2, _] = self.phand.jc.calculate_theta1_theta2(self.l1, self.l2)
 
         # print([self.l1, self.l2, theta1, theta2 ])
 
@@ -85,7 +85,6 @@ class HandJointPublisher:
         self.joint_state.position[idx_ibase] =  phi2
 
         self.publish_joint_state.publish(self.joint_state)
-
 
 
     def find_joint_data(self, name):

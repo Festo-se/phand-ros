@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<launch>
+      <arg name="test_gui"  default="false" />
+      <arg name="sim" default="true" />
+      <arg name="robot_ip" default="192.168.34.4" />
+
+<!--    Include the hand driver -->
+<include file="$(find festo_phand_driver)/launch/hardware_interface.launch" >
+    <arg name="sim" value="$(arg sim)"/>
+    <arg name="test_gui" value="$(arg test_gui)"/>
+</include>
+
+<!--    Start the aubo robot -->
+<include file="$(find festo_aubo_workspace_moveit_config)/launch/moveit_planning_execution.launch" >
+    <arg name="sim" value="$(arg sim)"/>
+    <arg name="robot_ip" value="$(arg robot_ip)"/>
+</include>
+
+<!--    Start the vision part -->
+    <group unless="$(arg sim)">
+<include file="$(find bionic_vision_driver)/launch/bionic_vision.launch" >
+</include>
+    </group>
+    <group if="$(arg sim)">
+        <node pkg="bionic_vision_driver" type="fake_detection_data.py" name="fake_vision_data"/>
+    </group>
+
+<!--    Start the plannings scene update -->
+<node pkg="bionic_vision_driver" type="festo_plannings_scene_updater.py" name="plannings_scene_updater"/>
+
+<!--        Start the robot gui -->
+<node pkg="festo_robot_gui" type="festo_cobot_gui.py" name="robot_gui"/>
+<!--Start the support services for the gui-->
+    <include file="$(find festo_robotic_suite_support)/launch/moveitbot_robotic_suite_support.launch" />
+
+</launch>

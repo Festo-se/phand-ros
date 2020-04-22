@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import signal, sys
 import numpy as np
 import math as m
@@ -12,9 +12,6 @@ from std_msgs.msg import Header
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from phand_core_lib.phand import *
-
-
-
 
 
 class JointSlider(QSlider):
@@ -34,7 +31,6 @@ class JointSlider(QSlider):
         self.valueChanged[int].connect(self.map_value)
         self.joint_data = joint_data
 
-        print(joint_data)
         self.set_zero_value()
         self.map_value(self.value())
 
@@ -80,8 +76,10 @@ class HandJointPublisher(QWidget):
         super(QWidget, self).__init__()
 
         self.hand_prefix = rospy.get_param("~hand_name", "")
-        self.display_joints = rospy.get_param("~visible_joints", "")
+        self.display_joints = rospy.get_param("~visible_joints", [])
         self.joint_wild_card = rospy.get_param("~show_all_joints_with", "phand_")
+        self.only_hand_joints = rospy.get_param("~only_hand_joints", True)
+
         self.not_display_joints = [
             self.hand_prefix +'rightcylinder_rod',
             self.hand_prefix +'wristBase_cylinderR',
@@ -120,6 +118,11 @@ class HandJointPublisher(QWidget):
 
         for joint in self.robot.joints:
             if joint.type in ["revolute","prismatic"]:
+
+                if self.only_hand_joints:
+                    if self.hand_prefix not in joint.name:
+                        continue
+
                 self.joint_state.name.append(joint.name)
 
     def update_joint_state(self):
@@ -189,15 +192,6 @@ class HandJointPublisher(QWidget):
                 self.gridLayout.addWidget(lbl,row,0)
                 self.gridLayout.addWidget(self.sliders[row], row, 1)
                 self.gridLayout.addWidget(lbl_value, row, 2)
-
-
-
-
-
-
-
-
-
 
 
 

@@ -17,14 +17,13 @@ class Phand:
         except Exception as e:
             pass
 
-        self.close_hand = rospy.ServiceProxy("/festo/phand/close", SimpleClose)
-        self.open_hand = rospy.ServiceProxy("/festo/phand/open", SimpleOpen)
+        self.simple_open_close = rospy.ServiceProxy("/festo/phand/close", SimpleOpenClose)
         self.set_config = rospy.ServiceProxy("/festo/phand/set_configuration", SetConfiguration)
         self.pressure_pup = rospy.Publisher("/festo/phand/set_pressures", SimpleFluidPressures, queue_size=1)
         self.pressures_msg = SimpleFluidPressures()
+        self.pressures_msg.values = [0]*12
 
-        self.close_hand_msg = SimpleCloseRequest()
-        self.open_hand_msg = SimpleOpenRequest()
+        self.simple_open_close_msg = SimpleOpenCloseRequest()
         self.configure_hand_msg = HandConfiguration()
         self.configure_hand_msg.grip_configuration = self.configure_hand_msg.CLAW
         self.configure_hand_msg.control_configuration = HAND_CTRL_MODES.PRESSURE_CONTROL
@@ -49,26 +48,16 @@ class Phand:
 
     def grip_open(self):
         rospy.loginfo("hand open action")
-        self.open_hand(self.open_hand_msg)
+        self.simple_open_close_msg.pressures = [0]*12
+        self.simple_open_close(self.simple_open_close_msg)
         rospy.sleep(1)
 
     def grip_close(self):
         rospy.loginfo("hand close action")
         # close_hand_msg.configuration = configure_hand_msg
         # close_hand(close_hand_msg)
-        self.pressures_msg.values[0] = 0.0 * 10e5
-        self.pressures_msg.values[1] = 3.7 * 10e5
-        self.pressures_msg.values[2] = 0.0 * 10e5
-        self.pressures_msg.values[3] = 1.0 * 10e5
-        self.pressures_msg.values[4] = 5.3 * 10e5
-        self.pressures_msg.values[5] = 0.0 * 10e5
-        self.pressures_msg.values[6] = 4.6 * 10e5
-        self.pressures_msg.values[7] = 0.0 * 10e5
-        self.pressures_msg.values[8] = 4.3 * 10e5
-        self.pressures_msg.values[9] = 1.2 * 10e5
-        self.pressures_msg.values[10] = 2.7 * 10e5
-        self.pressures_msg.values[11] = 3.0 * 10e5
 
+        self.pressures_msg.values = [100000.0, 405899.99999999994, 175000.0, 311850.0, 594000.0, 100000.0, 594000.0, 100000.0, 594000.0, 100000.0, 579150.0, 594000.0]
         self.pressure_pup.publish(self.pressures_msg)
         rospy.sleep(1)
 
@@ -88,7 +77,7 @@ class Phand:
 
             rospy.loginfo("pdiff: %s" % str(p_diff))
 
-            for step in xrange(num_steps):
+            for step in range(num_steps):
 
                 new_pressures = []
                 for pd,pin in zip(p_diff, start_pressures):
@@ -102,9 +91,5 @@ class Phand:
             self.pressures_msg.values = pressures
             rospy.loginfo("Setting pressures to: %s" % ( str(self.pressures_msg.values)))
             self.pressure_pup.publish(self.pressures_msg)
-
-
-
-
 
         rospy.sleep(1.0)
