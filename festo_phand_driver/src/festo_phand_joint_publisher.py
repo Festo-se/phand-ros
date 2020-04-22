@@ -19,7 +19,9 @@ class HandJointPublisher:
 
         self.hand_prefix = "phand1_"
 
-        self.robot = URDF.from_parameter_server()
+        robot_description = rospy.get_param("robot_description")
+        robot_description = robot_description.replace("encoding=\"utf-8\"", "")
+        self.robot = URDF.from_xml_string(robot_description)
 
         self.joint_state = JointState()
 
