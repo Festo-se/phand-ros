@@ -31,10 +31,14 @@ class HandJointPublisher:
 
         self.l1 = 0
         self.l2 = 0
+        self.lrod = 0
 
-    def set_sensor_input(self, l1, l2):
+
+    def set_sensor_input(self, l1, l2, lrod ):
         self.l1 = l1
         self.l2 = l2
+        self.lrod = lrod
+
 
     def generate_joint_list(self):
 
@@ -78,6 +82,7 @@ class HandJointPublisher:
         idx_idev = self.joint_state.name.index(self.hand_prefix +"index_deviation")
         idx_ibase = self.joint_state.name.index(self.hand_prefix +"index_cylinder_base")
 
+        self.joint_state.position[idx_irod] = self.lrod
         [phi1, phi2] = self.phand.jc.calculate_index_angles(self.joint_state.position[idx_irod])
         self.joint_state.position[idx_idev] = phi1
         self.joint_state.position[idx_ibase] =  phi2

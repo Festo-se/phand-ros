@@ -50,6 +50,7 @@ class ROSPhandUdpDriver:
 
         self.joinpub = []
         self.joint_pup = False
+
         if rospy.has_param("robot_description"):
             self.joinpub = HandJointPublisher(self.phand)
             self.joint_pup = True
@@ -466,8 +467,11 @@ class ROSPhandUdpDriver:
         cylinder_sensor.raw_values = msg.values
         cylinder_sensor.calibrated_values = msg.calibrated_values
 
-        self.joinpub.set_sensor_input(l1=msg.calibrated_values[1],
-                                       l2=msg.calibrated_values[2])
+        if self.joint_pup:
+            self.joinpub.set_sensor_input(l1=msg.calibrated_values[1],
+                                          l2=msg.calibrated_values[2],
+                                          lrod=msg.calibrated_values[0]
+                                          )
 
         self.cylinder_pub.publish(cylinder_sensor)             
 

@@ -49,6 +49,7 @@ class Phand:
     def grip_open(self):
         rospy.loginfo("hand open action")
         self.simple_open_close_msg.pressures = [0]*12
+        self.simple_open_close_msg.pressures[0] = 500000.0
         self.simple_open_close(self.simple_open_close_msg)
         rospy.sleep(1)
 
