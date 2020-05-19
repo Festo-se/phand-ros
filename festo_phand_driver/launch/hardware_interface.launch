@@ -3,6 +3,9 @@
       <arg name="test_gui"  default="false" />
       <arg name="sim" default="true" />
 
+      <!--Rosbridge server websocket-->
+      <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" />
+
       <node pkg="festo_phand_driver" type="festo_phand_udp_driver.py" name="phand_hardware_interface" output="screen" >
             <param name="sim" value="$(arg sim)"/>
       </node>
@@ -13,5 +16,8 @@
             <node name="festo_test_ui" pkg="festo_phand_driver" type="hand_test_gui.py" respawn="false"/>
       </group>
 
-<!--      <include file="$(find festo_phand_description)/launch/display_full_hand_joint_pub.launch" />-->
+      <include file="$(find festo_phand_linear_axis_testsetup)/launch/hardware_launch.launch" />
+      
+
+      <!--<include file="$(find festo_phand_description)/launch/display_full_hand_joint_pub.launch" />-->
 </launch>
