@@ -1,0 +1,447 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root version="2.3.8">
+ <tabbed_widget parent="main_window" name="Main Window">
+  <plotmatrix tab_name="LoomiaPlots" rows="4" columns="3">
+   <plot row="0" col="0">
+    <range top="4090.000000" bottom="0.000000" left="0.000000" right="0.000000"/>
+    <limitY min="0" max="4090"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.100" G="147" custom_transform="noTransform" B="20" R="225"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.101" G="71" custom_transform="noTransform" B="99" R="255"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.102" G="0" custom_transform="noTransform" B="255" R="255"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.103" G="211" custom_transform="noTransform" B="0" R="148"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.104" G="47" custom_transform="noTransform" B="255" R="173"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.105" G="170" custom_transform="noTransform" B="205" R="102"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.106" G="255" custom_transform="noTransform" B="255" R="0"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.107" G="128" custom_transform="noTransform" B="0" R="0"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.108" G="42" custom_transform="noTransform" B="42" R="165"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.109" G="105" custom_transform="noTransform" B="105" R="105"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.99" G="60" custom_transform="noTransform" B="20" R="220"/>
+    <transform value="noTransform"/>
+   </plot>
+   <plot row="1" col="0">
+    <range top="4090.000000" bottom="0.000000" left="0.000000" right="0.000000"/>
+    <limitY min="0" max="4090"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.0" G="60" custom_transform="noTransform" B="20" R="220"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.1" G="147" custom_transform="noTransform" B="20" R="225"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.10" G="105" custom_transform="noTransform" B="105" R="105"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.2" G="71" custom_transform="noTransform" B="99" R="255"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.3" G="0" custom_transform="noTransform" B="255" R="255"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.4" G="211" custom_transform="noTransform" B="0" R="148"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.5" G="47" custom_transform="noTransform" B="255" R="173"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.6" G="170" custom_transform="noTransform" B="205" R="102"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.7" G="255" custom_transform="noTransform" B="255" R="0"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.8" G="128" custom_transform="noTransform" B="0" R="0"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.9" G="42" custom_transform="noTransform" B="42" R="165"/>
+    <transform value="noTransform"/>
+   </plot>
+   <plot row="2" col="0">
+    <range top="4090.000000" bottom="0.000000" left="0.000000" right="0.000000"/>
+    <limitY min="0" max="4090"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.33" G="60" custom_transform="noTransform" B="20" R="220"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.34" G="147" custom_transform="noTransform" B="20" R="225"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.35" G="71" custom_transform="noTransform" B="99" R="255"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.36" G="0" custom_transform="noTransform" B="255" R="255"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.37" G="211" custom_transform="noTransform" B="0" R="148"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.38" G="47" custom_transform="noTransform" B="255" R="173"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.39" G="170" custom_transform="noTransform" B="205" R="102"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.40" G="255" custom_transform="noTransform" B="255" R="0"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.41" G="128" custom_transform="noTransform" B="0" R="0"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.42" G="42" custom_transform="noTransform" B="42" R="165"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.43" G="105" custom_transform="noTransform" B="105" R="105"/>
+    <transform value="noTransform"/>
+   </plot>
+   <plot row="3" col="0">
+    <range top="4090.000000" bottom="0.000000" left="0.000000" right="0.000000"/>
+    <limitY min="0" max="4090"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.66" G="60" custom_transform="noTransform" B="20" R="220"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.67" G="147" custom_transform="noTransform" B="20" R="225"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.68" G="71" custom_transform="noTransform" B="99" R="255"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.69" G="0" custom_transform="noTransform" B="255" R="255"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.70" G="211" custom_transform="noTransform" B="0" R="148"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.71" G="47" custom_transform="noTransform" B="255" R="173"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.72" G="170" custom_transform="noTransform" B="205" R="102"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.73" G="255" custom_transform="noTransform" B="255" R="0"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.74" G="128" custom_transform="noTransform" B="0" R="0"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.75" G="42" custom_transform="noTransform" B="42" R="165"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.76" G="105" custom_transform="noTransform" B="105" R="105"/>
+    <transform value="noTransform"/>
+   </plot>
+   <plot row="0" col="1">
+    <range top="4090.000000" bottom="0.000000" left="0.000000" right="0.000000"/>
+    <limitY min="0" max="4090"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.110" G="60" custom_transform="noTransform" B="20" R="220"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.111" G="147" custom_transform="noTransform" B="20" R="225"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.112" G="71" custom_transform="noTransform" B="99" R="255"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.113" G="0" custom_transform="noTransform" B="255" R="255"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.114" G="211" custom_transform="noTransform" B="0" R="148"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.115" G="47" custom_transform="noTransform" B="255" R="173"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.116" G="170" custom_transform="noTransform" B="205" R="102"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.117" G="255" custom_transform="noTransform" B="255" R="0"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.118" G="128" custom_transform="noTransform" B="0" R="0"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.119" G="42" custom_transform="noTransform" B="42" R="165"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.120" G="105" custom_transform="noTransform" B="105" R="105"/>
+    <transform value="noTransform"/>
+   </plot>
+   <plot row="1" col="1">
+    <range top="4090.000000" bottom="0.000000" left="0.000000" right="0.000000"/>
+    <limitY min="0" max="4090"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.11" G="60" custom_transform="noTransform" B="20" R="220"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.12" G="147" custom_transform="noTransform" B="20" R="225"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.13" G="71" custom_transform="noTransform" B="99" R="255"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.14" G="0" custom_transform="noTransform" B="255" R="255"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.15" G="211" custom_transform="noTransform" B="0" R="148"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.16" G="47" custom_transform="noTransform" B="255" R="173"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.17" G="170" custom_transform="noTransform" B="205" R="102"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.18" G="255" custom_transform="noTransform" B="255" R="0"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.19" G="128" custom_transform="noTransform" B="0" R="0"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.20" G="42" custom_transform="noTransform" B="42" R="165"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.21" G="105" custom_transform="noTransform" B="105" R="105"/>
+    <transform value="noTransform"/>
+   </plot>
+   <plot row="2" col="1">
+    <range top="4090.000000" bottom="0.000000" left="0.000000" right="0.000000"/>
+    <limitY min="0" max="4090"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.44" G="60" custom_transform="noTransform" B="20" R="220"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.45" G="147" custom_transform="noTransform" B="20" R="225"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.46" G="71" custom_transform="noTransform" B="99" R="255"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.47" G="0" custom_transform="noTransform" B="255" R="255"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.48" G="211" custom_transform="noTransform" B="0" R="148"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.49" G="47" custom_transform="noTransform" B="255" R="173"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.50" G="170" custom_transform="noTransform" B="205" R="102"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.51" G="255" custom_transform="noTransform" B="255" R="0"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.52" G="128" custom_transform="noTransform" B="0" R="0"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.53" G="42" custom_transform="noTransform" B="42" R="165"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.54" G="105" custom_transform="noTransform" B="105" R="105"/>
+    <transform value="noTransform"/>
+   </plot>
+   <plot row="3" col="1">
+    <range top="4090.000000" bottom="0.000000" left="0.000000" right="0.000000"/>
+    <limitY min="0" max="4090"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.77" G="60" custom_transform="noTransform" B="20" R="220"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.78" G="147" custom_transform="noTransform" B="20" R="225"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.79" G="71" custom_transform="noTransform" B="99" R="255"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.80" G="0" custom_transform="noTransform" B="255" R="255"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.81" G="211" custom_transform="noTransform" B="0" R="148"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.82" G="47" custom_transform="noTransform" B="255" R="173"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.83" G="170" custom_transform="noTransform" B="205" R="102"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.84" G="255" custom_transform="noTransform" B="255" R="0"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.85" G="128" custom_transform="noTransform" B="0" R="0"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.86" G="42" custom_transform="noTransform" B="42" R="165"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.87" G="105" custom_transform="noTransform" B="105" R="105"/>
+    <transform value="noTransform"/>
+   </plot>
+   <plot row="0" col="2">
+    <range top="4090.000000" bottom="0.000000" left="0.000000" right="0.000000"/>
+    <limitY min="0" max="4090"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.121" G="60" custom_transform="noTransform" B="20" R="220"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.122" G="147" custom_transform="noTransform" B="20" R="225"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.123" G="71" custom_transform="noTransform" B="99" R="255"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.124" G="0" custom_transform="noTransform" B="255" R="255"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.125" G="211" custom_transform="noTransform" B="0" R="148"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.126" G="47" custom_transform="noTransform" B="255" R="173"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.127" G="170" custom_transform="noTransform" B="205" R="102"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.128" G="255" custom_transform="noTransform" B="255" R="0"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.129" G="0" custom_transform="noTransform" B="0" R="0"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.130" G="42" custom_transform="noTransform" B="42" R="165"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.131" G="105" custom_transform="noTransform" B="105" R="105"/>
+    <transform value="noTransform"/>
+   </plot>
+   <plot row="1" col="2">
+    <range top="4090.000000" bottom="0.000000" left="0.000000" right="0.000000"/>
+    <limitY min="0" max="4090"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.22" G="60" custom_transform="noTransform" B="20" R="220"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.23" G="147" custom_transform="noTransform" B="20" R="225"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.24" G="71" custom_transform="noTransform" B="99" R="255"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.25" G="0" custom_transform="noTransform" B="255" R="255"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.26" G="211" custom_transform="noTransform" B="0" R="148"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.27" G="47" custom_transform="noTransform" B="255" R="173"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.28" G="170" custom_transform="noTransform" B="205" R="102"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.29" G="255" custom_transform="noTransform" B="255" R="0"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.30" G="128" custom_transform="noTransform" B="0" R="0"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.31" G="42" custom_transform="noTransform" B="42" R="165"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.32" G="105" custom_transform="noTransform" B="105" R="105"/>
+    <transform value="noTransform"/>
+   </plot>
+   <plot row="2" col="2">
+    <range top="4090.000000" bottom="0.000000" left="0.000000" right="0.000000"/>
+    <limitY min="0" max="4090"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.55" G="60" custom_transform="noTransform" B="20" R="220"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.56" G="147" custom_transform="noTransform" B="20" R="225"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.57" G="71" custom_transform="noTransform" B="99" R="255"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.58" G="0" custom_transform="noTransform" B="255" R="255"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.59" G="211" custom_transform="noTransform" B="0" R="148"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.60" G="47" custom_transform="noTransform" B="255" R="173"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.61" G="170" custom_transform="noTransform" B="205" R="102"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.62" G="255" custom_transform="noTransform" B="255" R="0"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.63" G="128" custom_transform="noTransform" B="0" R="0"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.64" G="42" custom_transform="noTransform" B="42" R="165"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.65" G="105" custom_transform="noTransform" B="105" R="105"/>
+    <transform value="noTransform"/>
+   </plot>
+   <plot row="3" col="2">
+    <range top="4090.000000" bottom="0.000000" left="0.000000" right="0.000000"/>
+    <limitY min="0" max="4090"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.88" G="60" custom_transform="noTransform" B="20" R="220"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.89" G="147" custom_transform="noTransform" B="20" R="225"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.90" G="71" custom_transform="noTransform" B="99" R="255"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.91" G="0" custom_transform="noTransform" B="255" R="255"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.92" G="211" custom_transform="noTransform" B="0" R="148"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.93" G="47" custom_transform="noTransform" B="255" R="173"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.94" G="170" custom_transform="noTransform" B="205" R="102"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.95" G="255" custom_transform="noTransform" B="255" R="0"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.96" G="128" custom_transform="noTransform" B="0" R="0"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.97" G="42" custom_transform="noTransform" B="42" R="165"/>
+    <curve name="/festo/phand/connected_sensors/loomia_sensors/raw_values.98" G="105" custom_transform="noTransform" B="105" R="105"/>
+    <transform value="noTransform"/>
+   </plot>
+  </plotmatrix>
+  <plotmatrix tab_name="PressureSensors" rows="7" columns="2">
+   <plot row="0" col="0">
+    <range top="700000.000000" bottom="70000.000000" left="-871.470535" right="-866.470584"/>
+    <limitY min="70000" max="700000"/>
+    <curve name="/festo/phand/state/internal_sensors/actual_pressures/values.0" G="119" custom_transform="noTransform" B="180" R="31"/>
+    <transform value="noTransform"/>
+   </plot>
+   <plot row="1" col="0">
+    <range top="700000.000000" bottom="70000.000000" left="-871.470535" right="-866.470584"/>
+    <limitY min="70000" max="700000"/>
+    <curve name="/festo/phand/state/internal_sensors/actual_pressures/values.1" G="39" custom_transform="noTransform" B="40" R="214"/>
+    <transform value="noTransform"/>
+   </plot>
+   <plot row="2" col="0">
+    <range top="700000.000000" bottom="70000.000000" left="-871.470535" right="-866.470584"/>
+    <limitY min="70000" max="700000"/>
+    <curve name="/festo/phand/state/internal_sensors/actual_pressures/values.2" G="190" custom_transform="noTransform" B="207" R="23"/>
+    <transform value="noTransform"/>
+   </plot>
+   <plot row="3" col="0">
+    <range top="700000.000000" bottom="70000.000000" left="-871.470535" right="-866.470584"/>
+    <limitY min="70000" max="700000"/>
+    <curve name="/festo/phand/state/internal_sensors/actual_pressures/values.3" G="189" custom_transform="noTransform" B="34" R="188"/>
+    <transform value="noTransform"/>
+   </plot>
+   <plot row="4" col="0">
+    <range top="700000.000000" bottom="70000.000000" left="-871.470535" right="-866.470584"/>
+    <limitY min="70000" max="700000"/>
+    <curve name="/festo/phand/state/internal_sensors/actual_pressures/values.4" G="119" custom_transform="noTransform" B="180" R="31"/>
+    <transform value="noTransform"/>
+   </plot>
+   <plot row="5" col="0">
+    <range top="700000.000000" bottom="70000.000000" left="-871.470535" right="-866.470584"/>
+    <limitY min="70000" max="700000"/>
+    <curve name="/festo/phand/state/internal_sensors/actual_pressures/values.5" G="39" custom_transform="noTransform" B="40" R="214"/>
+    <transform value="noTransform"/>
+   </plot>
+   <plot row="6" col="0">
+    <range top="700000.000000" bottom="70000.000000" left="-871.470535" right="-866.470584"/>
+    <limitY min="70000" max="700000"/>
+    <curve name="/festo/phand/state/internal_sensors/actual_pressures/values.6" G="201" custom_transform="noTransform" B="56" R="26"/>
+    <transform value="noTransform"/>
+   </plot>
+   <plot row="0" col="1">
+    <range top="700000.000000" bottom="70000.000000" left="-871.470535" right="-866.470584"/>
+    <limitY min="70000" max="700000"/>
+    <curve name="/festo/phand/state/internal_sensors/actual_pressures/values.7" G="127" custom_transform="noTransform" B="14" R="255"/>
+    <transform value="noTransform"/>
+   </plot>
+   <plot row="1" col="1">
+    <range top="700000.000000" bottom="70000.000000" left="-871.470535" right="-866.470584"/>
+    <limitY min="70000" max="700000"/>
+    <curve name="/festo/phand/state/internal_sensors/actual_pressures/values.8" G="76" custom_transform="noTransform" B="193" R="241"/>
+    <transform value="noTransform"/>
+   </plot>
+   <plot row="2" col="1">
+    <range top="700000.000000" bottom="70000.000000" left="-871.470535" right="-866.470584"/>
+    <limitY min="70000" max="700000"/>
+    <curve name="/festo/phand/state/internal_sensors/actual_pressures/values.9" G="103" custom_transform="noTransform" B="189" R="148"/>
+    <transform value="noTransform"/>
+   </plot>
+   <plot row="3" col="1">
+    <range top="700000.000000" bottom="70000.000000" left="-871.470535" right="-866.470584"/>
+    <limitY min="70000" max="700000"/>
+    <curve name="/festo/phand/state/internal_sensors/actual_pressures/values.10" G="201" custom_transform="noTransform" B="56" R="26"/>
+    <transform value="noTransform"/>
+   </plot>
+   <plot row="4" col="1">
+    <range top="700000.000000" bottom="70000.000000" left="-871.470535" right="-866.470584"/>
+    <limitY min="70000" max="700000"/>
+    <curve name="/festo/phand/state/internal_sensors/actual_pressures/values.11" G="127" custom_transform="noTransform" B="14" R="255"/>
+    <transform value="noTransform"/>
+   </plot>
+   <plot row="5" col="1">
+    <range top="700000.000000" bottom="70000.000000" left="-871.470535" right="-866.470584"/>
+    <limitY min="70000" max="700000"/>
+    <curve name="/festo/phand/state/internal_sensors/actual_pressures/values.12" G="76" custom_transform="noTransform" B="193" R="241"/>
+    <transform value="noTransform"/>
+   </plot>
+   <plot row="6" col="1">
+    <range top="700000.000000" bottom="70000.000000" left="-871.470535" right="-866.470584"/>
+    <limitY min="70000" max="700000"/>
+    <curve name="/festo/phand/state/internal_sensors/actual_pressures/values.13" G="103" custom_transform="noTransform" B="189" R="148"/>
+    <transform value="noTransform"/>
+   </plot>
+  </plotmatrix>
+  <plotmatrix tab_name="CylinderPosSensors" rows="3" columns="1">
+   <plot row="0" col="0">
+    <range top="3300.000000" bottom="1000.000000" left="-871.460881" right="-866.461195"/>
+    <limitY min="1000" max="3300"/>
+    <curve name="/festo/phand/connected_sensors/cylinder_sensors/raw_values.0" G="201" custom_transform="noTransform" B="56" R="26"/>
+    <transform value="noTransform"/>
+   </plot>
+   <plot row="1" col="0">
+    <range top="3300.000000" bottom="1000.000000" left="-871.460881" right="-866.461195"/>
+    <limitY min="1000" max="3300"/>
+    <curve name="/festo/phand/connected_sensors/cylinder_sensors/raw_values.1" G="127" custom_transform="noTransform" B="14" R="255"/>
+    <transform value="noTransform"/>
+   </plot>
+   <plot row="2" col="0">
+    <range top="3300.000000" bottom="1000.000000" left="-871.460881" right="-866.461195"/>
+    <limitY min="1000" max="3300"/>
+    <curve name="/festo/phand/connected_sensors/cylinder_sensors/raw_values.2" G="76" custom_transform="noTransform" B="193" R="241"/>
+    <transform value="noTransform"/>
+   </plot>
+  </plotmatrix>
+  <plotmatrix tab_name="FingerPositionSensors" rows="6" columns="2">
+   <plot row="0" col="0">
+    <range top="4096.000000" bottom="0.000000" left="241.201243" right="246.180961"/>
+    <limitY min="0" max="4096"/>
+    <curve name="/festo/phand/connected_sensors/flex_sensors/raw_values.0" G="103" custom_transform="noTransform" B="189" R="148"/>
+    <transform value="noTransform"/>
+   </plot>
+   <plot row="1" col="0">
+    <range top="4096.000000" bottom="0.000000" left="241.201243" right="246.180961"/>
+    <limitY min="0" max="4096"/>
+    <curve name="/festo/phand/connected_sensors/flex_sensors/raw_values.1" G="190" custom_transform="noTransform" B="207" R="23"/>
+    <transform value="noTransform"/>
+   </plot>
+   <plot row="2" col="0">
+    <range top="4096.000000" bottom="0.000000" left="241.201243" right="246.180961"/>
+    <limitY min="0" max="4096"/>
+    <curve name="/festo/phand/connected_sensors/flex_sensors/raw_values.2" G="189" custom_transform="noTransform" B="34" R="188"/>
+    <transform value="noTransform"/>
+   </plot>
+   <plot row="3" col="0">
+    <range top="4096.000000" bottom="0.000000" left="241.201243" right="246.180961"/>
+    <limitY min="0" max="4096"/>
+    <curve name="/festo/phand/connected_sensors/flex_sensors/raw_values.3" G="119" custom_transform="noTransform" B="180" R="31"/>
+    <transform value="noTransform"/>
+   </plot>
+   <plot row="4" col="0">
+    <range top="4096.000000" bottom="0.000000" left="241.201243" right="246.180961"/>
+    <limitY min="0" max="4096"/>
+    <curve name="/festo/phand/connected_sensors/flex_sensors/raw_values.4" G="39" custom_transform="noTransform" B="40" R="214"/>
+    <transform value="noTransform"/>
+   </plot>
+   <plot row="5" col="0">
+    <range top="2143.025000" bottom="2099.975000" left="241.201243" right="246.180961"/>
+    <limitY/>
+    <curve name="/festo/phand/connected_sensors/flex_sensors/raw_values.0" G="103" custom_transform="noTransform" B="189" R="148"/>
+    <transform value="noTransform"/>
+   </plot>
+   <plot row="0" col="1">
+    <range top="4096.000000" bottom="0.000000" left="241.201243" right="246.180961"/>
+    <limitY min="0" max="4096"/>
+    <curve name="/festo/phand/connected_sensors/flex_sensors/raw_values.5" G="201" custom_transform="noTransform" B="56" R="26"/>
+    <transform value="noTransform"/>
+   </plot>
+   <plot row="1" col="1">
+    <range top="4096.000000" bottom="0.000000" left="241.201243" right="246.180961"/>
+    <limitY min="0" max="4096"/>
+    <curve name="/festo/phand/connected_sensors/flex_sensors/raw_values.6" G="127" custom_transform="noTransform" B="14" R="255"/>
+    <transform value="noTransform"/>
+   </plot>
+   <plot row="2" col="1">
+    <range top="4096.000000" bottom="0.000000" left="241.201243" right="246.180961"/>
+    <limitY min="0" max="4096"/>
+    <curve name="/festo/phand/connected_sensors/flex_sensors/raw_values.7" G="76" custom_transform="noTransform" B="193" R="241"/>
+    <transform value="noTransform"/>
+   </plot>
+   <plot row="3" col="1">
+    <range top="4096.000000" bottom="0.000000" left="241.201243" right="246.180961"/>
+    <limitY min="0" max="4096"/>
+    <curve name="/festo/phand/connected_sensors/flex_sensors/raw_values.8" G="103" custom_transform="noTransform" B="189" R="148"/>
+    <transform value="noTransform"/>
+   </plot>
+   <plot row="4" col="1">
+    <range top="4096.000000" bottom="0.000000" left="241.201243" right="246.180961"/>
+    <limitY min="0" max="4096"/>
+    <curve name="/festo/phand/connected_sensors/flex_sensors/raw_values.9" G="190" custom_transform="noTransform" B="207" R="23"/>
+    <transform value="noTransform"/>
+   </plot>
+   <plot row="5" col="1">
+    <range top="4096.000000" bottom="0.000000" left="241.201243" right="246.180961"/>
+    <limitY min="0" max="4096"/>
+    <curve name="/festo/phand/connected_sensors/flex_sensors/raw_values.10" G="189" custom_transform="noTransform" B="34" R="188"/>
+    <transform value="noTransform"/>
+   </plot>
+  </plotmatrix>
+  <currentPlotMatrix index="3"/>
+ </tabbed_widget>
+ <use_relative_time_offset enabled="1"/>
+ <!-- - - - - - - - - - - - - - - -->
+ <!-- - - - - - - - - - - - - - - -->
+ <Plugins>
+  <plugin ID="DataLoad CSV">
+   <default time_axis=""/>
+  </plugin>
+  <plugin ID="DataLoad ROS bags">
+   <use_header_stamp value="false"/>
+   <use_renaming_rules value="true"/>
+   <discard_large_arrays value="true"/>
+   <max_array_size value="100"/>
+  </plugin>
+  <plugin ID="DataLoad ULog"/>
+  <plugin ID="ROS Topic Subscriber">
+   <use_header_stamp value="false"/>
+   <use_renaming_rules value="true"/>
+   <discard_large_arrays value="true"/>
+   <max_array_size value="300"/>
+  </plugin>
+  <plugin ID="ROS /rosout Visualization" status="idle"/>
+  <plugin ID="ROS Topic Re-Publisher" status="idle"/>
+ </Plugins>
+ <!-- - - - - - - - - - - - - - - -->
+ <previouslyLoaded_Datafiles/>
+ <previouslyLoaded_Streamer name="ROS Topic Subscriber"/>
+ <!-- - - - - - - - - - - - - - - -->
+ <customMathEquations/>
+ <snippets>
+  <snippet name="1st_derivative" language="JS">
+   <global>var prevX = 0
+var prevY = 0</global>
+   <equation>dx = time - prevX
+dy = value - prevY
+prevX = time
+prevY = value
+
+return dy/dx</equation>
+  </snippet>
+  <snippet name="1st_order_lowpass" language="JS">
+   <global>var prevY = 0
+var alpha = 0.1</global>
+   <equation>prevY = alpha * value + (1.-alpha) * prevY
+
+return prevY</equation>
+  </snippet>
+  <snippet name="sum_A_B" language="JS">
+   <global></global>
+   <equation>return $$PLOT_A$$ + $$PLOT_B$$</equation>
+  </snippet>
+  <snippet name="yaw_from_quaternion" language="JS">
+   <global>// source: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+
+function quaternionToYaw(x, y, z, w)
+{
+  // yaw (z-axis rotation)
+  t1 = 2.0 * (w * z + x * y);
+  t2 = 1.0 - 2.0 * (y * y + z * z);
+  yaw = Math.atan2(t1, t2);
+
+  return yaw
+}</global>
+   <equation>return quaternionToYaw(x, y, z, w);</equation>
+  </snippet>
+ </snippets>
+ <!-- - - - - - - - - - - - - - - -->
+</root>
+

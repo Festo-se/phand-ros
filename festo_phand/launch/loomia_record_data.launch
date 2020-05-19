@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <launch>
-      <arg name="test_gui"  default="false" />
+      <arg name="test_gui"  default="true" />
+      <arg name="loomia_gui"  default="true" />
       <arg name="sim" default="true" />
       <arg name="robot_ip" default="192.168.34.4" />
 
@@ -8,6 +9,7 @@
 <include file="$(find festo_phand_driver)/launch/hardware_interface.launch" >
     <arg name="sim" value="$(arg sim)"/>
     <arg name="test_gui" value="$(arg test_gui)"/>
+    <arg name="loomia_gui" value="$(arg loomia_gui)"/>
 </include>
 
 <!--    Start the aubo robot -->
@@ -16,17 +18,6 @@
     <arg name="robot_ip" value="$(arg robot_ip)"/>
 </include>
 
-<!--    Start the vision part -->
-    <group unless="$(arg sim)">
-<include file="$(find bionic_vision_driver)/launch/bionic_vision.launch" >
-</include>
-    </group>
-    <group if="$(arg sim)">
-        <node pkg="bionic_vision_driver" type="fake_detection_data.py" name="fake_vision_data"/>
-    </group>
-
-<!--    Start the plannings scene update -->
-<node pkg="bionic_vision_driver" type="festo_plannings_scene_updater.py" name="plannings_scene_updater"/>
 
 <!--        Start the robot gui -->
 <node pkg="festo_robot_gui" type="festo_cobot_gui.py" name="robot_gui"/>
