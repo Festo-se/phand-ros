@@ -22,6 +22,7 @@ from std_srvs.srv import Trigger, TriggerResponse
 from bionic_messages.bionic_messages import *
 from ufw.util import valid_address
 from festo_phand_joint_publisher import HandJointPublisher
+import copy
 
 class ROSPhandUdpDriver:
     """
@@ -444,7 +445,7 @@ class ROSPhandUdpDriver:
         loomia_sensor.name = msg.get_unique_name()
         loomia_sensor.id = msg.get_id()
 
-        loomia_sensor.raw_values = msg.pressures
+        loomia_sensor.raw_values = copy.deepcopy(msg.pressures)
         loomia_sensor.raw_values.extend(msg.set_resitance_values)
         loomia_sensor.raw_values.append(msg.set_measurement_delay)
         loomia_sensor.raw_values.append(msg.set_ref_voltage)

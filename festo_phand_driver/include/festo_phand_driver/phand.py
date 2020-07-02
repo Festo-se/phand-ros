@@ -31,11 +31,35 @@ class Phand:
         self.config_msg = SetConfigurationRequest()
         self.config_msg.configuration = self.configure_hand_msg
         # self.set_config(self.config_msg)
+        rospy.wait_for_service("festo/phand/loomia/set_configuration")
+        self.set_loomia_settings_srv = rospy.ServiceProxy("festo/phand/loomia/set_configuration", LoomiaSensorConfig)
 
         self.hand_state = HandState()
         rospy.Subscriber("festo/phand/state", HandState, self.hand_state_cb)
 
         rospy.sleep(1.0) # Let the node make a conntion to all subscribers
+
+    def set_loomia_settings(self,
+                            ref_voltage=1.2,
+                            d_column_switch=75,
+                            led_board=1,
+                            led_logo=0,
+                            resistances=None
+                            ):
+
+        if resistances is None:
+            resistances = [40000]*11
+
+        msg = LoomiaSensorConfigRequest()
+        msg.reference_voltage = ref_voltage
+        msg.d_column_switch = d_column_switch
+        msg.led_board = led_board
+        msg.led_logo = led_logo
+        for res in resistances:
+            msg.series_resistance.append(res)
+
+        rospy.logerr(msg)
+        self.set_loomia_settings_srv(msg)
 
     def hand_state_cb(self, msg):
         self.hand_state = msg

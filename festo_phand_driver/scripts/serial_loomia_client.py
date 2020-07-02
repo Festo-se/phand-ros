@@ -7,13 +7,14 @@ from bionic_messages.bionic_messages import BionicSetLoomiaValuesActionMessage
 from bionic_messages.bionic_messages import BionicLoomiaMessage, BIONIC_MSG_IDS
 from festo_phand_msgs.msg import GenericSensor
 from festo_phand_msgs.srv import *
+import copy
 
 class BionicSoftHandSerialClientRosInterface:
 
     def __init__(self):
 
         self.loomia_pub = rospy.Publisher("festo/phand/connected_sensors/loomia_sensors", GenericSensor, queue_size=1)
-        rospy.Service("festo/phand/set_loomia_configuration", LoomiaSensorConfig, self.loomia_config_srv_cb)
+        rospy.Service("festo/phand/loomia/set_configuration", LoomiaSensorConfig, self.loomia_config_srv_cb)
 
         msg_handler = BionicMessageHandler()
         msg = BionicLoomiaMessage(BIONIC_MSG_IDS.LOOMIA_BOARD)
@@ -31,7 +32,11 @@ class BionicSoftHandSerialClientRosInterface:
         loomia_sensor = GenericSensor()
         loomia_sensor.name = msg.get_unique_name()
         loomia_sensor.id = msg.get_id()
-        loomia_sensor.raw_values = msg.pressures
+        loomia_sensor.raw_values = copy.deepcopy(msg.pressures)
+        loomia_sensor.raw_values.extend(msg.set_resitance_values)
+        loomia_sensor.raw_values.append(msg.set_measurement_delay)
+        loomia_sensor.raw_values.append(msg.set_ref_voltage)
+        loomia_sensor.raw_values.append(msg.meas_ref_voltage)
         self.loomia_pub.publish(loomia_sensor)
 
     def loomia_config_srv_cb(self, msg: LoomiaSensorConfigRequest) -> LoomiaSensorConfigResponse:
