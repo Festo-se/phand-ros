@@ -17,6 +17,8 @@
       <!--Rosbridge server websocket-->
       <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" />
 
+      <include file="$(find festo_phand_linear_axis_testsetup)/launch/hardware_launch.launch" />
+
       <!--<group if="$(arg loomia_gui)">
             <node name="loomia_test_ui" pkg="festo_phand_driver" type="loomia_settings_gui.py" respawn="false"/>
       </group-->
