@@ -9,17 +9,11 @@
 # LICENSE
 The Festo BionicSoftHand ROS libraries are published under the [GNU GPL v3.0 License](https://www.gnu.org/licenses/gpl-3.0.de.html).
 
-<br>
-
 # PURPOSE
 These libraries use the bionic python libraries as the core and provide the ROS functionalities on top. It provides services and topics to interact with the BionicSoftHand.
 
-<br>
-
 # DOCUMENTATION
 ToDo
-
-<br>
 
 # IMPORTANT
 
@@ -47,7 +41,7 @@ These packages have to be installed on your system.
     * `` sudo apt-get install python3-pip python3-yaml python-catkin-tools python3-dev python3-numpy ``
     * `` sudo pip3 install rospkg catkin_pkg ``
 * Create a new ROS workspace (http://wiki.ros.org/catkin/Tutorials/create_a_workspace)
-* Clone this repository into the **src** folder of the created workspace* 
+* Clone this repository into the **src** folder of the created workspace
 * Build the workspace
 
 ## AUTOMATIC INSTALL
@@ -60,12 +54,10 @@ Not available
 ```bash
 TODO
 ```
-<br>
 
 # BIONIC SOFT HAND 2.0 SETUP
+[![FESTO](images/bionic_soft_hand.png)](https://www.festo.com/group/de/cms/10156.htm)
 Checkout the [phand-python-libs](https://github.com/Schwimo/phand-python-libs) readme to see how the hardware is working.
-
-<br>
 
 # ROS USAGE
 
@@ -95,7 +87,6 @@ festo/phand/set_valve_setpoints
 ```
 To set the valves publish the corresponding `ValveSetPoints` message to the topic.
 The values should be between 0.0 and 1.0. 0 Meaning 0V for the piezo valve and 1.0 meaning 300V for the piezo valve.
-
 
 ## ROS services
 The following services are offered by the hardware interface:
