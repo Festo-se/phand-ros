@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-$ros_version = rosversion -d
+ros_version=`rosversion -d`
 if [ $ros_version == "" ]; then
     echo "Please install ROS meldoic on your computer to use the phand_ros tools."
 fi
@@ -33,9 +33,10 @@ git clone https://github.com/Schwimo/phand-ros
 rosdep update
 
 sudo apt-get install python3-pip python3-yaml python-catkin-tools python3-dev python3-numpy
-pip3 install rospkg catkin_pkg --user
+sudo pip3 install rospkg catkin_pkg
 
-# build the workspace                                                                                                                                                                 
+# build the workspace   
+cd /home/$USER/phand/phand_ws/
 catkin build
 
 # source the workspace
