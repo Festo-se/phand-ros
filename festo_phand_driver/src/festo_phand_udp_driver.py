@@ -10,30 +10,42 @@ __status__ = "Experimental"
 
 # System imports
 import importlib
+import copy
+import time
+import logging
+
 # Ros imports
 import rospy
+from std_srvs.srv import Trigger, TriggerResponse
 from diagnostic_msgs.msg import KeyValue
+
 # Festo imports
-from bionic_tools.pid_control import PID
-from phand_core_lib.phand import PHand, PHandState, PhandSensorCalibrationValue
+from bionic_pid_control.pid_control import PID
+from phand.phand import PHand
+from phand.phand_constants import PHAND_STATE
+from phand_messages.phand_message_constants import BIONIC_MSG_IDS
+from phand_calibration.phand_sensor_calibration import PhandSensorCalibrationValue
+
+from phand_messages.cylinder_messages import BionicCylinderSensorMessage
+from phand_messages.flex_sensor_messages import BionicFlexSensorMessage
+from phand_messages.imu_messages import BionicIMUDataMessage
+from phand_messages.loomia_messages import BionicLoomiaMessage
+from phand_messages.valve_terminal_messages import BionicValveMessage
+
+from festo_phand_joint_publisher import HandJointPublisher
 from festo_phand_msgs.msg import *
 from festo_phand_msgs.srv import *
-from std_srvs.srv import Trigger, TriggerResponse
-from bionic_messages.bionic_messages import *
-from ufw.util import valid_address
-from festo_phand_joint_publisher import HandJointPublisher
-import copy
 
 class ROSPhandUdpDriver:
     """
     Wrapper class for the phand_core_lib to provide a ros interface for the phand
     """
 
-    required_msgs_ids = [BIONIC_MSG_IDS.VALVE_MODULE,                         
-                         BIONIC_MSG_IDS.IMU_MAINBOARD,
-                         BIONIC_MSG_IDS.LOOMIA_BOARD,
-                         BIONIC_MSG_IDS.FLEX_BOARD,
-                         BIONIC_MSG_IDS.CYLINDER_SENSOR
+    required_msgs_ids = [BIONIC_MSG_IDS.VALVE_MODULE_MSG_ID,                         
+                         BIONIC_MSG_IDS.IMU_MAINBOARD_MSG_ID,
+                         BIONIC_MSG_IDS.LOOMIA_MSG_ID,
+                         BIONIC_MSG_IDS.FLEX_SENSOR_MSG_ID,
+                         BIONIC_MSG_IDS.CYLINDER_SENSOR_MSG_ID
                          ]
 
     def __init__(self):
@@ -87,15 +99,13 @@ class ROSPhandUdpDriver:
 
         rospy.Service("festo/phand/set_sensor_calibration", SetSensorCalibration, self.set_sensor_calibration_cb)
 
-        rospy.Service("festo/phand/calibrate/wrist", Trigger, self.calibrate_wrist_cb)  
-
         P = 1
         I = 0.001
         D = 0.005
         self.wrist_control_left = PID(P, I, D)
-        self.wrist_control_left.setSampleTime(0.2)
+        self.wrist_control_left.set_sample_time(0.2)
         self.wrist_control_right = PID(P, I, D) 
-        self.wrist_control_right.setSampleTime(0.2)  
+        self.wrist_control_right.set_sample_time(0.2)  
         self.pressures = [100000.0] * 12  
 
         self.wrist_control_left.SetPoint = 2500
@@ -103,17 +113,23 @@ class ROSPhandUdpDriver:
         rate = rospy.Rate(100)
         rospy.loginfo("Starting ros event loop")
         while not rospy.is_shutdown(): 
+
+            # Generate the hand state message
             self.generate_hand_state()
+
+            # Publish the gernerated hand state
             state_pub.publish(self.hand_state)
+
+            # If the hand robot is started, publish the joint values
             if self.joint_pup:
                 self.joinpub.update_joint_state()
-            #self.control_wrist()
+
+            self.control_wrist()
+
             rate.sleep()
 
         rospy.loginfo("Shutting down udp client")
         self.phand.shutdown()
-
-
 
     def new_data_available_cb(self):
         """
@@ -169,7 +185,7 @@ class ROSPhandUdpDriver:
         Control the wrist
         """
 
-        if self.phand.com_state != PHandState.ONLINE:
+        if self.phand.com_state != PHAND_STATE.ONLINE:
             return
 
         self.wrist_control_left.update(self.phand.messages['BionicCylinderSensorMessage'].values[1])
@@ -181,7 +197,7 @@ class ROSPhandUdpDriver:
         if left < 100 and left > -100:
             return
 
-        self.pressures[2] = 400000
+        self.pressures[2] = self.pressures[2]
         self.pressures[5] = self.pressures[5] + left
 
         if self.pressures[5] >= 700000.0: 
@@ -196,25 +212,7 @@ class ROSPhandUdpDriver:
         
     # Service callbacks
 
-    def calibrate_wrist_cb(self, msg):
-        """
-        Start the calibration wizard of the hand
-        """
-
-        calib_response = TriggerResponse()
-        
-        if self.phand.calibrate_wrist():
-            calib_response.success = True
-            calib_response.message = "Calibration finished."
-        else:
-            calib_response.success = False
-            calib_response.message = "Calibration not finished."
-
-        return calib_response
-
     def set_sensor_calibration_cb(self, msg:SetSensorCalibrationRequest):
-
-        print(msg)
 
         calib_values = []
         for calib_v in msg.calibration_values:
@@ -227,7 +225,6 @@ class ROSPhandUdpDriver:
             calibration_values=calib_values)
 
         return SetSensorCalibrationResponse(True)
-        
 
     def flexsensor_config_srv_cb(self, msg: FlexSensorConfigRequest):
 
@@ -359,25 +356,6 @@ class ROSPhandUdpDriver:
         self.wrist_control_left.SetPoint = self.phand.wrist_left_calib_zero - (msg.positions[0] * self.phand.wrist_left_calib_step)
         self.wrist_control_right.SetPoint = self.phand.wrist_right_calib_zero + (msg.positions[1] * self.phand.wrist_right_calib_step)
 
-        # new_left_value = 100000
-        # new_right_value = 100000
-
-        # working = True
-        # while working:
-        #     if self.phand.messages['BionicCylinderSensorMessage'].values[1] > value_left:
-        #         new_left_value = new_left_value + 1000
-        #     elif self.phand.messages['BionicCylinderSensorMessage'].values[1] < value_left:
-        #         new_left_value = new_left_value - 1000
-
-        #     if self.phand.messages['BionicCylinderSensorMessage'].values[2] < value_right:
-        #         new_right_value = new_right_value + 1000
-        #     elif self.phand.messages['BionicCylinderSensorMessage'].values[2] > value_right:
-        #         new_right_value = new_right_value - 1000
-
-        #     rospy.sleep(0.01)
-
-        #     print ("LEFT %s    RIGHT %s" % (new_left_value, new_right_value) )
-
     def set_positions_topic_cb(self, msg):
         """
         If the position control is activated, set the positions of the finger.
@@ -388,7 +366,7 @@ class ROSPhandUdpDriver:
     def set_pressures_topic_cb(self, msg):
         """
         Set the pressure for the valves
-        Range: 100000.0 - 400000.0 psi
+        Range: 100000.0 - 600000.0 psi
         """
 
         self.phand.set_pressure_data(msg.values)
@@ -412,19 +390,11 @@ class ROSPhandUdpDriver:
         self.hand_state.internal_sensors.set_pressures.values = msg.set_pressures
         self.hand_state.internal_sensors.valves.supply_valve_setpoints = msg.valve_setpoints[0:11]
         self.hand_state.internal_sensors.valves.exhaust_valve_setpoints = msg.valve_setpoints[12:24]
-    
-    def hand_bendsensor_generate(self, msg):
-
-        bend_sensors = GenericSensor()
-        bend_sensors.name = msg.get_unique_name()
-        bend_sensors.id = msg.get_id()
-        bend_sensors.state = msg.calibration_state
-        bend_sensors.calibrated_values = msg.angles
-        bend_sensors.raw_values = msg.raw_angles
-
-        self.flex_pub.publish(bend_sensors)
 
     def internal_imu_generate(self, msg):
+        """
+        Generate the imu sensor msg
+        """
 
         self.hand_state.internal_sensors.imu.linear_acceleration.x = msg.acc_x
         self.hand_state.internal_sensors.imu.linear_acceleration.y = msg.acc_y
@@ -441,6 +411,10 @@ class ROSPhandUdpDriver:
         self.hand_state.internal_sensors.mag.magnetic_field.z = msg.mag_z
 
     def hand_loomia_generate(self, msg: BionicLoomiaMessage):
+        """
+        Generate the loomia sensor msg
+        """
+
         loomia_sensor = GenericSensor()
         loomia_sensor.name = msg.get_unique_name()
         loomia_sensor.id = msg.get_id()
@@ -460,7 +434,10 @@ class ROSPhandUdpDriver:
         self.loomia_pub.publish(loomia_sensor)
 
     def hand_cylinder_generate(self, msg):
-        
+        """
+        Generate the cylinder sensor message
+        """
+
         cylinder_sensor = GenericSensor()
         cylinder_sensor.name = msg.get_unique_name()
         cylinder_sensor.provides = msg.provides
@@ -477,6 +454,9 @@ class ROSPhandUdpDriver:
         self.cylinder_pub.publish(cylinder_sensor)             
 
     def hand_flex_generate(self, msg):
+        """
+        Generate the flex sensor msg
+        """
 
         flex_sensor = GenericSensor()
         flex_sensor.name = msg.get_unique_name()
