@@ -1,4 +1,3 @@
-# PHAND ROS PROJECT
 [![FESTO](images/logo.png)](https://www.festo.com/group/de/cms/10156.htm)
 
 > <p style="font-size:30px">BionicSoftHand ROS Libraries </p>
@@ -16,17 +15,12 @@ These libraries use the bionic python libraries as the core and provide the ROS 
 ToDo
 
 # IMPORTANT
-
 The maximum supply pressure for the BionicSoftHand is **5 bars**. If you connect more than this amount of air pressure the hand gets damaged and is not usable anymore.
 
 Up to 300V is used for the piezo valves. Be careful with the back part of the valve terminal and avoid touching it.
 
-<br>
-
 # INSTALL INSTRUCTIONS
-
 ## MANUAL INSTALL
-
 The ROS package uses the bionic_python_libs which provide the core functionality to communicate with the BionicSoftHand. 
 These packages have to be installed on your system. 
 
@@ -60,7 +54,6 @@ TODO
 Checkout the [phand-python-libs](https://github.com/Schwimo/phand-python-libs) readme to see how the hardware is working.
 
 # ROS USAGE
-
 When the catkin build completed withour errors, the next steps show the usage.
 
 ## Launchfiles
