@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
       <arg name="test_gui"  default="false" />
-      <arg name="loomia_gui"  default="false" />
+      <arg name="loomia_gui"  default="true" />
       <arg name="sim" default="true" />
 
       <node pkg="festo_phand_driver" type="festo_phand_udp_driver.py" name="phand_hardware_interface" output="screen" >
@@ -17,9 +17,9 @@
       <!--Rosbridge server websocket-->
       <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" />
 
-      <!--<group if="$(arg loomia_gui)">
-            <node name="loomia_test_ui" pkg="festo_phand_driver" type="loomia_settings_gui.py" respawn="false"/>
-      </group-->
+      <group if="$(arg loomia_gui)">
+            <node name="loomia_test_ui" pkg="festo_phand_driver" type="test_loomia_ros.py" respawn="false"/>            
+      </group>
 
 <!--      <include file="$(find festo_phand_description)/launch/display_full_hand_joint_pub.launch" />-->
 </launch>
