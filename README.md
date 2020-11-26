@@ -1,4 +1,3 @@
-# PHAND ROS PROJECT
 [![FESTO](images/logo.png)](https://www.festo.com/group/de/cms/10156.htm)
 
 > <p style="font-size:30px">BionicSoftHand ROS Libraries </p>
@@ -16,26 +15,25 @@ These libraries use the bionic python libraries as the core and provide the ROS 
 ToDo
 
 # IMPORTANT
-
 The maximum supply pressure for the BionicSoftHand is **5 bars**. If you connect more than this amount of air pressure the hand gets damaged and is not usable anymore.
 
 Up to 300V is used for the piezo valves. Be careful with the back part of the valve terminal and avoid touching it.
 
-<br>
-
 # INSTALL INSTRUCTIONS
 
-## MANUAL INSTALL
+## HELPER SCRIPTS
+There are some helper scripts [here](https://github.com/Schwimo/linux_config) to setup your environment.
 
+## MANUAL INSTALL
 The ROS package uses the bionic_python_libs which provide the core functionality to communicate with the BionicSoftHand. 
 These packages have to be installed on your system. 
 
 * Download or clone the necessary repositories
-    * Link 1
-    * Link 2
-    * Link 3
-    * Link 4
-* And install one by one on your computer
+    * [PID Control](https://github.com/Schwimo/bionic-pid-control)
+    * [DHCP](https://github.com/Schwimo/bionic-dhcp)
+    * [Bionic Message Tools](https://github.com/Schwimo/bionic-message-tools)
+    * [BionicSoftHand Python Libraries](https://github.com/Schwimo/phand-python-libs)
+* And install one by one on your computer. To do this change into the root directory of each cloned repository and enter the following command. This executes the `setup.py` file and installes the libraries locally on your computer. The point in the end means to use the current directory.
     * `` pip3 install .  ``
 * The bionic_python_libs libraries require python3. The default python for ROS up to melodic is python2. To make ROS work with python3 you have to install the following packages: 
     * `` sudo apt-get install python3-pip python3-yaml python-catkin-tools python3-dev python3-numpy ``
@@ -52,7 +50,7 @@ Not available
 
 **Linux**:
 ```bash
-TODO
+bash <(wget -qO- https://raw.githubusercontent.com/Schwimo/linux_config/master/scripts/setup_phand.bash)
 ```
 
 # BIONIC SOFT HAND 2.0 SETUP
@@ -60,7 +58,6 @@ TODO
 Checkout the [phand-python-libs](https://github.com/Schwimo/phand-python-libs) readme to see how the hardware is working.
 
 # ROS USAGE
-
 When the catkin build completed withour errors, the next steps show the usage.
 
 ## Launchfiles
@@ -103,6 +100,3 @@ To open the hand
 /festo/phand/set_configuration
 ```
 To change the configuration of the hand
-
-| WARNING: not yet implemented ! |
-| --- |
