@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import signal
 import rospy
 from PyQt5.QtCore import *

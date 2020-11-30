@@ -17,16 +17,20 @@ The maximum supply pressure for the BionicSoftHand is **5 bars**. If you connect
 Up to 300V is used for the piezo valves. Be careful with the back part of the valve terminal and avoid touching it.
 
 # INSTALL INSTRUCTIONS
+
+## HELPER SCRIPTS
+There are some helper scripts [here](https://github.com/Schwimo/linux_config) to setup your environment.
+
 ## MANUAL INSTALL
 The ROS package uses the bionic_python_libs which provide the core functionality to communicate with the BionicSoftHand. 
 These packages have to be installed on your system. 
 
 * Download or clone the necessary repositories
-    * [phand-python-libs](https://github.com/Schwimo/phand-python-libs)
-    * [bionic-message-tools](https://github.com/Schwimo/bionic-message-tools)
-    * [bionic-pid-control](https://github.com/Schwimo/bionic-pid-control)
-    * [bionic-dhcp](https://github.com/Schwimo/bionic-dhcp)
-* And install one by one on your computer
+    * [PID Control](https://github.com/Schwimo/bionic-pid-control)
+    * [DHCP](https://github.com/Schwimo/bionic-dhcp)
+    * [Bionic Message Tools](https://github.com/Schwimo/bionic-message-tools)
+    * [BionicSoftHand Python Libraries](https://github.com/Schwimo/phand-python-libs)
+* And install one by one on your computer. To do this change into the root directory of each cloned repository and enter the following command. This executes the `setup.py` file and installes the libraries locally on your computer. The point in the end means to use the current directory.
     * `` pip3 install .  ``
 * The bionic_python_libs libraries require python3. The default python for ROS up to melodic is python2. To make ROS work with python3 you have to install the following packages: 
     * `` sudo apt-get install python3-pip python3-yaml python-catkin-tools python3-dev python3-numpy ``
@@ -44,7 +48,7 @@ Not available
 **Linux**:
 If you also need to setup a ROS environment, look into [this repository](https://github.com/Schwimo/linux_config) for installation scripts. If you just want to install the ROS workspace for the BionicSoftHand, execute the following line from a terminal:
 ```bash
-bash <(wget -qO- https://github.com/Schwimo/linux_config/blob/master/scripts/setup_phand.bash)
+bash <(wget -qO- https://raw.githubusercontent.com/Schwimo/linux_config/master/scripts/setup_phand.bash)
 ```
 
 # BIONIC SOFT HAND 2.0 SETUP

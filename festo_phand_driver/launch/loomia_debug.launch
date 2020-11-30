@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+      <node pkg="festo_phand_driver" type="festo_phand_udp_driver.py" name="phand_hardware_interface" output="screen" />
+
+      <node pkg="festo_phand_driver" type="loomia_settings_gui.py" name="loomia_settings_gui" output="screen" />
+      
+      <!--Rosbridge server websocket-->
+      <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" />
+
+      <node pkg="festo_phand_driver" type="test_loomia.py" name="test_loomia" output="screen" />
+
+</launch>
