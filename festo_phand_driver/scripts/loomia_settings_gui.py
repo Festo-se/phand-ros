@@ -47,17 +47,17 @@ class LoomiaSettings(QWidget):
                   ["Delay before measurement", 200, 75, 20],
                   ["Led board", 1, 0, 0],
                   ["Led logo", 1, 0, 0],
-                  ["Column 1",  50000, 40000, 0],
-                  ["Column 2",  50000, 40000, 0],
-                  ["Column 3",  50000, 40000, 0],
-                  ["Column 4",  50000, 40000, 0],
-                  ["Column 5",  50000, 40000, 0],
-                  ["Column 6",  50000, 40000, 0],
-                  ["Column 7",  50000, 40000, 0],
-                  ["Column 8",  50000, 40000, 0],
-                  ["Column 9",  50000, 40000, 0],
-                  ["Column 10", 50000, 40000, 0],
-                  ["Column 11", 50000, 40000, 0]
+                  ["Column 1",  50000, 2000, 0],
+                  ["Column 2",  50000, 2000, 0],
+                  ["Column 3",  50000, 2000, 0],
+                  ["Column 4",  50000, 2000, 0],
+                  ["Column 5",  50000, 2000, 0],
+                  ["Column 6",  50000, 2000, 0],
+                  ["Column 7",  50000, 2000, 0],
+                  ["Column 8",  50000, 2000, 0],
+                  ["Column 9",  50000, 2000, 0],
+                  ["Column 10", 50000, 2000, 0],
+                  ["Column 11", 50000, 2000, 0]
                   ]
         self.sliders = []
         for row, l in enumerate(labels):

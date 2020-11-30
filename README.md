@@ -11,9 +11,6 @@ The Festo BionicSoftHand ROS libraries are published under the [GNU GPL v3.0 Lic
 # PURPOSE
 These libraries use the bionic python libraries as the core and provide the ROS functionalities on top. It provides services and topics to interact with the BionicSoftHand.
 
-# DOCUMENTATION
-ToDo
-
 # IMPORTANT
 The maximum supply pressure for the BionicSoftHand is **5 bars**. If you connect more than this amount of air pressure the hand gets damaged and is not usable anymore.
 
@@ -25,10 +22,10 @@ The ROS package uses the bionic_python_libs which provide the core functionality
 These packages have to be installed on your system. 
 
 * Download or clone the necessary repositories
-    * Link 1
-    * Link 2
-    * Link 3
-    * Link 4
+    * [phand-python-libs](https://github.com/Schwimo/phand-python-libs)
+    * [bionic-message-tools](https://github.com/Schwimo/bionic-message-tools)
+    * [bionic-pid-control](https://github.com/Schwimo/bionic-pid-control)
+    * [bionic-dhcp](https://github.com/Schwimo/bionic-dhcp)
 * And install one by one on your computer
     * `` pip3 install .  ``
 * The bionic_python_libs libraries require python3. The default python for ROS up to melodic is python2. To make ROS work with python3 you have to install the following packages: 
@@ -45,8 +42,9 @@ The scripts under the install directory will pull the repositories and install t
 Not available
 
 **Linux**:
+If you also need to setup a ROS environment, look into [this repository](https://github.com/Schwimo/linux_config) for installation scripts. If you just want to install the ROS workspace for the BionicSoftHand, execute the following line from a terminal:
 ```bash
-TODO
+bash <(wget -qO- https://github.com/Schwimo/linux_config/blob/master/scripts/setup_phand.bash)
 ```
 
 # BIONIC SOFT HAND 2.0 SETUP
@@ -96,6 +94,3 @@ To open the hand
 /festo/phand/set_configuration
 ```
 To change the configuration of the hand
-
-| WARNING: not yet implemented ! |
-| --- |
