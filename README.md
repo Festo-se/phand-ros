@@ -81,7 +81,7 @@ festo/phand/connected_sensors/%sensor_name%
 
 In the default setup the hand is in the pressure control mode. To move the fingers, send a message to this topic.
 ```
-"festo/phand/set_pressures"
+festo/phand/set_pressures
 ```
 To set the pressures in the fingers or the wrist publish the corresponding `SimpleFluidPressures` message to the topic.
 The pressure should be between 100000 (PSI) and 600000 (PSI).
