@@ -1,10 +1,19 @@
 #!/usr/bin/env python3
+
+__author__ = "Marinus Matthias Moerdijk"
+__copyright__ = "Copyright 2020, Festo Coperate Bionic Projects"
+__credits__ = ["Marinus Matthias Moerdijk"]
+__license__ = "GNU GPL v3.0"
+__version__ = "1.0.5"
+__maintainer__ = "Timo Schwarzer"
+__email__ = "timo.schwarzer@festo.com"
+__status__ = "Experimental"
+
 import signal
 import rospy
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from festo_phand_msgs.srv import *
-
 
 class SettingsSlider(QSlider):
     valueUpdated = pyqtSignal(float)

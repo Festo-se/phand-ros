@@ -1,31 +1,26 @@
 <?xml version="1.0"?>
 <launch>
-      <arg name="test_gui"  default="false" />
-      <arg name="loomia_gui"  default="true" />
-      <arg name="sim" default="true" />
+    <arg name="debug_gui"  default="true" />
+    <arg name="loomia_gui"  default="false" />
+    <arg name="joint_pub" default="false" />
+    <arg name="sim" default="false" />
 
-      <node pkg="festo_phand_driver" type="festo_phand_udp_driver.py" name="phand_hardware_interface" output="screen" >
-            <param name="sim" value="$(arg sim)"/>
-      </node>
+    <node pkg="festo_phand_driver" type="festo_phand_udp_driver.py" name="phand_hardware_interface" output="screen" >
+        <param name="sim" value="$(arg sim)"/>
+    </node>
 
-      <!--node name="phand_debug_ui" pkg="festo_phand_driver" type="start_webserver.py" /-->
+    <group if="$(arg debug_gui)">
+        <node name="phand_debug_ui" pkg="festo_phand_driver" type="start_webserver.py" />
+    </group>
 
-      <group if="$(arg test_gui)">
-            <node name="festo_test_ui" pkg="festo_phand_driver" type="hand_test_gui.py" respawn="false"/>
-      </group>
+    <!--Rosbridge server websocket-->
+    <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" />
 
-      <!--Rosbridge server websocket-->
-      <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" />
+    <group if="$(arg loomia_gui)">
+        <node name="loomia_settings_gui" pkg="festo_phand_driver" type="loomia_settings_gui.py" output="screen" />
+    </group>
 
-      <group if="$(arg loomia_gui)">
-            <node name="loomia_settings_gui" pkg="festo_phand_driver" type="loomia_settings_gui.py" output="screen" />
-            <!--node name="loomia_test_ui" pkg="festo_phand_driver" type="test_loomia_ros.py" respawn="false"/-->            
-            <node pkg="plotjuggler" type="PlotJuggler"
-                  name="plotjugler"
-                  output="screen"
-                  args="--layout $(find festo_phand_driver)/config/plot_juggler_sensors_loomia.xml"
-            />
-      </group>
-
-<!--      <include file="$(find festo_phand_description)/launch/display_full_hand_joint_pub.launch" />-->
+    <group if="$(arg joint_pub)">
+        <include file="$(find festo_phand_description)/launch/display_full_hand_joint_pub.launch" />
+    </group>
 </launch>
