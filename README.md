@@ -42,12 +42,6 @@ These packages have to be installed on your system.
 * Clone this repository into the **src** folder of the created workspace
 * Build the workspace
 
-## AUTOMATIC INSTALL
-The scripts under the install directory will pull the repositories and install their packages on your computer.
-
-**Windows**:
-Not available
-
 **Linux**:
 ```bash
 bash <(wget -qO- https://raw.githubusercontent.com/Schwimo/linux_config/master/scripts/setup_phand.bash)
@@ -64,6 +58,13 @@ When the catkin build completed withour errors, the next steps show the usage.
 To start the hardware interface execute the launch file.
 ```
 roslaunch festo_phand_driver hardware_interface.launch
+```
+
+## Debug User Interface
+There is a debug user interface available which is automatically launched when you start the hardware_interface.launch file.
+To open it, start a browser of your choice and type in the IP-Address of this ROS machine with the port 7954. 
+```
+localhost:7954
 ```
 
 ## ROS topics
