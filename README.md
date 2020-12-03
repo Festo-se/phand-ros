@@ -11,9 +11,6 @@ The Festo BionicSoftHand ROS libraries are published under the [GNU GPL v3.0 Lic
 # PURPOSE
 These libraries use the bionic python libraries as the core and provide the ROS functionalities on top. It provides services and topics to interact with the BionicSoftHand.
 
-# DOCUMENTATION
-ToDo
-
 # IMPORTANT
 The maximum supply pressure for the BionicSoftHand is **5 bars**. If you connect more than this amount of air pressure the hand gets damaged and is not usable anymore.
 
@@ -43,6 +40,7 @@ These packages have to be installed on your system.
 * Build the workspace
 
 **Linux**:
+If you also need to setup a ROS environment, look into [this repository](https://github.com/Schwimo/linux_config) for installation scripts. If you just want to install the ROS workspace for the BionicSoftHand, execute the following line from a terminal:
 ```bash
 bash <(wget -qO- https://raw.githubusercontent.com/Schwimo/linux_config/master/scripts/setup_phand.bash)
 ```
