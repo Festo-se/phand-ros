@@ -3,7 +3,7 @@
 > <p style="font-size:30px">BionicSoftHand ROS Libraries </p>
 > The BionicSoftHand is a pneumatic gripper with 12 independent controllable chambers. 
 
-<br></br>
+<br>
 
 # IMPORTANT NOTICES :warning:
 > :warning: **If you open the case of the BionicSoftHand there is the possibility that you get in touch with the 300V piezo electronics! Avoid touching anything inside the case!**
