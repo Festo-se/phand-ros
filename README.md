@@ -5,16 +5,13 @@
 
 <br></br>
 
-# LICENSE
-The Festo BionicSoftHand ROS libraries are published under the [GNU GPL v3.0 License](https://www.gnu.org/licenses/gpl-3.0.de.html).
+# IMPORTANT NOTICES :warning:
+> :warning: **If you open the case of the BionicSoftHand there is the possibility that you get in touch with the 300V piezo electronics! Avoid touching anything inside the case!**
+
+> :warning: **The BionicSoftHand 2.0 works best with a pressure of 5.5 bars (650000 PSI)! If you go higher the hand can be damaged!** 
 
 # PURPOSE
 These libraries use the bionic python libraries as the core and provide the ROS functionalities on top. It provides services and topics to interact with the BionicSoftHand.
-
-# IMPORTANT
-The maximum supply pressure for the BionicSoftHand is **5 bars**. If you connect more than this amount of air pressure the hand gets damaged and is not usable anymore.
-
-Up to 300V is used for the piezo valves. Be careful with the back part of the valve terminal and avoid touching it.
 
 # INSTALL INSTRUCTIONS
 
@@ -107,3 +104,6 @@ To open the hand
 /festo/phand/set_configuration
 ```
 To change the configuration of the hand
+
+# LICENSE
+The Festo BionicSoftHand ROS libraries are published under the [GNU GPL v3.0 License](https://www.gnu.org/licenses/gpl-3.0.de.html).
