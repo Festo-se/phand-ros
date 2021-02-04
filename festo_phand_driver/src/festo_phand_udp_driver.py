@@ -14,6 +14,7 @@ import importlib
 import copy
 import time
 import logging
+import threading
 
 # Ros imports
 import rospy
@@ -21,7 +22,7 @@ from std_srvs.srv import Trigger, TriggerResponse
 from diagnostic_msgs.msg import KeyValue
 
 # Festo imports
-from bionic_pid_control.pid_control import PID
+from festo_phand_wrist_controller import SoftHandWristController
 from phand.phand import PHand
 from phand.phand_constants import PHAND_STATE
 from phand_messages.phand_message_constants import BIONIC_MSG_IDS
@@ -99,18 +100,13 @@ class ROSPhandUdpDriver:
         rospy.Service("festo/phand/flexsensors/set_configuration", FlexSensorConfig, self.flexsensor_config_srv_cb)
 
         rospy.Service("festo/phand/set_sensor_calibration", SetSensorCalibration, self.set_sensor_calibration_cb)
+       
+        self.pressures = [100000.0] * 12 
 
-        P = 1
-        I = 0.001
-        D = 0.005
-        self.wrist_control_left = PID(P, I, D)
-        self.wrist_control_left.set_sample_time(0.2)
-        self.wrist_control_right = PID(P, I, D) 
-        self.wrist_control_right.set_sample_time(0.2)  
-        self.pressures = [100000.0] * 12  
-
-        self.wrist_control_left.SetPoint = 2500
-
+        # Initialize the wrist controller
+        self.wrist_controller = SoftHandWristController()
+        #self.wrist_ctrl = WristCtrl()
+        
         rate = rospy.Rate(100)
         rospy.loginfo("Starting ros event loop")
         while not rospy.is_shutdown(): 
@@ -126,6 +122,7 @@ class ROSPhandUdpDriver:
                 self.joinpub.update_joint_state()
 
             self.control_wrist()
+            #wristUpdate(0, 0, 0, 0, 400000, 0.1)
 
             rate.sleep()
 
@@ -189,27 +186,15 @@ class ROSPhandUdpDriver:
         if self.phand.com_state != PHAND_STATE.ONLINE:
             return
 
-        self.wrist_control_left.update(self.phand.messages['BionicCylinderSensorMessage'].values[1])
-        self.wrist_control_right.update(self.phand.messages['BionicCylinderSensorMessage'].values[2])
+        returnValues = self.wrist_controller.wristController()
+        self.pressures[5] = returnValues[0]
+        self.pressures[7] = returnValues[1]
+        self.pressures[2] = 400000.0
 
-        left = self.wrist_control_left.output
-        right = self.wrist_control_right.output
+        #print(f"RETURN VALUES: {returnValues}")
+        #print(f"CURRENT PRESSURES: {self.pressures}")
 
-        if left < 100 and left > -100:
-            return
-
-        self.pressures[2] = self.pressures[2]
-        self.pressures[5] = self.pressures[5] + left
-
-        if self.pressures[5] >= 700000.0: 
-            self.pressures[5] = 700000.0
-        elif self.pressures[5] <= 100000.0:
-            self.pressures[5] = 100000.0
-        
         self.phand.set_pressure_data(self.pressures)
-        
-        # print ("LEFT SOLL %.2f  IST %.2f" % (self.wrist_control_left.SetPoint, self.pressures[5]) )
-        # print ("LEFT SOLL %.2f  IST %.2f" % (self.wrist_control_left.SetPoint, left) )
         
     # Service callbacks
 
@@ -354,11 +339,10 @@ class ROSPhandUdpDriver:
             logging.warning("The wrist needs two values as input")
             return
 
-        self.wrist_control_left.SetPoint = self.phand.wrist_left_calib_zero - (msg.positions[0] * self.phand.wrist_left_calib_step)
-        self.wrist_control_right.SetPoint = self.phand.wrist_right_calib_zero + (msg.positions[1] * self.phand.wrist_right_calib_step)
+        self.wrist_controller.move_wrist(msg.positions[0], msg.positions[1])
 
     def set_positions_topic_cb(self, msg):
-        """
+        """def wristController(self):
         If the position control is activated, set the positions of the finger.
         """
 
@@ -370,7 +354,11 @@ class ROSPhandUdpDriver:
         Range: 100000.0 - 600000.0 psi
         """
 
-        self.phand.set_pressure_data(msg.values)
+        if (len(msg.values) != 12):
+            return
+
+        for i in range(len(msg.values)):
+            self.pressures[i] = msg.values[i]               
 
     def set_valves_topic_cb(self, msg):
         """

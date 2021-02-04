@@ -7,6 +7,6 @@
       <!--Rosbridge server websocket-->
       <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" />
 
-      <node pkg="festo_phand_driver" type="test_loomia.py" name="test_loomia" output="screen" />
+      <node pkg="festo_phand_driver" type="test_loomia_ros.py" name="test_loomia" output="screen" />
 
 </launch>
