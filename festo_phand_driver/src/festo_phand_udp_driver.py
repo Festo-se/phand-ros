@@ -22,7 +22,6 @@ from std_srvs.srv import Trigger, TriggerResponse
 from diagnostic_msgs.msg import KeyValue
 
 # Festo imports
-from festo_phand_wrist_controller import SoftHandWristController
 from phand.phand import PHand
 from phand.phand_constants import PHAND_STATE
 from phand_messages.phand_message_constants import BIONIC_MSG_IDS
@@ -104,9 +103,7 @@ class ROSPhandUdpDriver:
         self.pressures = [100000.0] * 12 
 
         # Initialize the wrist controller
-        self.wrist_controller = SoftHandWristController()
-        #self.wrist_ctrl = WristCtrl()
-        
+        #                 
         rate = rospy.Rate(100)
         rospy.loginfo("Starting ros event loop")
         while not rospy.is_shutdown(): 
@@ -120,10 +117,7 @@ class ROSPhandUdpDriver:
             # If the hand robot is started, publish the joint values
             if self.joint_pup:
                 self.joinpub.update_joint_state()
-
-            self.control_wrist()
-            #wristUpdate(0, 0, 0, 0, 400000, 0.1)
-
+            
             rate.sleep()
 
         rospy.loginfo("Shutting down udp client")
@@ -177,27 +171,8 @@ class ROSPhandUdpDriver:
             state.key = key_value[0]
             state.value = key_value[1]            
             self.hand_state.status_codes.append(state)
-
-    def control_wrist(self):
-        """
-        Control the wrist
-        """
-
-        if self.phand.com_state != PHAND_STATE.ONLINE:
-            return
-
-        returnValues = self.wrist_controller.wristController()
-        self.pressures[5] = returnValues[0]
-        self.pressures[7] = returnValues[1]
-        self.pressures[2] = 400000.0
-
-        #print(f"RETURN VALUES: {returnValues}")
-        #print(f"CURRENT PRESSURES: {self.pressures}")
-
-        self.phand.set_pressure_data(self.pressures)
         
     # Service callbacks
-
     def set_sensor_calibration_cb(self, msg:SetSensorCalibrationRequest):
 
         calib_values = []
@@ -334,12 +309,8 @@ class ROSPhandUdpDriver:
         """
         Set the wrist position according to the mm input values
         """
-
-        if len(msg.positions) != 2:
-            logging.warning("The wrist needs two values as input")
-            return
-
-        self.wrist_controller.move_wrist(msg.positions[0], msg.positions[1])
+        
+        self.phand.set_wrist_position_data(msg.positions)
 
     def set_positions_topic_cb(self, msg):
         """def wristController(self):
@@ -354,11 +325,7 @@ class ROSPhandUdpDriver:
         Range: 100000.0 - 600000.0 psi
         """
 
-        if (len(msg.values) != 12):
-            return
-
-        for i in range(len(msg.values)):
-            self.pressures[i] = msg.values[i]               
+        self.phand.set_pressure_data(msg.values)             
 
     def set_valves_topic_cb(self, msg):
         """
