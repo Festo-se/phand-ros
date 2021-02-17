@@ -1,7 +1,9 @@
 #! /usr/bin/env python3
 
+import rospy
+from festo_phand_msgs.msg import SimpleFluidPressures
 
-class phandHelpers:
+class PhandHelpers:
 
     def __init__(self):
         # Hand desired pressure values
