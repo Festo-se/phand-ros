@@ -25,10 +25,10 @@ The ROS package uses the bionic_python_libs which provide the core functionality
 These packages have to be installed on your system. 
 
 * Download or clone the necessary repositories
-    * [PID Control](https://github.com/Schwimo/bionic-pid-control)
-    * [DHCP](https://github.com/Schwimo/bionic-dhcp)
-    * [Bionic Message Tools](https://github.com/Schwimo/bionic-message-tools)
-    * [BionicSoftHand Python Libraries](https://github.com/Schwimo/phand-python-libs)
+    * [PID Control](https://github.com/Festo-se/bionic-pid-control)
+    * [DHCP](https://github.com/Festo-se/bionic-dhcp)
+    * [Bionic Message Tools](https://github.com/Festo-se/bionic-message-tools)
+    * [BionicSoftHand Python Libraries](https://github.com/Festo-se/phand-python-libs)
 * And install one by one on your computer. To do this change into the root directory of each cloned repository and enter the following command. This executes the `setup.py` file and installes the libraries locally on your computer. The point in the end means to use the current directory.
     * `` pip3 install .  ``
 * The bionic_python_libs libraries require python3. The default python for ROS up to melodic is python2. To make ROS work with python3 you have to install the following packages: 
@@ -46,7 +46,7 @@ bash <(wget -qO- https://raw.githubusercontent.com/Schwimo/linux_config/master/s
 
 # BIONIC SOFT HAND 2.0 SETUP
 [![FESTO](images/bionic_soft_hand.png)](https://www.festo.com/group/de/cms/10156.htm)
-Checkout the [phand-python-libs](https://github.com/Schwimo/phand-python-libs) readme to see how the hardware is working.
+Checkout the [phand-python-libs](https://github.com/Festo-se/phand-python-libs) readme to see how the hardware is working.
 
 # ROS USAGE
 When the catkin build completed withour errors, the next steps show the usage.
