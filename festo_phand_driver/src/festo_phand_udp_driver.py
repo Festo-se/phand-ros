@@ -92,8 +92,8 @@ class ROSPhandUdpDriver:
         # Subscribe to topics
         rospy.Subscriber("festo/phand/set_valve_setpoints", ValveSetPoints, callback=self.set_valves_topic_cb, queue_size=1)
         rospy.Subscriber("festo/phand/set_pressures", SimpleFluidPressures, callback=self.set_pressures_topic_cb, queue_size=1)
-        rospy.Subscriber("festo/phand/set_positions", Positions, callback=self.set_positions_topic_cb, queue_size=1)
-
+        
+        rospy.Subscriber("festo/phand/fingers/set_positions", Positions, callback=self.set_positions_topic_cb, queue_size=1)
         rospy.Subscriber("festo/phand/wrist/set_positions", Positions, callback=self.set_wrist_position_cb, queue_size=1)
 
         # Offer services
@@ -322,7 +322,7 @@ class ROSPhandUdpDriver:
         If the position control is activated, set the positions of the finger.
         """
 
-        self.phand.set_position_data(msg.positions)
+        self.phand.set_finger_position_data(msg.positions)
 
     def set_pressures_topic_cb(self, msg):
         """
@@ -352,7 +352,7 @@ class ROSPhandUdpDriver:
         self.hand_state.mode.mode = self.phand.ctrl_mode
         self.hand_state.internal_sensors.actual_pressures.values = msg.actual_pressures
         self.hand_state.internal_sensors.set_pressures.values = msg.set_pressures
-        self.hand_state.internal_sensors.valves.supply_valve_setpoints = msg.valve_setpoints[0:11]
+        self.hand_state.internal_sensors.valves.supply_valve_setpoints = msg.valve_setpoints[0:12]
         self.hand_state.internal_sensors.valves.exhaust_valve_setpoints = msg.valve_setpoints[12:24]
 
     def internal_imu_generate(self, msg):
