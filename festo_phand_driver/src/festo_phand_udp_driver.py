@@ -42,9 +42,14 @@ class ROSPhandUdpDriver:
     Wrapper class for the phand_core_lib to provide a ros interface for the phand
     """
 
+    # required_msgs_ids = [BIONIC_MSG_IDS.VALVE_MODULE_MSG_ID,                         
+    #                      BIONIC_MSG_IDS.IMU_MAINBOARD_MSG_ID,
+    #                      BIONIC_MSG_IDS.LOOMIA_MSG_ID,
+    #                      BIONIC_MSG_IDS.FLEX_SENSOR_MSG_ID,
+    #                      BIONIC_MSG_IDS.CYLINDER_SENSOR_MSG_ID
+    #                      ]
+
     required_msgs_ids = [BIONIC_MSG_IDS.VALVE_MODULE_MSG_ID,                         
-                         BIONIC_MSG_IDS.IMU_MAINBOARD_MSG_ID,
-                         BIONIC_MSG_IDS.LOOMIA_MSG_ID,
                          BIONIC_MSG_IDS.FLEX_SENSOR_MSG_ID,
                          BIONIC_MSG_IDS.CYLINDER_SENSOR_MSG_ID
                          ]

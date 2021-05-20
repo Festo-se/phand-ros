@@ -1,7 +1,7 @@
 # Possible hand states
-byte OFFLINE=0              # Hand not connected
-byte ONLINE=1               # Hand connected and ready
-byte ERROR=2                # Hand connected and in error state
+byte OFFLINE=1              # Hand not connected
+byte ONLINE=2              # Hand connected and ready
+byte ERROR=3               # Hand connected and in error state
 
 
 Header header
