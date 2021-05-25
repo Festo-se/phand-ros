@@ -34,7 +34,7 @@ SetConfiguration.srv
 SetCtrlMode.srv
 SetImuOffsets.srv
 SetPositionOffsets.srv
-SetSensorCalibration.srv
+SetHandCalibration.srv
 SetTactileOffsets.srv
 SimpleOpenClose.srv
  )

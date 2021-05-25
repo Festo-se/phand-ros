@@ -87,8 +87,8 @@ class ROSPhandUdpDriver:
         # Subscribe to topics
         rospy.Subscriber("festo/phand/set_valve_setpoints", ValveSetPoints, callback=self.set_valves_topic_cb, queue_size=1)
         rospy.Subscriber("festo/phand/set_pressures", SimpleFluidPressures, callback=self.set_pressures_topic_cb, queue_size=1)
-        rospy.Subscriber("festo/phand/set_positions", Positions, callback=self.set_positions_topic_cb, queue_size=1)
-
+        
+        rospy.Subscriber("festo/phand/fingers/set_positions", Positions, callback=self.set_finger_positions_cb, queue_size=1)
         rospy.Subscriber("festo/phand/wrist/set_positions", Positions, callback=self.set_wrist_position_cb, queue_size=1)
 
         # Offer services
@@ -98,9 +98,9 @@ class ROSPhandUdpDriver:
         rospy.Service("festo/phand/loomia/set_configuration", LoomiaSensorConfig, self.loomia_config_srv_cb)
         rospy.Service("festo/phand/flexsensors/set_configuration", FlexSensorConfig, self.flexsensor_config_srv_cb)
 
-        rospy.Service("festo/phand/set_sensor_calibration", SetSensorCalibration, self.set_sensor_calibration_cb)
+        rospy.Service("festo/phand/set_calibration", SetHandCalibration, self.set_calibration_cb)
        
-        self.pressures = [100000.0] * 12 
+        self.pressures = [100000.0] * 12         
 
         # Initialize the wrist controller
         #                 
@@ -173,19 +173,15 @@ class ROSPhandUdpDriver:
             self.hand_state.status_codes.append(state)
         
     # Service callbacks
-    def set_sensor_calibration_cb(self, msg:SetSensorCalibrationRequest):
+    def set_calibration_cb(self, msg:SetHandCalibrationRequest):
+        
+        calib_data = []
+        for calib_value in msg.calibration_data:
+            calib_data.append(PhandSensorCalibrationValue(value_id=calib_value.id, value=calib_value.values))
+        
+        self.phand.set_calibration(calib_data)
 
-        calib_values = []
-        for calib_v in msg.calibration_values:
-            calib_values.append(
-                PhandSensorCalibrationValue(value_id=calib_v.id,
-                                            value=calib_v.value))
-
-        self.phand.set_calibration(
-            sensor_id=msg.sensor_id,
-            calibration_values=calib_values)
-
-        return SetSensorCalibrationResponse(True)
+        return SetHandCalibrationResponse(True)
 
     def flexsensor_config_srv_cb(self, msg: FlexSensorConfigRequest):
 
@@ -312,12 +308,12 @@ class ROSPhandUdpDriver:
         
         self.phand.set_wrist_position_data(msg.positions)
 
-    def set_positions_topic_cb(self, msg):
+    def set_finger_positions_cb(self, msg):
         """def wristController(self):
         If the position control is activated, set the positions of the finger.
         """
 
-        self.phand.set_position_data(msg.positions)
+        self.phand.set_finger_position_data(msg.positions)
 
     def set_pressures_topic_cb(self, msg):
         """
@@ -326,7 +322,7 @@ class ROSPhandUdpDriver:
         """
 
         for i in range(len(msg.values)):
-            self.pressures[i] = msg.values[i] 
+            self.pressures[i] = msg.values[i]
 
         self.phand.set_pressure_data(self.pressures)             
 

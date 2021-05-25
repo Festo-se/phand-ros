@@ -1,4 +1,0 @@
-string sensor_id
-CalibrationValue[] calibration_values
----
-bool success
