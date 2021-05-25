@@ -42,9 +42,14 @@ class ROSPhandUdpDriver:
     Wrapper class for the phand_core_lib to provide a ros interface for the phand
     """
 
+    # required_msgs_ids = [BIONIC_MSG_IDS.VALVE_MODULE_MSG_ID,                         
+    #                      BIONIC_MSG_IDS.IMU_MAINBOARD_MSG_ID,
+    #                      BIONIC_MSG_IDS.LOOMIA_MSG_ID,
+    #                      BIONIC_MSG_IDS.FLEX_SENSOR_MSG_ID,
+    #                      BIONIC_MSG_IDS.CYLINDER_SENSOR_MSG_ID
+    #                      ]
+
     required_msgs_ids = [BIONIC_MSG_IDS.VALVE_MODULE_MSG_ID,                         
-                         BIONIC_MSG_IDS.IMU_MAINBOARD_MSG_ID,
-                         BIONIC_MSG_IDS.LOOMIA_MSG_ID,
                          BIONIC_MSG_IDS.FLEX_SENSOR_MSG_ID,
                          BIONIC_MSG_IDS.CYLINDER_SENSOR_MSG_ID
                          ]
@@ -343,7 +348,7 @@ class ROSPhandUdpDriver:
         self.hand_state.mode.mode = self.phand.ctrl_mode
         self.hand_state.internal_sensors.actual_pressures.values = msg.actual_pressures
         self.hand_state.internal_sensors.set_pressures.values = msg.set_pressures
-        self.hand_state.internal_sensors.valves.supply_valve_setpoints = msg.valve_setpoints[0:11]
+        self.hand_state.internal_sensors.valves.supply_valve_setpoints = msg.valve_setpoints[0:12]
         self.hand_state.internal_sensors.valves.exhaust_valve_setpoints = msg.valve_setpoints[12:24]
 
     def internal_imu_generate(self, msg):

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-    <arg name="debug_gui"  default="true" />
+    <arg name="debug_gui"  default="false" />
     <arg name="loomia_gui"  default="false" />
     <arg name="joint_pub" default="false" />
     <arg name="sim" default="false" />
