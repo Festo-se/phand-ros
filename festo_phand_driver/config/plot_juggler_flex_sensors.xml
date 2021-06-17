@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root version="2.3.8">
+ <tabbed_widget parent="main_window" name="Main Window">
+  <Tab containers="1" tab_name="tab1">
+   <Container>
+    <DockSplitter sizes="0.5;0.5" orientation="-" count="2">
+     <DockSplitter sizes="0.200143;0.200143;0.199426;0.200143;0.200143" orientation="|" count="5">
+      <DockArea name="...">
+       <plot mode="TimeSeries" style="Lines">
+        <range top="1379.125000" right="35.986355" bottom="1373.875000" left="31.001848"/>
+        <limitY/>
+        <curve color="#ff7f0e" name="/festo/phand/connected_sensors/flex_sensors/raw_values.5"/>
+       </plot>
+      </DockArea>
+      <DockArea name="...">
+       <plot mode="TimeSeries" style="Lines">
+        <range top="483.100000" right="35.986355" bottom="478.900000" left="31.001848"/>
+        <limitY/>
+        <curve color="#f14cc1" name="/festo/phand/connected_sensors/flex_sensors/raw_values.6"/>
+       </plot>
+      </DockArea>
+      <DockArea name="...">
+       <plot mode="TimeSeries" style="Lines">
+        <range top="1513.100000" right="35.986355" bottom="1508.900000" left="31.001848"/>
+        <limitY/>
+        <curve color="#9467bd" name="/festo/phand/connected_sensors/flex_sensors/raw_values.7"/>
+       </plot>
+      </DockArea>
+      <DockArea name="...">
+       <plot mode="TimeSeries" style="Lines">
+        <range top="1464.100000" right="35.986355" bottom="1459.900000" left="31.001848"/>
+        <limitY/>
+        <curve color="#17becf" name="/festo/phand/connected_sensors/flex_sensors/raw_values.8"/>
+       </plot>
+      </DockArea>
+      <DockArea name="...">
+       <plot mode="TimeSeries" style="Lines">
+        <range top="1516.100000" right="35.986355" bottom="1511.900000" left="31.001848"/>
+        <limitY/>
+        <curve color="#bcbd22" name="/festo/phand/connected_sensors/flex_sensors/raw_values.9"/>
+       </plot>
+      </DockArea>
+     </DockSplitter>
+     <DockSplitter sizes="0.200143;0.200143;0.199426;0.200143;0.200143" orientation="|" count="5">
+      <DockArea name="...">
+       <plot mode="TimeSeries" style="Lines">
+        <range top="1809.125000" right="35.986355" bottom="1803.875000" left="31.001848"/>
+        <limitY/>
+        <curve color="#1f77b4" name="/festo/phand/connected_sensors/flex_sensors/raw_values.0"/>
+       </plot>
+      </DockArea>
+      <DockArea name="...">
+       <plot mode="TimeSeries" style="Lines">
+        <range top="1642.125000" right="35.986355" bottom="1636.875000" left="31.001848"/>
+        <limitY/>
+        <curve color="#1f77b4" name="/festo/phand/connected_sensors/flex_sensors/raw_values.1"/>
+       </plot>
+      </DockArea>
+      <DockArea name="...">
+       <plot mode="TimeSeries" style="Lines">
+        <range top="1719.100000" right="35.986355" bottom="1714.900000" left="31.001848"/>
+        <limitY/>
+        <curve color="#d62728" name="/festo/phand/connected_sensors/flex_sensors/raw_values.2"/>
+       </plot>
+      </DockArea>
+      <DockArea name="...">
+       <plot mode="TimeSeries" style="Lines">
+        <range top="1738.125000" right="35.986355" bottom="1732.875000" left="31.001848"/>
+        <limitY/>
+        <curve color="#d62728" name="/festo/phand/connected_sensors/flex_sensors/raw_values.3"/>
+       </plot>
+      </DockArea>
+      <DockArea name="...">
+       <plot mode="TimeSeries" style="Lines">
+        <range top="1670.150000" right="35.986355" bottom="1663.850000" left="31.001848"/>
+        <limitY/>
+        <curve color="#1ac938" name="/festo/phand/connected_sensors/flex_sensors/raw_values.4"/>
+       </plot>
+      </DockArea>
+     </DockSplitter>
+    </DockSplitter>
+   </Container>
+  </Tab>
+  <currentTabIndex index="0"/>
+ </tabbed_widget>
+ <use_relative_time_offset enabled="1"/>
+ <!-- - - - - - - - - - - - - - - -->
+ <!-- - - - - - - - - - - - - - - -->
+ <Plugins>
+  <plugin ID="DataLoad CSV">
+   <default time_axis=""/>
+  </plugin>
+  <plugin ID="DataLoad ROS bags">
+   <use_header_stamp value="false"/>
+   <use_renaming_rules value="true"/>
+   <discard_large_arrays value="true"/>
+   <max_array_size value="100"/>
+  </plugin>
+  <plugin ID="DataLoad ULog"/>
+  <plugin ID="LSL Subscriber"/>
+  <plugin ID="MQTT Subscriber"/>
+  <plugin ID="ROS Topic Subscriber">
+   <use_header_stamp value="false"/>
+   <use_renaming_rules value="true"/>
+   <discard_large_arrays value="true"/>
+   <max_array_size value="150"/>
+  </plugin>
+  <plugin ID="UDP Server"/>
+  <plugin ID="WebSocket Server"/>
+  <plugin ID="ZMQ Subscriber"/>
+  <plugin status="idle" ID="CSV Exporter"/>
+  <plugin status="idle" ID="ROS /rosout Visualization"/>
+  <plugin status="idle" ID="ROS Topic Re-Publisher"/>
+ </Plugins>
+ <!-- - - - - - - - - - - - - - - -->
+ <previouslyLoaded_Datafiles/>
+ <previouslyLoaded_Streamer name="ROS Topic Subscriber"/>
+ <!-- - - - - - - - - - - - - - - -->
+ <customMathEquations/>
+ <snippets/>
+ <!-- - - - - - - - - - - - - - - -->
+</root>
+

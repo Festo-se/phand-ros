@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<launch>      
+      
+    <include file="$(find festo_phand_driver)/launch/hardware_interface.launch" />
+
+    <node pkg="plotjuggler" type="plotjuggler"
+        name="plotjuggler"
+        output="screen"
+        args="--layout $(find festo_phand_driver)/config/plot_juggler_flex_sensors.xml"
+    />
+
+
+</launch>
