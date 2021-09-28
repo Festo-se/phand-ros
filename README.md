@@ -8,7 +8,7 @@
 # IMPORTANT NOTICES :warning:
 > :warning: **If you open the case of the BionicSoftHand there is the possibility that you get in touch with the 300V piezo electronics! Avoid touching anything inside the case!**
 
-> :warning: **The BionicSoftHand 2.0 works best with a pressure of 5.5 bars (650000 PSI)! If you go higher the hand can be damaged!** 
+> :warning: **The BionicSoftHand 2.0 works best with a pressure of 5.5 bars (650000 Pa)! If you go higher the hand can be damaged!** 
 
 > :warning: **The BionicSoftHand 2.0 is a prototype and not a series product.** 
 
@@ -83,7 +83,7 @@ In the default setup the hand is in the pressure control mode. To move the finge
 festo/phand/set_pressures
 ```
 To set the pressures in the fingers or the wrist publish the corresponding `SimpleFluidPressures` message to the topic.
-The pressure should be between 100000 (PSI) and 600000 (PSI).
+The pressure should be between 100000 (Pa) and 600000 (Pa).
 
 ```
 festo/phand/set_valve_setpoints
